@@ -54,4 +54,13 @@ LookPrior Marketplace! You’re a minute away from posting your first ad. Regist
     "750",
     "2500",
   ];
+
+  static const List<String> drawerTitle = [
+    "Sell your stuff",
+    "Categories",
+    'My Ads',
+    'Increase Disk Space',
+    'What people need',
+    'Help'
+  ];
 }

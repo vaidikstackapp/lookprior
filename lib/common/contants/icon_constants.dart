@@ -37,4 +37,12 @@ class IconConstants {
 class DrawerIconConstants {
   static String drawer = "assets/icons/drawer_icon";
   static String cameraIcon = "$drawer/Camera.svg";
+  static List<String> drawerIconList = [
+    "$drawer/Camera.svg",
+    "assets/icons/home_screen_icon/more_icon.svg",
+    "$drawer/add.svg",
+    "$drawer/disk.svg",
+    "$drawer/3 User.svg",
+    "$drawer/help.svg",
+  ];
 }

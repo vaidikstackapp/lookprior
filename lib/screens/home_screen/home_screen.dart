@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
             backgroundColor: ColorConstants.appColor,
-            onPressed: () => 123,
+            onPressed: () {},
             child: const Icon(
               Icons.add,
             )),
@@ -171,7 +171,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontSize: 14,
                 icon: IconConstants.searchIcon,
               ),
-              AppIconButton(iconName: IconConstants.filterIcon),
+              PopupMenuButton<int>(
+                offset: const Offset(20, 40),
+                padding: const EdgeInsets.only(top: 10),
+                child: AppIconButton(iconName: IconConstants.filterIcon),
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                      child: AppText(
+                    text: "All",
+                    color: ColorConstants.fontColor,
+                  )),
+                  PopupMenuItem(
+                      child: AppText(
+                    text: "Top",
+                    color: ColorConstants.fontColor,
+                  )),
+                  PopupMenuItem(
+                      child: AppText(
+                    text: "Regular",
+                    color: ColorConstants.fontColor,
+                  )),
+                ],
+              ),
               AppIconButton(iconName: IconConstants.locationIcon),
             ],
           ),
@@ -201,6 +222,35 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: double.infinity,
                 color: ColorConstants.appColor,
                 child: SvgPicture.asset(DrawerImgConstants.userImage)),
+            SizedBox(
+              height: 350,
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: DrawerIconConstants.drawerIconList.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    onTap: () => 123,
+                    leading: AppIconButton(
+                        color: ColorConstants.appColor.withOpacity(0.5),
+                        iconName: DrawerIconConstants.drawerIconList[index]),
+                    title: AppText(
+                      text: StringConstants.drawerTitle[index],
+                      color: ColorConstants.fontColor,
+                      fontSize: 15,
+                    ),
+                    trailing: const Icon(Icons.navigate_next_outlined),
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 60, right: 170),
+              child: SizedBox(
+                  height: 56,
+                  width: 86,
+                  child: Image.asset(ImageConstants.appLogo)),
+            ),
           ],
         ),
       ),
@@ -333,6 +383,28 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+Widget filterOnTap() {
+  return PopupMenuButton<int>(
+    itemBuilder: (context) => [
+      PopupMenuItem(
+          value: 1,
+          child: AppText(
+            text: "All",
+          )),
+      PopupMenuItem(
+          value: 2,
+          child: AppText(
+            text: "Top",
+          )),
+      PopupMenuItem(
+          value: 3,
+          child: AppText(
+            text: "Regular",
+          )),
+    ],
+  );
 }
 
 class MyBehavior extends ScrollBehavior {
