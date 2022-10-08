@@ -1,0 +1,80 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:look_prior/common/contants/color_contants.dart';
+
+// ignore: must_be_immutable
+class AppTextField extends StatelessWidget {
+  String? icon;
+  String? hintText;
+  double? topMargin;
+  double? hintTextSize;
+  double? width;
+  double? height;
+  double? rightMargin;
+  double? leftMargin;
+  TextEditingController? controller;
+  bool? obscureText;
+  FormFieldValidator<String>? validator;
+  TextInputType? keyboardType;
+
+  AppTextField({
+    super.key,
+    this.icon,
+    this.hintText,
+    this.topMargin,
+    this.hintTextSize,
+    this.keyboardType,
+    this.validator,
+    this.obscureText,
+    this.controller,
+    this.width,
+    this.height,
+    this.rightMargin,
+    this.leftMargin,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      margin: EdgeInsets.only(
+          left: leftMargin ?? 14,
+          top: topMargin ?? 0,
+          right: rightMargin ?? 18),
+      child: TextFormField(
+        obscureText: obscureText ?? false,
+        validator: validator,
+        controller: controller,
+        keyboardType: keyboardType,
+        cursorColor: ColorConstants.appColor,
+        decoration: InputDecoration(
+          prefixIcon: (icon != null)
+              ? Container(
+                  height: 32,
+                  width: 32,
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  margin: const EdgeInsets.only(
+                      top: 7, left: 9, bottom: 8, right: 12),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: ColorConstants.appColor.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: SvgPicture.asset(icon!),
+                )
+              : null,
+          hintText: hintText,
+          hintStyle: TextStyle(
+              fontSize: hintTextSize, color: Colors.black.withOpacity(0.5)),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: ColorConstants.appColor),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
+    );
+  }
+}
