@@ -70,12 +70,14 @@ flutter:
    - assets/images/
    - assets/images/home_screen_image/
    - assets/images/drawer_image/
+   - assets/images/location_image/
 
 
    - assets/icons/
    - assets/icons/home_screen_icon/
    - assets/icons/bottombar_icon/
    - assets/icons/drawer_icon/
+   - assets/icons/location_screen_icon/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

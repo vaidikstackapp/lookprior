@@ -102,7 +102,7 @@ class _LogInScreenState extends State<LogInScreen> {
         validator: (value) => AppValidation.loginEmailValidation(value),
         keyboardType: TextInputType.emailAddress,
         hintText: StringConstants.email,
-        icon: IconConstants.mailIcon);
+        prefixIcon: IconConstants.mailIcon);
   }
 
   Widget passwordTextFiled(BuildContext context) {
@@ -112,7 +112,7 @@ class _LogInScreenState extends State<LogInScreen> {
         hintTextSize: 13,
         validator: (value) => AppValidation.loginPasswordValidation(value),
         hintText: StringConstants.password,
-        icon: IconConstants.mailIcon);
+        prefixIcon: IconConstants.mailIcon);
   }
 
   Widget forgotPassword() {

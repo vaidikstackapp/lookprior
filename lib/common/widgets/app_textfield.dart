@@ -4,7 +4,8 @@ import 'package:look_prior/common/contants/color_contants.dart';
 
 // ignore: must_be_immutable
 class AppTextField extends StatelessWidget {
-  String? icon;
+  String? prefixIcon;
+  String? suffixIcon;
   String? hintText;
   double? topMargin;
   double? hintTextSize;
@@ -14,24 +15,26 @@ class AppTextField extends StatelessWidget {
   double? leftMargin;
   TextEditingController? controller;
   bool? obscureText;
+  bool? readOnly;
   FormFieldValidator<String>? validator;
   TextInputType? keyboardType;
 
-  AppTextField({
-    super.key,
-    this.icon,
-    this.hintText,
-    this.topMargin,
-    this.hintTextSize,
-    this.keyboardType,
-    this.validator,
-    this.obscureText,
-    this.controller,
-    this.width,
-    this.height,
-    this.rightMargin,
-    this.leftMargin,
-  });
+  AppTextField(
+      {super.key,
+      this.prefixIcon,
+      this.hintText,
+      this.topMargin,
+      this.hintTextSize,
+      this.keyboardType,
+      this.validator,
+      this.obscureText,
+      this.controller,
+      this.width,
+      this.height,
+      this.rightMargin,
+      this.leftMargin,
+      this.suffixIcon,
+      this.readOnly});
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +46,14 @@ class AppTextField extends StatelessWidget {
           top: topMargin ?? 0,
           right: rightMargin ?? 18),
       child: TextFormField(
+        readOnly: readOnly ?? false,
         obscureText: obscureText ?? false,
         validator: validator,
         controller: controller,
         keyboardType: keyboardType,
         cursorColor: ColorConstants.appColor,
         decoration: InputDecoration(
-          prefixIcon: (icon != null)
+          prefixIcon: (prefixIcon != null)
               ? Container(
                   height: 32,
                   width: 32,
@@ -61,7 +65,27 @@ class AppTextField extends StatelessWidget {
                     color: ColorConstants.appColor.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: SvgPicture.asset(icon!),
+                  child: SvgPicture.asset(
+                    prefixIcon!,
+                    color: ColorConstants.appColor,
+                  ),
+                )
+              : null,
+          suffixIcon: (suffixIcon != null)
+              ? Container(
+                  height: 32,
+                  width: 32,
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  margin: const EdgeInsets.only(
+                      top: 7, left: 9, bottom: 8, right: 12),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: SvgPicture.asset(
+                    suffixIcon!,
+                    color: Colors.black,
+                  ),
                 )
               : null,
           hintText: hintText,

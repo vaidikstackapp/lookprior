@@ -193,7 +193,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   )),
                 ],
               ),
-              AppIconButton(iconName: IconConstants.locationIcon),
+              AppIconButton(
+                  iconOnTap: () =>
+                      Navigator.of(context).pushNamed('/LocationScreen'),
+                  iconName: IconConstants.locationIcon),
             ],
           ),
         ),
@@ -232,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return ListTile(
                     onTap: () => 123,
                     leading: AppIconButton(
-                        color: ColorConstants.appColor.withOpacity(0.5),
+                        color: ColorConstants.appColor.withOpacity(0.3),
                         iconName: DrawerIconConstants.drawerIconList[index]),
                     title: AppText(
                       text: StringConstants.drawerTitle[index],

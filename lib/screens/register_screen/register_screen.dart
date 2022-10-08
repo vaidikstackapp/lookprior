@@ -134,7 +134,7 @@ class RegisterScreenState extends State<RegisterScreen> {
         controller: userNameController,
         validator: (value) => AppValidation.usernameValidation(value),
         hintText: StringConstants.name,
-        icon: IconConstants.userIcon);
+        prefixIcon: IconConstants.userIcon);
   }
 
 //----------------Email textFiled---------------
@@ -147,7 +147,7 @@ class RegisterScreenState extends State<RegisterScreen> {
         hintTextSize: 13,
         keyboardType: TextInputType.emailAddress,
         hintText: StringConstants.email,
-        icon: IconConstants.mailIcon);
+        prefixIcon: IconConstants.mailIcon);
   }
 
 //----------------PhoneNumber textFiled---------------
@@ -159,7 +159,7 @@ class RegisterScreenState extends State<RegisterScreen> {
         controller: phoneController,
         validator: (value) => AppValidation.phoneValidation(value),
         keyboardType: TextInputType.phone,
-        icon: IconConstants.phoneIcon,
+        prefixIcon: IconConstants.phoneIcon,
         hintText: "Phone number (opt)",
         hintTextSize: 13,
       ),
@@ -174,7 +174,7 @@ class RegisterScreenState extends State<RegisterScreen> {
       controller: passwordController,
       obscureText: true,
       validator: (value) => AppValidation.registerPasswordValidation(value),
-      icon: IconConstants.lockIcon,
+      prefixIcon: IconConstants.lockIcon,
       hintTextSize: 13,
       hintText: StringConstants.password,
     );
@@ -189,7 +189,7 @@ class RegisterScreenState extends State<RegisterScreen> {
       obscureText: true,
       validator: (value) => AppValidation.confirmPasswordValidation(
           value, passwordController.text),
-      icon: IconConstants.lockIcon,
+      prefixIcon: IconConstants.lockIcon,
       hintTextSize: 13,
       hintText: StringConstants.confirmPassword,
     );

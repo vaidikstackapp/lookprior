@@ -18,6 +18,7 @@ class IconConstants {
   static String likeButtonIcon = "assets/icons/home_screen_icon/like.svg";
   static String shareIcon = "assets/icons/home_screen_icon/share_icon.svg";
   static String starIcon = "assets/icons/home_screen_icon/star.svg";
+  static String moreIcon = "assets/icons/home_screen_icon/more_icon.svg";
 
   static List<String> catagoryListIcon = [
     "assets/icons/home_screen_icon/hotel_icon.svg",
@@ -45,4 +46,13 @@ class DrawerIconConstants {
     "$drawer/3 User.svg",
     "$drawer/help.svg",
   ];
+}
+
+class LocationIconConstants {
+  static String location = "assets/icons/location_screen_icon";
+  static String moveIcon = "$location/Vector.svg";
+  static String editIcon = "$location/Edit.svg";
+  static String blueRound = "$location/Ellipse 63.svg";
+  static String locationIcon = "$location/Vector (6).svg";
+  static String currentLocationIcon = "$location/crosshair 1.svg";
 }

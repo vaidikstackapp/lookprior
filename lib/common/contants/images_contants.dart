@@ -24,3 +24,7 @@ class ImageConstants {
 class DrawerImgConstants {
   static String userImage = "assets/images/drawer_image/user_image.svg";
 }
+
+class LocationImgConstants {
+  static String locationImg = "assets/images/location_image/location_image.png";
+}
