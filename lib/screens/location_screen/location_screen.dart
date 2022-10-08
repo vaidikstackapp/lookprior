@@ -137,17 +137,17 @@ class _LocationScreenState extends State<LocationScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 10, left: 45),
+                  padding: const EdgeInsets.only(top: 10, left: 45),
                   child: AppIconButton(
                     iconName: LocationIconConstants.currentLocationIcon,
                     color: Colors.white,
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(right: 15),
+                  padding: const EdgeInsets.only(right: 15),
                   child: SvgPicture.asset(LocationIconConstants.locationIcon),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 27,
                 )
               ],
