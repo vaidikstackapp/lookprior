@@ -8,7 +8,6 @@ import 'package:look_prior/common/widgets/app_background.dart';
 import 'package:look_prior/common/widgets/app_icon_button.dart';
 import 'package:look_prior/common/widgets/app_bar_text_field.dart';
 import 'package:look_prior/common/widgets/app_button.dart';
-import 'package:look_prior/common/widgets/app_list_tile.dart';
 import 'package:look_prior/common/widgets/app_product_list.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 
@@ -202,13 +201,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: double.infinity,
                 color: ColorConstants.appColor,
                 child: SvgPicture.asset(DrawerImgConstants.userImage)),
-            AppListTile(
-              height: 43,
-              width: 45,
-              image: DrawerIconConstants.cameraIcon,
-              title: "hello",
-              color: ColorConstants.appColor.withOpacity(0.3),
-            )
           ],
         ),
       ),
