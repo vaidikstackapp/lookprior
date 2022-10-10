@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:look_prior/common/contants/icon_constants.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/app_textfield.dart';
+import 'package:look_prior/utils/scroll_behavior/scroll_brehavior.dart';
 import '../../common/contants/color_contants.dart';
 import '../../common/widgets/app_background.dart';
 
@@ -159,13 +160,5 @@ class _LocationScreenState extends State<LocationScreen> {
         ]),
       ),
     );
-  }
-}
-
-class MyBehavior extends ScrollBehavior {
-  @override
-  Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
-    return child;
   }
 }

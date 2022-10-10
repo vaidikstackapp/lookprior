@@ -146,7 +146,6 @@ class _CatagoryScreenState extends State<CatagoryScreen> {
   List<bool> checkClick = List.filled(12, false);
   bottomSheet() {
     return showModalBottomSheet(
-      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
         topLeft: Radius.circular(25.0),
@@ -157,7 +156,7 @@ class _CatagoryScreenState extends State<CatagoryScreen> {
         return StatefulBuilder(
           builder: (context, setState) {
             return Container(
-              height: MediaQuery.of(context).size.height * 0.75,
+              height: MediaQuery.of(context).size.height * 0.8,
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(25.0),
@@ -167,7 +166,6 @@ class _CatagoryScreenState extends State<CatagoryScreen> {
               child: ScrollConfiguration(
                 behavior: MyBehavior(),
                 child: ListView(
-                  shrinkWrap: true,
                   children: [
                     ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
@@ -190,6 +188,7 @@ class _CatagoryScreenState extends State<CatagoryScreen> {
                           ),
                         );
                       },
+                      shrinkWrap: true,
                     ),
                     AppButton(
                       text: "Apply",

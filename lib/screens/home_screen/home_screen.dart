@@ -10,6 +10,8 @@ import 'package:look_prior/common/widgets/app_bar_text_field.dart';
 import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_product_list.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
+import 'package:look_prior/common/widgets/custom_route.dart';
+import 'package:look_prior/screens/location_screen/location_screen.dart';
 
 import '../../common/contants/icon_constants.dart';
 import '../../utils/scroll_behavior/scroll_brehavior.dart';
@@ -166,25 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               AppIconButton(
                   iconOnTap: () => Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            const NotificationScreen(),
-                        transitionsBuilder:
-                            (context, animation, secondaryAnimation, child) {
-                          const begin = Offset(1.0, 0.0);
-                          const end = Offset.zero;
-                          const curve = Curves.ease;
-
-                          var tween = Tween(begin: begin, end: end)
-                              .chain(CurveTween(curve: curve));
-
-                          return SlideTransition(
-                            position: animation.drive(tween),
-                            child: child,
-                          );
-                        },
-                      )),
+                      context, CustomRoutes(child: const NotificationScreen())),
                   iconName: IconConstants.notificationIcon),
             ],
           ),
@@ -223,8 +207,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               AppIconButton(
-                  iconOnTap: () =>
-                      Navigator.of(context).pushNamed('/LocationScreen'),
+                  iconOnTap: () => Navigator.push(
+                      context, CustomRoutes(child: const LocationScreen())),
                   iconName: IconConstants.locationIcon),
             ],
           ),
@@ -422,26 +406,7 @@ drawerListOnTap(
   switch (index) {
     case 1:
       scaffoldKey.currentState!.closeDrawer();
-      Navigator.push(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const CatagoryScreen(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              const begin = Offset(1.0, 0.0);
-              const end = Offset.zero;
-              const curve = Curves.ease;
-
-              var tween =
-                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-              return SlideTransition(
-                position: animation.drive(tween),
-                child: child,
-              );
-            },
-          ));
+      Navigator.push(context, CustomRoutes(child: const CatagoryScreen()));
       break;
   }
 }
