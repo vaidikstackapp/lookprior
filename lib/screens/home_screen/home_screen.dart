@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1), () => dialog());
+    Future.delayed(const Duration(seconds: 3), () => dialog());
   }
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
