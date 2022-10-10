@@ -12,6 +12,7 @@ import 'package:look_prior/common/widgets/app_product_list.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 
 import '../../common/contants/icon_constants.dart';
+import '../catagory_screen/catagory_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -84,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         backgroundColor: Colors.white,
         key: _scaffoldKey,
-        drawer: homeScreenDrawer(),
+        drawer: homeScreenDrawer(_scaffoldKey),
         body: SizedBox(
           height: double.infinity,
           width: double.infinity,
@@ -204,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget homeScreenDrawer() {
+  Widget homeScreenDrawer(GlobalKey<ScaffoldState> scaffoldKey) {
     return ScrollConfiguration(
       behavior: MyBehavior(),
       child: Drawer(
@@ -231,11 +232,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: DrawerIconConstants.drawerIconList.length,
-                itemBuilder: (context, index) {
+                itemBuilder: (context1, index) {
                   return ListTile(
-                    onTap: () => 123,
+                    onTap: () => drawerListOnTap(index, context, _scaffoldKey),
                     leading: AppIconButton(
-                        color: ColorConstants.appColor.withOpacity(0.3),
+                        color: ColorConstants.iconButtonColor,
                         iconName: DrawerIconConstants.drawerIconList[index]),
                     title: AppText(
                       text: StringConstants.drawerTitle[index],
@@ -385,6 +386,20 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+}
+
+drawerListOnTap(
+    int index, BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
+  switch (index) {
+    case 1:
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const CatagoryScreen(),
+          ));
+      scaffoldKey.currentState!.closeDrawer();
+      break;
   }
 }
 

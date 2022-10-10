@@ -1,9 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:look_prior/common/contants/icon_constants.dart';
-import 'package:look_prior/common/contants/images_contants.dart';
 import 'package:look_prior/common/widgets/app_button.dart';
-import 'package:look_prior/common/widgets/app_icon_button.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/app_textfield.dart';
 
@@ -18,56 +18,32 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  final Completer<GoogleMapController> _controller = Completer();
+
+  static const CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(37.42796133580664, -122.085749655962),
+    zoom: 14.4746,
+  );
+  List<Marker> marker = [];
+  List<Marker> list = [
+    const Marker(
+        markerId: MarkerId('1'),
+        position: LatLng(37.42796133580664, -122.085749655962))
+  ];
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SizedBox(
-        height: double.infinity,
-        width: double.infinity,
-        child: Stack(children: [
-          Container(
-            height: 100,
-            color: ColorConstants.appColor,
-            margin: const EdgeInsets.symmetric(vertical: 15),
-            alignment: Alignment.center,
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(
-                    Icons.navigate_before,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(
-                  width: 50,
-                ),
-                AppText(
-                  fontSize: 20,
-                  textAlign: TextAlign.center,
-                  text: "Select Category",
-                )
-              ],
-            ),
-          ),
-          Positioned(
-              top: 100,
-              bottom: 0,
-              right: 0,
-              left: 0,
-              child: AppBackRound(
-                widget: locationScreenContent(),
-              )),
-        ]),
-      ),
-    );
+  void initState() {
+    super.initState();
+    marker.addAll(list);
   }
 
   double changedValue = 40;
+
   Widget locationScreenContent() {
     return ScrollConfiguration(
       behavior: MyBehavior(),
       child: ListView(
+        physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 26),
         shrinkWrap: true,
         children: [
@@ -125,32 +101,16 @@ class _LocationScreenState extends State<LocationScreen> {
               setState(() {});
             },
           ),
-          Container(
+          SizedBox(
             height: 403,
-            alignment: Alignment.topRight,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(LocationImgConstants.locationImg),
-                    fit: BoxFit.fill),
-                borderRadius: BorderRadius.circular(8)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 45),
-                  child: AppIconButton(
-                    iconName: LocationIconConstants.currentLocationIcon,
-                    color: Colors.white,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 15),
-                  child: SvgPicture.asset(LocationIconConstants.locationIcon),
-                ),
-                const SizedBox(
-                  height: 27,
-                )
-              ],
+            child: GoogleMap(
+              myLocationEnabled: true,
+              mapType: MapType.normal,
+              markers: Set<Marker>.of(marker),
+              initialCameraPosition: _kGooglePlex,
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
             ),
           ),
           AppButton(
@@ -160,6 +120,51 @@ class _LocationScreenState extends State<LocationScreen> {
             fontSize: 16,
           )
         ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SizedBox(
+        height: double.infinity,
+        width: double.infinity,
+        child: Stack(children: [
+          Container(
+            height: 100,
+            color: ColorConstants.appColor,
+            margin: const EdgeInsets.symmetric(vertical: 15),
+            alignment: Alignment.center,
+            child: Row(
+              children: [
+                IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(
+                    Icons.navigate_before,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(
+                  width: 50,
+                ),
+                AppText(
+                  fontSize: 20,
+                  textAlign: TextAlign.center,
+                  text: "Select Category",
+                )
+              ],
+            ),
+          ),
+          Positioned(
+              top: 100,
+              bottom: 0,
+              right: 0,
+              left: 0,
+              child: AppBackRound(
+                widget: locationScreenContent(),
+              )),
+        ]),
       ),
     );
   }

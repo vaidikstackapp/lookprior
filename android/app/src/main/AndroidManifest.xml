@@ -1,10 +1,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.look_prior">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
    <application
         android:label="look_prior"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-        <activity
+
+
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyAQXUlSZXGoqLdrf0B9UODb1EseKYZiImc"/>
+
+
+       <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"

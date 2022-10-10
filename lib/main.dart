@@ -6,7 +6,6 @@ import 'package:look_prior/screens/home_screen/home_screen.dart';
 import 'package:look_prior/screens/location_screen/location_screen.dart';
 import 'package:look_prior/screens/login_screen/login_screen.dart';
 import 'package:look_prior/screens/register_screen/register_screen.dart';
-import 'package:look_prior/screens/splesh_screen/splesh_screen.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -18,7 +17,7 @@ void main() {
       FocusManager.instance.primaryFocus?.unfocus();
     },
     child: MaterialApp(
-      home: const SplashScreen(),
+      home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           fontFamily: 'Poppins',

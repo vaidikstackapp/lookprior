@@ -16,6 +16,7 @@ class AppTextField extends StatelessWidget {
   TextEditingController? controller;
   bool? obscureText;
   bool? readOnly;
+  Function()? onTap;
   FormFieldValidator<String>? validator;
   TextInputType? keyboardType;
 
@@ -34,7 +35,8 @@ class AppTextField extends StatelessWidget {
       this.rightMargin,
       this.leftMargin,
       this.suffixIcon,
-      this.readOnly});
+      this.readOnly,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class AppTextField extends StatelessWidget {
           top: topMargin ?? 0,
           right: rightMargin ?? 18),
       child: TextFormField(
+        onTap: onTap,
         readOnly: readOnly ?? false,
         obscureText: obscureText ?? false,
         validator: validator,
