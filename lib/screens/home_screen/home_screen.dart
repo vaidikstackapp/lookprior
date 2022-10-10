@@ -14,6 +14,7 @@ import 'package:look_prior/common/widgets/app_text.dart';
 import '../../common/contants/icon_constants.dart';
 import '../../utils/scroll_behavior/scroll_brehavior.dart';
 import '../catagory_screen/catagory_screen.dart';
+import '../notification_screen/notification_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -156,9 +157,35 @@ class _HomeScreenState extends State<HomeScreen> {
                       ? _scaffoldKey.currentState!.openDrawer()
                       : null,
                   child: SvgPicture.asset(IconConstants.drawerIcon)),
-              Image.asset(IconConstants.appLogoWithoutColor,
-                  alignment: Alignment.center),
-              AppIconButton(iconName: IconConstants.notificationIcon),
+              Image.asset(
+                IconConstants.appLogoWithoutColor,
+                alignment: Alignment.center,
+                height: 50,
+                width: 80,
+                fit: BoxFit.fill,
+              ),
+              AppIconButton(
+                  iconOnTap: () => Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            const NotificationScreen(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          const begin = Offset(1.0, 0.0);
+                          const end = Offset.zero;
+                          const curve = Curves.ease;
+
+                          var tween = Tween(begin: begin, end: end)
+                              .chain(CurveTween(curve: curve));
+
+                          return SlideTransition(
+                            position: animation.drive(tween),
+                            child: child,
+                          );
+                        },
+                      )),
+                  iconName: IconConstants.notificationIcon),
             ],
           ),
         ),
@@ -394,12 +421,27 @@ drawerListOnTap(
     int index, BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
   switch (index) {
     case 1:
+      scaffoldKey.currentState!.closeDrawer();
       Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => const CatagoryScreen(),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const CatagoryScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const begin = Offset(1.0, 0.0);
+              const end = Offset.zero;
+              const curve = Curves.ease;
+
+              var tween =
+                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+              return SlideTransition(
+                position: animation.drive(tween),
+                child: child,
+              );
+            },
           ));
-      scaffoldKey.currentState!.closeDrawer();
       break;
   }
 }

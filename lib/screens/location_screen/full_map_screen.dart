@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:look_prior/common/contants/color_contants.dart';
 import 'package:look_prior/common/widgets/app_background.dart';
 
 class FullMapScreen extends StatefulWidget {
@@ -51,40 +50,34 @@ class _FullMapScreenState extends State<FullMapScreen> {
         width: double.infinity,
         child: Stack(
           children: [
-            Container(
-              height: 60,
-            ),
+            Container(height: 100),
             Positioned(
               left: 0,
               right: 0,
               bottom: 0,
               top: 100,
               child: AppBackRound(
-                widget: GoogleMap(
-                  zoomControlsEnabled: false,
-                  initialCameraPosition: const CameraPosition(
-                    target: LatLng(48.8561, 2.2930),
-                    zoom: 12.0,
+                widget: Container(
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30))),
+                  child: GoogleMap(
+                    zoomControlsEnabled: false,
+                    initialCameraPosition: const CameraPosition(
+                      target: LatLng(48.8561, 2.2930),
+                      zoom: 12.0,
+                    ),
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller = controller;
+                    },
+                    markers: _markers,
                   ),
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller = controller;
-                  },
-                  markers: _markers,
                 ),
               ),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ColorConstants.appColor,
-        child: const Icon(
-          Icons.location_searching,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          getLocation();
-        },
       ),
     );
   }

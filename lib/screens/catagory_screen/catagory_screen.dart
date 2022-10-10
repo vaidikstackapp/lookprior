@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_icon_button.dart';
 
 import '../../common/contants/color_contants.dart';
@@ -166,6 +167,7 @@ class _CatagoryScreenState extends State<CatagoryScreen> {
               child: ScrollConfiguration(
                 behavior: MyBehavior(),
                 child: ListView(
+                  shrinkWrap: true,
                   children: [
                     ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
@@ -188,7 +190,13 @@ class _CatagoryScreenState extends State<CatagoryScreen> {
                           ),
                         );
                       },
-                      shrinkWrap: true,
+                    ),
+                    AppButton(
+                      text: "Apply",
+                      onTap: () => Navigator.pop(context),
+                      buttonColor: ColorConstants.appColor,
+                      bottomPadding: 10,
+                      topPadding: 10,
                     ),
                   ],
                 ),
