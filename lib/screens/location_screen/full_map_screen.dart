@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -22,17 +24,16 @@ class _FullMapScreenState extends State<FullMapScreen> {
         target: LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0),
         zoom: 12.0,
       )));
-      print(loc.latitude);
-      print(loc.longitude);
       setState(() {
         _markers.add(Marker(
             markerId: const MarkerId('Home'),
             position: LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0)));
       });
     });
+    log("location-------->$location");
   }
 
-  Set<Marker> _markers = {};
+  final Set<Marker> _markers = {};
   LatLng latLng = const LatLng(21.2342695, 72.8643263);
 
   @override

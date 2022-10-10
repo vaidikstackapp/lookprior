@@ -12,6 +12,7 @@ import 'package:look_prior/common/widgets/app_product_list.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 
 import '../../common/contants/icon_constants.dart';
+import '../../utils/scroll_behavior/scroll_brehavior.dart';
 import '../catagory_screen/catagory_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () => dialog());
+    Future.delayed(const Duration(seconds: 1), () => dialog());
   }
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -78,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  int index = 0;
+  int activeIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -132,10 +133,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             );
           },
-          activeIndex: index,
+          activeIndex: activeIndex,
           onTap: (p0) {
             setState(() {
-              index = p0;
+              activeIndex = p0;
             });
           },
         ));
@@ -423,12 +424,4 @@ Widget filterOnTap() {
           )),
     ],
   );
-}
-
-class MyBehavior extends ScrollBehavior {
-  @override
-  Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
-    return child;
-  }
 }
