@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         backgroundColor: Colors.white,
         key: _scaffoldKey,
-        drawer: homeScreenDrawer(_scaffoldKey),
+        drawer: homeScreenDrawer(_scaffoldKey, mounted),
         body: SizedBox(
           height: double.infinity,
           width: double.infinity,
@@ -217,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget homeScreenDrawer(GlobalKey<ScaffoldState> scaffoldKey) {
+  Widget homeScreenDrawer(GlobalKey<ScaffoldState> scaffoldKey, bool mounted) {
     return ScrollConfiguration(
       behavior: MyBehavior(),
       child: Drawer(
@@ -246,7 +246,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: DrawerIconConstants.drawerIconList.length,
                 itemBuilder: (context1, index) {
                   return ListTile(
-                    onTap: () => drawerListOnTap(index, context, _scaffoldKey),
+                    onTap: () =>
+                        drawerListOnTap(index, context, _scaffoldKey, mounted),
                     leading: AppIconButton(
                         color: ColorConstants.iconButtonColor,
                         iconName: DrawerIconConstants.drawerIconList[index]),
@@ -401,11 +402,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-drawerListOnTap(
-    int index, BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
+drawerListOnTap(int index, BuildContext context,
+    GlobalKey<ScaffoldState> scaffoldKey, bool mounted) async {
   switch (index) {
     case 1:
-      scaffoldKey.currentState!.closeDrawer();
+      Navigator.pop(context);
+      await Future.delayed(const Duration(milliseconds: 300));
+      if (!mounted) return null;
       Navigator.push(context, CustomRoutes(child: const CatagoryScreen()));
       break;
   }
