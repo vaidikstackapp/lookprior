@@ -5,14 +5,14 @@ class CustomRoutes extends PageRouteBuilder {
   final AxisDirection direction;
   CustomRoutes({required this.child, this.direction = AxisDirection.right})
       : super(
-          transitionDuration: const Duration(milliseconds: 250),
+          transitionDuration: const Duration(milliseconds: 150),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             Offset getBeginOffSet() {
               switch (direction) {
                 case AxisDirection.up:
-                  return const Offset(0, 1);
-                case AxisDirection.down:
                   return const Offset(0, -1);
+                case AxisDirection.down:
+                  return const Offset(0, 1);
                 case AxisDirection.right:
                   return const Offset(1, 0);
                 case AxisDirection.left:

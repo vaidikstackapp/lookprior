@@ -116,7 +116,8 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () => Navigator.push(
                 context,
                 CustomRoutes(
-                    child: const PostAdScreen(), direction: AxisDirection.up)),
+                    child: const PostAdScreen(),
+                    direction: AxisDirection.down)),
             child: const Icon(
               Icons.add,
             )),
