@@ -111,28 +111,31 @@ class _PostAdScreenState extends State<PostAdScreen> {
                       ),
                       Row(
                         children: [
-                          Container(
-                            height: 109,
-                            width: 113,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        PostAdIconConstants.background))),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.video_call,
-                                  size: 30,
-                                  color: ColorConstants.appColor,
-                                ),
-                                AppText(
-                                  fontSize: 13,
-                                  text: "Add Videos",
-                                  color: ColorConstants.appColor,
-                                ),
-                              ],
+                          InkWell(
+                            onTap: () => choiceVideo(),
+                            child: Container(
+                              height: 109,
+                              width: 113,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          PostAdIconConstants.background))),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.video_call,
+                                    size: 30,
+                                    color: ColorConstants.appColor,
+                                  ),
+                                  AppText(
+                                    fontSize: 13,
+                                    text: "Add Videos",
+                                    color: ColorConstants.appColor,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -231,6 +234,42 @@ class _PostAdScreenState extends State<PostAdScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Future choiceVideo() {
+    return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(25), topLeft: Radius.circular(25))),
+      context: context,
+      builder: (context) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.2,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                AppText(
+                  text: "Record Video",
+                  fontSize: 18,
+                  color: ColorConstants.fontColor,
+                ),
+                const Divider(),
+                AppText(
+                  text: "Choose from library",
+                  fontSize: 18,
+                  color: ColorConstants.fontColor,
+                ),
+                const Divider(),
+                AppText(
+                  text: "Cancel",
+                  fontSize: 18,
+                  color: Colors.red,
+                ),
+              ]),
+        );
+      },
     );
   }
 }
