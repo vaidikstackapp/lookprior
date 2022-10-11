@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:look_prior/common/contants/icon_constants.dart';
 import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/utils/scroll_behavior/scroll_brehavior.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../common/contants/color_contants.dart';
 import '../../common/widgets/app_background.dart';
@@ -16,6 +20,27 @@ class PostAdScreen extends StatefulWidget {
 }
 
 class _PostAdScreenState extends State<PostAdScreen> {
+  final ImagePicker imagePicker = ImagePicker();
+  String imgPath = '';
+  var permissionStatusCamera = Permission.camera.status;
+  var permissionStatusStorage = Permission.storage.status;
+  checkCameraPermission() async {
+    await Permission.camera.request();
+  }
+
+  Future<void> checkStoragePermission() async {
+    await Permission.storage.request();
+  }
+
+  Future<void> openCamera(ImageSource imageSource) async {
+    final XFile? photo = await imagePicker.pickImage(source: imageSource);
+    if (photo != null) {
+      imgPath = photo.path;
+      print("imgpath------------>$imgPath");
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -165,30 +190,40 @@ class _PostAdScreenState extends State<PostAdScreen> {
                       ),
                       Row(
                         children: [
-                          Container(
-                            height: 109,
-                            width: 113,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        PostAdIconConstants.background))),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.add_a_photo,
-                                  size: 25,
-                                  color: ColorConstants.appColor,
+                          (imgPath.isEmpty)
+                              ? InkWell(
+                                  onTap: () => choiceImage(),
+                                  child: Container(
+                                    height: 109,
+                                    width: 113,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                PostAdIconConstants
+                                                    .background))),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.add_a_photo,
+                                          size: 25,
+                                          color: ColorConstants.appColor,
+                                        ),
+                                        AppText(
+                                          fontSize: 13,
+                                          text: "Add  Photos",
+                                          color: ColorConstants.appColor,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              : Image.file(
+                                  File(imgPath),
+                                  fit: BoxFit.fill,
                                 ),
-                                AppText(
-                                  fontSize: 13,
-                                  text: "Add  Photos",
-                                  color: ColorConstants.appColor,
-                                ),
-                              ],
-                            ),
-                          ),
                         ],
                       ),
                       Padding(
@@ -244,7 +279,7 @@ class _PostAdScreenState extends State<PostAdScreen> {
               topRight: Radius.circular(25), topLeft: Radius.circular(25))),
       context: context,
       builder: (context) {
-        return Container(
+        return SizedBox(
           height: MediaQuery.of(context).size.height * 0.2,
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -266,6 +301,67 @@ class _PostAdScreenState extends State<PostAdScreen> {
                   text: "Cancel",
                   fontSize: 18,
                   color: Colors.red,
+                ),
+              ]),
+        );
+      },
+    );
+  }
+
+  Future choiceImage() {
+    return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(25), topLeft: Radius.circular(25))),
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.2,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    checkCameraPermission();
+                    if (!await permissionStatusCamera.isDenied) {
+                      openCamera(ImageSource.camera);
+                    }
+                    if (mounted) {
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: AppText(
+                    text: "Click Image",
+                    fontSize: 18,
+                    color: ColorConstants.fontColor,
+                  ),
+                ),
+                const Divider(),
+                InkWell(
+                  onTap: () async {
+                    checkStoragePermission();
+                    if (!await permissionStatusStorage.isDenied) {
+                      openCamera(ImageSource.gallery);
+                    }
+                    if (mounted) {
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: AppText(
+                    text: "Choose from library",
+                    fontSize: 18,
+                    color: ColorConstants.fontColor,
+                  ),
+                ),
+                const Divider(),
+                InkWell(
+                  onTap: () => Navigator.pop(context),
+                  child: AppText(
+                    text: "Cancel",
+                    fontSize: 18,
+                    color: Colors.red,
+                  ),
                 ),
               ]),
         );
