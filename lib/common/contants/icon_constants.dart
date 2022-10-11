@@ -56,3 +56,9 @@ class LocationIconConstants {
   static String locationIcon = "$location/Vector (6).svg";
   static String currentLocationIcon = "$location/crosshair 1.svg";
 }
+
+class PostAdIconConstants {
+  static String adScreen = "assets/icons/post_ad_screen_icon";
+  static String infoIcon = "$adScreen/info.svg";
+  static String background = "$adScreen/Rectangle 693.png";
+}

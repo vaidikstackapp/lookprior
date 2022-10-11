@@ -20,7 +20,6 @@ class AppText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      overflow: TextOverflow.ellipsis,
       "$text",
       style: TextStyle(
         fontSize: fontSize,
