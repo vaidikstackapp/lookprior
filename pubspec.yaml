@@ -43,7 +43,7 @@ dependencies:
   flutter_pw_validator: ^1.4.2
   animated_bottom_navigation_bar: ^1.1.0
   google_maps_flutter: ^2.2.1
-  location: ^4.4.0
+  syncfusion_flutter_sliders: ^20.3.48
 
 dev_dependencies:
   flutter_test:

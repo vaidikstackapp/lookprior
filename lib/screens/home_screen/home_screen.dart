@@ -12,6 +12,7 @@ import 'package:look_prior/common/widgets/app_product_list.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/custom_route.dart';
 import 'package:look_prior/screens/location_screen/location_screen.dart';
+import 'package:look_prior/screens/post_ad_screen/post_ad_screen.dart';
 
 import '../../common/contants/icon_constants.dart';
 import '../../utils/scroll_behavior/scroll_brehavior.dart';
@@ -112,7 +113,10 @@ class _HomeScreenState extends State<HomeScreen> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
             backgroundColor: ColorConstants.appColor,
-            onPressed: () {},
+            onPressed: () => Navigator.push(
+                context,
+                CustomRoutes(
+                    child: const PostAdScreen(), direction: AxisDirection.up)),
             child: const Icon(
               Icons.add,
             )),
@@ -168,7 +172,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               AppIconButton(
                   iconOnTap: () => Navigator.push(
-                      context, CustomRoutes(child: const NotificationScreen())),
+                      context,
+                      CustomRoutes(
+                        child: const NotificationScreen(),
+                      )),
                   iconName: IconConstants.notificationIcon),
             ],
           ),

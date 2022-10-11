@@ -6,6 +6,7 @@ import 'package:look_prior/common/contants/icon_constants.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/app_textfield.dart';
 import 'package:look_prior/utils/scroll_behavior/scroll_brehavior.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 import '../../common/contants/color_contants.dart';
 import '../../common/widgets/app_background.dart';
 
@@ -36,14 +37,14 @@ class _LocationScreenState extends State<LocationScreen> {
     marker.addAll(list);
   }
 
-  double changedValue = 40;
+  double changedValue = 50;
 
   Widget locationScreenContent() {
     return ScrollConfiguration(
       behavior: MyBehavior(),
       child: ListView(
         physics: const NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 26),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         shrinkWrap: true,
         children: [
           AppText(
@@ -52,8 +53,8 @@ class _LocationScreenState extends State<LocationScreen> {
             color: ColorConstants.fontColor.withOpacity(0.4),
           ),
           AppTextField(
-            height: 58,
             topMargin: 14,
+            contentPadding: const EdgeInsets.only(top: 10),
             leftMargin: 0,
             rightMargin: 0,
             prefixIcon: IconConstants.moreIcon,
@@ -62,7 +63,7 @@ class _LocationScreenState extends State<LocationScreen> {
             hintText: "Select category",
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 14),
+            padding: const EdgeInsets.only(top: 10),
             child: AppText(
               text: 'Location',
               fontSize: 14,
@@ -70,8 +71,8 @@ class _LocationScreenState extends State<LocationScreen> {
             ),
           ),
           AppTextField(
-            height: 58,
-            topMargin: 14,
+            topMargin: 10,
+            contentPadding: const EdgeInsets.only(top: 10),
             leftMargin: 0,
             rightMargin: 0,
             prefixIcon: IconConstants.locationIcon,
@@ -80,31 +81,36 @@ class _LocationScreenState extends State<LocationScreen> {
             hintText: "California, USA",
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 14),
+            padding: const EdgeInsets.only(top: 10),
             child: AppText(
               text: 'Select Distance',
               fontSize: 14,
               color: ColorConstants.fontColor.withOpacity(0.4),
             ),
           ),
-          Slider(
-            divisions: 5,
-            value: changedValue,
-            min: 0,
-            label: (changedValue == 250) ? "Max" : "$changedValue/m",
+          SfSlider(
+            min: 50.0,
+            max: 250.0,
             activeColor: ColorConstants.appColor,
-            inactiveColor: const Color(0xff333333).withOpacity(0.6),
-            max: 250,
-            onChanged: (value) {
-              changedValue = value;
-              setState(() {});
+            value: changedValue,
+            interval: 50,
+            showTicks: true,
+            showLabels: true,
+            enableTooltip: true,
+            minorTicksPerInterval: 1,
+            onChanged: (dynamic value) {
+              setState(() {
+                changedValue = value;
+              });
             },
           ),
-          SizedBox(
-            height: 403,
+          Container(
+            height: 220,
+            margin: const EdgeInsets.only(top: 15),
             child: GoogleMap(
               myLocationEnabled: true,
               mapType: MapType.normal,
+              zoomControlsEnabled: false,
               markers: Set<Marker>.of(marker),
               initialCameraPosition: _kGooglePlex,
               onMapCreated: (GoogleMapController controller) {

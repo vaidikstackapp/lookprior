@@ -14,6 +14,7 @@ class AppTextField extends StatelessWidget {
   double? rightMargin;
   double? leftMargin;
   TextEditingController? controller;
+  EdgeInsets? contentPadding;
   bool? obscureText;
   bool? readOnly;
   Function()? onTap;
@@ -36,6 +37,7 @@ class AppTextField extends StatelessWidget {
       this.leftMargin,
       this.suffixIcon,
       this.readOnly,
+      this.contentPadding,
       this.onTap});
 
   @override
@@ -91,9 +93,10 @@ class AppTextField extends StatelessWidget {
                   ),
                 )
               : null,
+          contentPadding: contentPadding,
           hintText: hintText,
           hintStyle: TextStyle(
-              fontSize: hintTextSize, color: Colors.black.withOpacity(0.5)),
+              fontSize: hintTextSize, color: Colors.black.withOpacity(1)),
           focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: ColorConstants.appColor),
           ),
