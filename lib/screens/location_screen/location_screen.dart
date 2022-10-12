@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:look_prior/common/contants/icon_constants.dart';
+import 'package:look_prior/common/widgets/app_bar.dart';
+import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/app_textfield.dart';
 import 'package:look_prior/utils/scroll_behavior/scroll_brehavior.dart';
@@ -105,7 +107,7 @@ class _LocationScreenState extends State<LocationScreen> {
             },
           ),
           Container(
-            height: 220,
+            height: 190,
             margin: const EdgeInsets.only(top: 15),
             child: GoogleMap(
               myLocationEnabled: true,
@@ -117,6 +119,11 @@ class _LocationScreenState extends State<LocationScreen> {
                 _controller.complete(controller);
               },
             ),
+          ),
+          AppButton(
+            topPadding: 5,
+            buttonColor: ColorConstants.appColor,
+            text: "Apply",
           ),
         ],
       ),
@@ -135,28 +142,10 @@ class _LocationScreenState extends State<LocationScreen> {
             color: ColorConstants.appColor,
             margin: const EdgeInsets.symmetric(vertical: 15),
             alignment: Alignment.center,
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(
-                    Icons.navigate_before,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(
-                  width: 50,
-                ),
-                AppText(
-                  fontSize: 20,
-                  textAlign: TextAlign.center,
-                  text: "Select Category",
-                )
-              ],
-            ),
+            child: CommonAppBar(title: "Select Category"),
           ),
           Positioned(
-              top: 100,
+              top: 93,
               bottom: 0,
               right: 0,
               left: 0,

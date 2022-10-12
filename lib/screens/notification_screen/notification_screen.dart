@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:look_prior/common/contants/icon_constants.dart';
+import 'package:look_prior/common/widgets/app_bar.dart';
 import 'package:look_prior/utils/scroll_behavior/scroll_brehavior.dart';
 
 import '../../common/contants/color_contants.dart';
@@ -22,32 +23,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
         width: double.infinity,
         child: Stack(children: [
           Container(
-            height: 100,
-            color: ColorConstants.appColor,
-            margin: const EdgeInsets.symmetric(vertical: 15),
-            alignment: Alignment.center,
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(
-                    Icons.navigate_before,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(
-                  width: 70,
-                ),
-                AppText(
-                  fontSize: 20,
-                  textAlign: TextAlign.center,
-                  text: "Notification",
-                )
-              ],
-            ),
-          ),
+              height: 100,
+              color: ColorConstants.appColor,
+              margin: const EdgeInsets.symmetric(vertical: 15),
+              alignment: Alignment.center,
+              child: CommonAppBar(
+                title: "Notification",
+              )),
           Positioned(
-              top: 100,
+              top: 93,
               bottom: 0,
               right: 0,
               left: 0,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:look_prior/common/widgets/app_bar.dart';
 import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_icon_button.dart';
 
@@ -23,32 +24,15 @@ class _CatagoryScreenState extends State<CatagoryScreen> {
         width: double.infinity,
         child: Stack(children: [
           Container(
-            height: 100,
-            color: ColorConstants.appColor,
-            margin: const EdgeInsets.symmetric(vertical: 15),
-            alignment: Alignment.center,
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(
-                    Icons.navigate_before,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(
-                  width: 50,
-                ),
-                AppText(
-                  fontSize: 20,
-                  textAlign: TextAlign.center,
-                  text: "Select Category",
-                )
-              ],
-            ),
-          ),
+              height: 100,
+              color: ColorConstants.appColor,
+              margin: const EdgeInsets.symmetric(vertical: 15),
+              alignment: Alignment.center,
+              child: CommonAppBar(
+                title: "Select Catagory",
+              )),
           Positioned(
-              top: 100,
+              top: 93,
               bottom: 0,
               right: 0,
               left: 0,
