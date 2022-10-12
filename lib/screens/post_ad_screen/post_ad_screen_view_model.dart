@@ -50,6 +50,10 @@ class PostAdScreenViewModel {
         postAdScreenState.playerController =
             VideoPlayerController.file(File(videoPath))
               ..initialize().then((_) => postAdScreenState.refresh());
+        if (postAdScreenState.playerController != null) {
+          postAdScreenState.playerController!.setVolume(1.0);
+          postAdScreenState.playerController!.setLooping(true);
+        }
       }
     } on PlatformException catch (e) {
       log("Catch exception for videoSource---------->$e");

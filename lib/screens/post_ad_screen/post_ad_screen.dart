@@ -286,26 +286,49 @@ class PostAdScreenState extends State<PostAdScreen> {
                       scrollDirection: Axis.horizontal,
                       itemCount: postAdScreenViewModel!.imagePath.length,
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 2),
-                          child: InkWell(
-                            onTap: () =>
-                                Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return ViewImageScreen(
-                                    postAdScreenViewModel!.imagePath[index]);
-                              },
-                            )),
-                            child: Hero(
-                              tag: postAdScreenViewModel!.imagePath[index].path,
-                              child: Image.file(
-                                  height: 109,
-                                  width: 113,
-                                  fit: BoxFit.fill,
-                                  File(postAdScreenViewModel!
-                                      .imagePath[index].path)),
+                        return Stack(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 2),
+                              child: InkWell(
+                                onTap: () =>
+                                    Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return ViewImageScreen(
+                                        postAdScreenViewModel!
+                                            .imagePath[index]);
+                                  },
+                                )),
+                                child: Hero(
+                                  tag: postAdScreenViewModel!
+                                      .imagePath[index].path,
+                                  child: Image.file(
+                                      height: 109,
+                                      width: 113,
+                                      fit: BoxFit.fill,
+                                      File(postAdScreenViewModel!
+                                          .imagePath[index].path)),
+                                ),
+                              ),
                             ),
-                          ),
+                            Positioned(
+                              right: 0,
+                              child: InkWell(
+                                onTap: () {
+                                  if (postAdScreenViewModel!
+                                      .imagePath.isNotEmpty) {
+                                    postAdScreenViewModel!.imagePath
+                                        .removeAt(index);
+                                    setState(() {});
+                                  }
+                                },
+                                child: const Icon(
+                                  Icons.cancel,
+                                ),
+                              ),
+                            ),
+                          ],
                         );
                       },
                     ),
