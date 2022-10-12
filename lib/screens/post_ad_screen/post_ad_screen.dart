@@ -28,6 +28,12 @@ class PostAdScreenState extends State<PostAdScreen> {
   VideoPlayerController? playerController;
 
   @override
+  void dispose() {
+    super.dispose();
+    playerController!.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     postAdScreenViewModel ??
         (postAdScreenViewModel = PostAdScreenViewModel(this));
