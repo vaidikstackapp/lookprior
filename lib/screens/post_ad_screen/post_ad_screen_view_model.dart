@@ -11,7 +11,7 @@ class PostAdScreenViewModel {
 
   PostAdScreenViewModel(this.postAdScreenState);
   List<XFile> imagePath = List.empty(growable: true);
-  //String imagePath = "";
+
   final String videoDescription =
       "Tap the icon below to record a short video for your listing. Your video file size must be 6MB or less. Post up to 3 videos for free! Need to upload a larger video file or want to add more than three? That's OK! We have many storage options to choose from. You will be able to post larger video files after increasing the storage capacity";
   final String photoDescription =
