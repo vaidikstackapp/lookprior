@@ -10,6 +10,7 @@ import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/screens/post_ad_screen/full_screen_view_image.dart';
 import 'package:look_prior/screens/post_ad_screen/post_ad_screen_view_model.dart';
 import 'package:look_prior/utils/scroll_behavior/scroll_brehavior.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../common/contants/color_contants.dart';
 import '../../common/widgets/app_background.dart';
@@ -24,6 +25,7 @@ class PostAdScreen extends StatefulWidget {
 
 class PostAdScreenState extends State<PostAdScreen> {
   PostAdScreenViewModel? postAdScreenViewModel;
+  VideoPlayerController? playerController;
 
   @override
   Widget build(BuildContext context) {
@@ -138,36 +140,106 @@ class PostAdScreenState extends State<PostAdScreen> {
               color: ColorConstants.fontColor.withOpacity(0.5),
             ),
           ),
-          Row(
-            children: [
-              InkWell(
-                onTap: () => videoBottomSheet(),
-                child: Container(
-                  height: 109,
-                  width: 113,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(PostAdIconConstants.background))),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.video_call,
-                        size: 30,
-                        color: ColorConstants.appColor,
+          (postAdScreenViewModel!.videoPath.isNotEmpty)
+              ? playerController!.value.isInitialized
+                  ? Row(
+                      children: [
+                        Stack(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: SizedBox(
+                                height: 109,
+                                width: 113,
+                                child: VideoPlayer(playerController!),
+                              ),
+                            ),
+                            Positioned(
+                              top: 30,
+                              bottom: 30,
+                              left: 30,
+                              right: 30,
+                              child: FloatingActionButton(
+                                backgroundColor: Colors.transparent,
+                                child: (playerController!.value.isPlaying)
+                                    ? const Icon(Icons.pause)
+                                    : const Icon(Icons.play_arrow),
+                                onPressed: () async {
+                                  if (playerController != null) {
+                                    if (playerController!.value.isPlaying) {
+                                      await playerController!.pause();
+                                    } else {
+                                      await playerController!.play();
+                                    }
+                                    setState(() {});
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        InkWell(
+                          onTap: () => videoBottomSheet(),
+                          child: Container(
+                            height: 109,
+                            width: 113,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        PostAdIconConstants.background))),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.video_call,
+                                  size: 30,
+                                  color: ColorConstants.appColor,
+                                ),
+                                AppText(
+                                  fontSize: 13,
+                                  text: "Add Videos",
+                                  color: ColorConstants.appColor,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container()
+              : Row(
+                  children: [
+                    InkWell(
+                      onTap: () => videoBottomSheet(),
+                      child: Container(
+                        height: 109,
+                        width: 113,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    PostAdIconConstants.background))),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.video_call,
+                              size: 30,
+                              color: ColorConstants.appColor,
+                            ),
+                            AppText(
+                              fontSize: 13,
+                              text: "Add Videos",
+                              color: ColorConstants.appColor,
+                            ),
+                          ],
+                        ),
                       ),
-                      AppText(
-                        fontSize: 13,
-                        text: "Add Videos",
-                        color: ColorConstants.appColor,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          )
         ],
       ),
     );
@@ -321,22 +393,41 @@ class PostAdScreenState extends State<PostAdScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                AppText(
-                  text: "Record Video",
-                  fontSize: 18,
-                  color: ColorConstants.fontColor,
+                InkWell(
+                  onTap: () async {
+                    if (mounted) {
+                      postAdScreenViewModel!.videoSource(ImageSource.camera);
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: AppText(
+                    text: "Record Video",
+                    fontSize: 18,
+                    color: ColorConstants.fontColor,
+                  ),
                 ),
                 const Divider(),
-                AppText(
-                  text: "Choose from library",
-                  fontSize: 18,
-                  color: ColorConstants.fontColor,
+                InkWell(
+                  onTap: () async {
+                    if (mounted) {
+                      postAdScreenViewModel!.videoSource(ImageSource.gallery);
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: AppText(
+                    text: "Choose from library",
+                    fontSize: 18,
+                    color: ColorConstants.fontColor,
+                  ),
                 ),
                 const Divider(),
-                AppText(
-                  text: "Cancel",
-                  fontSize: 18,
-                  color: Colors.red,
+                InkWell(
+                  onTap: () => Navigator.pop(context),
+                  child: AppText(
+                    text: "Cancel",
+                    fontSize: 18,
+                    color: Colors.red,
+                  ),
                 ),
               ]),
         );
