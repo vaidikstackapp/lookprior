@@ -30,7 +30,9 @@ class PostAdScreenState extends State<PostAdScreen> {
   @override
   void dispose() {
     super.dispose();
-    playerController!.dispose();
+    if (playerController != null) {
+      playerController!.dispose();
+    }
   }
 
   @override
