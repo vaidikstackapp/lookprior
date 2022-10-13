@@ -1,23 +1,22 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:look_prior/screens/post_ad_screen/post_ad_screen.dart';
-import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class PostAdScreenViewModel {
   final PostAdScreenState postAdScreenState;
 
   PostAdScreenViewModel(this.postAdScreenState);
   List<XFile> imagePath = List.empty(growable: true);
-
+  List<XFile> videoPath = List.empty(growable: true);
   final String videoDescription =
       "Tap the icon below to record a short video for your listing. Your video file size must be 6MB or less. Post up to 3 videos for free! Need to upload a larger video file or want to add more than three? That's OK! We have many storage options to choose from. You will be able to post larger video files after increasing the storage capacity";
   final String photoDescription =
       "Quality images of your items will attract more buyers. Use the icon below to take pictures or upload images already stored on your phone.";
   final ImagePicker _picker = ImagePicker();
-  String videoPath = '';
+  //String videoPath = '';
   Future<void> imageSource(ImageSource imageSource) async {
     try {
       final XFile? image =
@@ -45,18 +44,26 @@ class PostAdScreenViewModel {
       final XFile? video = await _picker.pickVideo(
           source: imageSource, maxDuration: const Duration(seconds: 10));
       if (video != null) {
-        videoPath = video.path;
-        print("videopath------------->$videoPath");
-        postAdScreenState.playerController =
-            VideoPlayerController.file(File(videoPath))
-              ..initialize().then((_) => postAdScreenState.refresh());
-        if (postAdScreenState.playerController != null) {
-          postAdScreenState.playerController!.setVolume(1.0);
-          postAdScreenState.playerController!.setLooping(true);
-        }
+        videoPath.add(video);
+        //lo("videopath length--------->${videoPath.length}");
+        postAdScreenState.refresh();
+        // log("videopath------------->$videoPath");
+        // postAdScreenState.playerController =
+        //     VideoPlayerController.file(File(videoPath))
+        //       ..initialize().then((_) => postAdScreenState.refresh());
+        // if (postAdScreenState.playerController != null) {
+        //   postAdScreenState.playerController!.setVolume(1.0);
+        //   postAdScreenState.playerController!.setLooping(true);
+        // }
       }
     } on PlatformException catch (e) {
       log("Catch exception for videoSource---------->$e");
     }
+  }
+
+  Future<String?> videoThumbNail(int index) async {
+    final videoThumbnail = await VideoThumbnail.thumbnailFile(
+        imageFormat: ImageFormat.JPEG, video: videoPath[index].path);
+    return videoThumbnail;
   }
 }

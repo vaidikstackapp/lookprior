@@ -12,6 +12,9 @@ class StringConstants {
   static const loginWithFb = "Login with Facebook";
   static const loginWithApple = "Login with Apple";
   static const topAds = "Top Ads";
+  static const postAd = "Post your Ad";
+  static const storageDescription =
+      "With more storage space,you can post as many videos as you want in your ads or listings. Highlight the best parts of your items,business or services. With more videos,the more you sell. Choose the plan that works best for you";
   static const privacy =
       """By Clicking on “Register with Facebook” or “Register” you Agree To the Lookprior Terms of Service and Privacy Policy""";
   static const dialogBoxText = """Hello and thanks for downloading 

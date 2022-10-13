@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:look_prior/common/widgets/app_bar.dart';
+import 'package:zoom_widget/zoom_widget.dart';
 
 import '../../common/contants/color_contants.dart';
 import '../../common/widgets/app_background.dart';
@@ -34,17 +35,20 @@ class ViewImageScreen extends StatelessWidget {
               right: 0,
               left: 0,
               child: AppBackRound(
-                widget: Hero(
-                    tag: image.path,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(30),
-                          topLeft: Radius.circular(30)),
-                      child: Image.file(
-                        File(image.path),
-                        fit: BoxFit.fill,
-                      ),
-                    )),
+                widget: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(30),
+                      topLeft: Radius.circular(30)),
+                  child: Zoom(
+                    scrollWeight: 0,
+                    backgroundColor: Colors.white,
+                    initTotalZoomOut: true,
+                    child: Image.file(
+                      File(image.path),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
               )),
         ]),
       ),

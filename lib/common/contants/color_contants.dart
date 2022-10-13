@@ -13,4 +13,5 @@ class ColorConstants {
   static Color appbarIconColor = const Color(0xff19C060);
   static Color catagoryListColor = const Color(0xffE4FFEF);
   static Color iconButtonColor = appColor.withOpacity(0.2);
+  static Color checkIconColor = Colors.white;
 }

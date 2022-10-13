@@ -18,6 +18,7 @@ class AppTextField extends StatelessWidget {
   bool? obscureText;
   bool? readOnly;
   Function()? onTap;
+  int? maxLines;
   FormFieldValidator<String>? validator;
   TextInputType? keyboardType;
 
@@ -38,7 +39,8 @@ class AppTextField extends StatelessWidget {
       this.suffixIcon,
       this.readOnly,
       this.contentPadding,
-      this.onTap});
+      this.onTap,
+      this.maxLines});
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,7 @@ class AppTextField extends StatelessWidget {
           top: topMargin ?? 0,
           right: rightMargin ?? 18),
       child: TextFormField(
+        maxLines: maxLines,
         onTap: onTap,
         readOnly: readOnly ?? false,
         obscureText: obscureText ?? false,

@@ -46,6 +46,8 @@ dependencies:
   permission_handler: ^10.1.0
   image_picker: ^0.8.6
   video_player: ^2.4.7
+  zoom_widget: ^2.0.0
+  video_thumbnail: ^0.5.3
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +77,7 @@ flutter:
    - assets/images/home_screen_image/
    - assets/images/drawer_image/
    - assets/images/location_image/
+   - assets/images/storage_screen_image/
 
 
    - assets/icons/

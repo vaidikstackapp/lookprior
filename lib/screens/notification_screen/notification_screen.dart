@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:look_prior/common/contants/icon_constants.dart';
 import 'package:look_prior/common/widgets/app_bar.dart';
+import 'package:look_prior/common/widgets/app_screen_backgroud.dart';
 import 'package:look_prior/utils/scroll_behavior/scroll_brehavior.dart';
 
 import '../../common/contants/color_contants.dart';
-import '../../common/widgets/app_background.dart';
 import '../../common/widgets/app_text.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -15,31 +15,17 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  // CommonAppBar(
+  //                 title: "Notification",
+  //               )
+  //notificationScreenContent(context)
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SizedBox(
-        height: double.infinity,
-        width: double.infinity,
-        child: Stack(children: [
-          Container(
-              height: 100,
-              color: ColorConstants.appColor,
-              margin: const EdgeInsets.symmetric(vertical: 15),
-              alignment: Alignment.center,
-              child: CommonAppBar(
-                title: "Notification",
-              )),
-          Positioned(
-              top: 93,
-              bottom: 0,
-              right: 0,
-              left: 0,
-              child: AppBackRound(
-                widget: notificationScreenContent(context),
-              )),
-        ]),
+    return AppScreenBackGround(
+      appbarWidget: CommonAppBar(
+        title: "Notification",
       ),
+      bodyWidget: notificationScreenContent(context),
     );
   }
 }

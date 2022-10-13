@@ -5,16 +5,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:look_prior/common/contants/icon_constants.dart';
+import 'package:look_prior/common/contants/string_contants.dart';
 import 'package:look_prior/common/widgets/app_bar.dart';
 import 'package:look_prior/common/widgets/app_button.dart';
+import 'package:look_prior/common/widgets/app_screen_backgroud.dart';
+import 'package:look_prior/common/widgets/custom_route.dart';
 import 'package:look_prior/screens/post_ad_screen/full_screen_view_image.dart';
+import 'package:look_prior/screens/post_ad_screen/play_video_screen.dart';
 import 'package:look_prior/screens/post_ad_screen/post_ad_screen_view_model.dart';
 import 'package:look_prior/utils/scroll_behavior/scroll_brehavior.dart';
-import 'package:video_player/video_player.dart';
-
 import '../../common/contants/color_contants.dart';
-import '../../common/widgets/app_background.dart';
 import '../../common/widgets/app_text.dart';
+import '../storage_plan_screen/storage_plan_screen.dart';
 
 class PostAdScreen extends StatefulWidget {
   const PostAdScreen({Key? key}) : super(key: key);
@@ -25,41 +27,14 @@ class PostAdScreen extends StatefulWidget {
 
 class PostAdScreenState extends State<PostAdScreen> {
   PostAdScreenViewModel? postAdScreenViewModel;
-  VideoPlayerController? playerController;
-
-  @override
-  void dispose() {
-    super.dispose();
-    if (playerController != null) {
-      playerController!.dispose();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     postAdScreenViewModel ??
         (postAdScreenViewModel = PostAdScreenViewModel(this));
     return Scaffold(
-      body: SizedBox(
-        height: double.infinity,
-        width: double.infinity,
-        child: Stack(children: [
-          Container(
-            height: 100,
-            color: ColorConstants.appColor,
-            margin: const EdgeInsets.symmetric(vertical: 15),
-            alignment: Alignment.center,
-            child: CommonAppBar(title: "Post your Ad"),
-          ),
-          Positioned(
-              top: 93,
-              bottom: 0,
-              right: 0,
-              left: 0,
-              child: AppBackRound(
-                widget: postAdContent(),
-              )),
-        ]),
+      body: AppScreenBackGround(
+        appbarWidget: CommonAppBar(title: StringConstants.postAd),
+        bodyWidget: postAdContent(),
       ),
     );
   }
@@ -97,22 +72,26 @@ class PostAdScreenState extends State<PostAdScreen> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AppText(
-                fontSize: 13,
-                text: "Go to my options",
-                color: ColorConstants.appColor,
-              ),
-              const Icon(
-                Icons.arrow_forward,
-                color: ColorConstants.appColor,
-                size: 13,
-              ),
-            ],
+        InkWell(
+          onTap: () => Navigator.push(
+              context, CustomRoutes(child: const StoragePlanScreen())),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AppText(
+                  fontSize: 13,
+                  text: "Go to my options",
+                  color: ColorConstants.appColor,
+                ),
+                const Icon(
+                  Icons.arrow_forward,
+                  color: ColorConstants.appColor,
+                  size: 13,
+                ),
+              ],
+            ),
           ),
         ),
         Padding(
@@ -149,74 +128,99 @@ class PostAdScreenState extends State<PostAdScreen> {
             ),
           ),
           (postAdScreenViewModel!.videoPath.isNotEmpty)
-              ? playerController!.value.isInitialized
-                  ? Row(
-                      children: [
-                        Stack(
+              ? Row(
+                  children: [
+                    InkWell(
+                      onTap: () => videoBottomSheet(),
+                      child: Container(
+                        height: 109,
+                        width: 113,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    PostAdIconConstants.background))),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5),
-                              child: SizedBox(
-                                height: 109,
-                                width: 113,
-                                child: VideoPlayer(playerController!),
-                              ),
+                            const Icon(
+                              Icons.video_call,
+                              size: 30,
+                              color: ColorConstants.appColor,
                             ),
-                            Positioned(
-                              top: 30,
-                              bottom: 30,
-                              left: 30,
-                              right: 30,
-                              child: FloatingActionButton(
-                                backgroundColor: Colors.transparent,
-                                child: (playerController!.value.isPlaying)
-                                    ? const Icon(Icons.pause)
-                                    : const Icon(Icons.play_arrow),
-                                onPressed: () async {
-                                  if (playerController != null) {
-                                    if (playerController!.value.isPlaying) {
-                                      await playerController!.pause();
-                                    } else {
-                                      await playerController!.play();
-                                    }
-                                    setState(() {});
-                                  }
-                                },
-                              ),
+                            AppText(
+                              fontSize: 13,
+                              text: "Add Videos",
+                              color: ColorConstants.appColor,
                             ),
                           ],
                         ),
-                        InkWell(
-                          onTap: () => videoBottomSheet(),
-                          child: Container(
-                            height: 109,
-                            width: 113,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        PostAdIconConstants.background))),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.video_call,
-                                  size: 30,
-                                  color: ColorConstants.appColor,
-                                ),
-                                AppText(
-                                  fontSize: 13,
-                                  text: "Add Videos",
-                                  color: ColorConstants.appColor,
-                                ),
-                              ],
-                            ),
-                          ),
+                      ),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        height: 109,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          //  physics: const NeverScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: postAdScreenViewModel!.videoPath.length,
+                          itemBuilder: (context, index) {
+                            return FutureBuilder<String?>(
+                              future:
+                                  postAdScreenViewModel!.videoThumbNail(index),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData && snapshot.data != null) {
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          CustomRoutes(
+                                              child: PlayVideoScreen(
+                                                  postAdScreenViewModel!
+                                                      .videoPath[index].path)));
+                                    },
+                                    child: Container(
+                                        height: 109,
+                                        width: 113,
+                                        alignment: Alignment.topRight,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: FileImage(
+                                                    File(snapshot.data!)),
+                                                fit: BoxFit.fill)),
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 3),
+                                        child: InkWell(
+                                          onTap: () {
+                                            if (postAdScreenViewModel!
+                                                .videoPath.isNotEmpty) {
+                                              postAdScreenViewModel!.videoPath
+                                                  .removeAt(index);
+                                              setState(() {});
+                                            }
+                                          },
+                                          child: const Icon(
+                                            Icons.cancel,
+                                            size: 20,
+                                          ),
+                                        )),
+                                  );
+                                } else {
+                                  return Container(
+                                      height: 109,
+                                      width: 113,
+                                      alignment: Alignment.center,
+                                      child: const CircularProgressIndicator());
+                                }
+                              },
+                            );
+                          },
                         ),
-                      ],
-                    )
-                  : Container()
+                      ),
+                    ),
+                  ],
+                )
               : Row(
                   children: [
                     InkWell(
@@ -274,15 +278,44 @@ class PostAdScreenState extends State<PostAdScreen> {
             ),
           ),
           if (postAdScreenViewModel!.imagePath.isNotEmpty)
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  SizedBox(
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: InkWell(
+                    onTap: () => imageBottomSheet(),
+                    child: Container(
+                      height: 109,
+                      width: 113,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image:
+                                  AssetImage(PostAdIconConstants.background))),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.add_a_photo,
+                            size: 25,
+                            color: ColorConstants.appColor,
+                          ),
+                          AppText(
+                            fontSize: 13,
+                            text: "Add  Photos",
+                            color: ColorConstants.appColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: SizedBox(
                     height: 109,
                     child: ListView.builder(
                       shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
+                      //  physics: const NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemCount: postAdScreenViewModel!.imagePath.length,
                       itemBuilder: (context, index) {
@@ -292,24 +325,18 @@ class PostAdScreenState extends State<PostAdScreen> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 2),
                               child: InkWell(
-                                onTap: () =>
-                                    Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return ViewImageScreen(
-                                        postAdScreenViewModel!
-                                            .imagePath[index]);
-                                  },
-                                )),
-                                child: Hero(
-                                  tag: postAdScreenViewModel!
-                                      .imagePath[index].path,
-                                  child: Image.file(
-                                      height: 109,
-                                      width: 113,
-                                      fit: BoxFit.fill,
-                                      File(postAdScreenViewModel!
-                                          .imagePath[index].path)),
-                                ),
+                                onTap: () => Navigator.push(
+                                    context,
+                                    CustomRoutes(
+                                        child: ViewImageScreen(
+                                            postAdScreenViewModel!
+                                                .imagePath[index]))),
+                                child: Image.file(
+                                    height: 109,
+                                    width: 113,
+                                    fit: BoxFit.fill,
+                                    File(postAdScreenViewModel!
+                                        .imagePath[index].path)),
                               ),
                             ),
                             Positioned(
@@ -325,6 +352,7 @@ class PostAdScreenState extends State<PostAdScreen> {
                                 },
                                 child: const Icon(
                                   Icons.cancel,
+                                  size: 20,
                                 ),
                               ),
                             ),
@@ -333,38 +361,8 @@ class PostAdScreenState extends State<PostAdScreen> {
                       },
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: InkWell(
-                      onTap: () => imageBottomSheet(),
-                      child: Container(
-                        height: 109,
-                        width: 113,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage(
-                                    PostAdIconConstants.background))),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.add_a_photo,
-                              size: 25,
-                              color: ColorConstants.appColor,
-                            ),
-                            AppText(
-                              fontSize: 13,
-                              text: "Add  Photos",
-                              color: ColorConstants.appColor,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             )
           else
             Row(
@@ -525,3 +523,38 @@ class PostAdScreenState extends State<PostAdScreen> {
     setState(() {});
   }
 }
+
+// Stack(
+// children: [
+// Padding(
+// padding: const EdgeInsets.symmetric(horizontal: 5),
+// child: SizedBox(
+// height: 109,
+// width: 113,
+// child: VideoPlayer(playerController!),
+// ),
+// ),
+// Positioned(
+// top: 30,
+// bottom: 30,
+// left: 30,
+// right: 30,
+// child: FloatingActionButton(
+// backgroundColor: Colors.transparent,
+// child: (playerController!.value.isPlaying)
+// ? const Icon(Icons.pause)
+// : const Icon(Icons.play_arrow),
+// onPressed: () async {
+// if (playerController != null) {
+// if (playerController!.value.isPlaying) {
+// await playerController!.pause();
+// } else {
+// await playerController!.play();
+// }
+// setState(() {});
+// }
+// },
+// ),
+// ),
+// ],
+// ),

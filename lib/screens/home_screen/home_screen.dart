@@ -4,11 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:look_prior/common/contants/color_contants.dart';
 import 'package:look_prior/common/contants/images_contants.dart';
 import 'package:look_prior/common/contants/string_contants.dart';
-import 'package:look_prior/common/widgets/app_background.dart';
 import 'package:look_prior/common/widgets/app_icon_button.dart';
 import 'package:look_prior/common/widgets/app_bar_text_field.dart';
 import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_product_list.dart';
+import 'package:look_prior/common/widgets/app_screen_backgroud.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/custom_route.dart';
 import 'package:look_prior/screens/location_screen/location_screen.dart';
@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  int activeIndex = 0;
+  int bottomBaractiveIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -91,24 +91,11 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         key: _scaffoldKey,
         drawer: homeScreenDrawer(_scaffoldKey, mounted),
-        body: SizedBox(
-          height: double.infinity,
-          width: double.infinity,
-          child: Stack(children: [
-            Container(
-                height: 200,
-                color: ColorConstants.appColor,
-                alignment: Alignment.center,
-                child: homeScreenAppBar()),
-            Positioned(
-                top: 170,
-                bottom: 0,
-                right: 0,
-                left: 0,
-                child: AppBackRound(
-                  widget: homeScreenContent(),
-                )),
-          ]),
+        body: AppScreenBackGround(
+          appBarHeight: 200,
+          appbarWidget: homeScreenAppBar(),
+          topPosition: 170,
+          bodyWidget: homeScreenContent(),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
@@ -141,10 +128,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             );
           },
-          activeIndex: activeIndex,
+          activeIndex: bottomBaractiveIndex,
           onTap: (p0) {
             setState(() {
-              activeIndex = p0;
+              bottomBaractiveIndex = p0;
             });
           },
         ));
@@ -155,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Padding(
           padding:
-              const EdgeInsets.only(top: 50, left: 14, right: 19, bottom: 5),
+              const EdgeInsets.only(top: 40, left: 14, right: 19, bottom: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -391,12 +378,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisSpacing: 5,
                 crossAxisSpacing: 2,
                 crossAxisCount: 2,
-                childAspectRatio: 0.75),
+                childAspectRatio: 0.78),
             itemBuilder: (context, index) {
               return AppProductList(
                 width: 100,
-                pictureHeight: 110,
-                pictureWidth: 140,
+                pictureHeight: 100,
+                pictureWidth: 130,
                 paddingLeft: 10,
                 image: ImageConstants.nearYouList[index],
                 productName: StringConstants.nearYouProductList[index],

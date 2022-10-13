@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:look_prior/common/widgets/app_bar.dart';
 import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_icon_button.dart';
+import 'package:look_prior/common/widgets/app_screen_backgroud.dart';
 
 import '../../common/contants/color_contants.dart';
-import '../../common/widgets/app_background.dart';
 import '../../common/widgets/app_text.dart';
 import '../../utils/scroll_behavior/scroll_brehavior.dart';
 
@@ -16,30 +16,15 @@ class CatagoryScreen extends StatefulWidget {
 }
 
 class _CatagoryScreenState extends State<CatagoryScreen> {
+  //catagoryContent(
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
-        height: double.infinity,
-        width: double.infinity,
-        child: Stack(children: [
-          Container(
-              height: 100,
-              color: ColorConstants.appColor,
-              margin: const EdgeInsets.symmetric(vertical: 15),
-              alignment: Alignment.center,
-              child: CommonAppBar(
-                title: "Select Catagory",
-              )),
-          Positioned(
-              top: 93,
-              bottom: 0,
-              right: 0,
-              left: 0,
-              child: AppBackRound(
-                widget: catagoryContent(),
-              )),
-        ]),
+      body: AppScreenBackGround(
+        appbarWidget: CommonAppBar(
+          title: "Select Catagory",
+        ),
+        bodyWidget: catagoryContent(),
       ),
     );
   }
