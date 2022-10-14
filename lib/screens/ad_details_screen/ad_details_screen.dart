@@ -20,7 +20,7 @@ class _AdDetailScreenState extends State<AdDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: AppScreenBackGround(
         appbarWidget: CommonAppBar(title: StringConstants.postAd),
         bodyWidget: adDetailContent(),
