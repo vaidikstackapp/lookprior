@@ -1,4 +1,5 @@
 import 'package:country_picker/country_picker.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:look_prior/common/contants/color_contants.dart';
@@ -6,18 +7,21 @@ import 'package:look_prior/screens/home_screen/home_screen.dart';
 import 'package:look_prior/screens/location_screen/location_screen.dart';
 import 'package:look_prior/screens/login_screen/login_screen.dart';
 import 'package:look_prior/screens/register_screen/register_screen.dart';
+import 'package:look_prior/screens/splesh_screen/splesh_screen.dart';
 
-void main() {
+Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     // navigation bar color
     statusBarColor: ColorConstants.appColor, // status bar color
   ));
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(GestureDetector(
     onTap: () {
       FocusManager.instance.primaryFocus?.unfocus();
     },
     child: MaterialApp(
-      home: const HomeScreen(),
+      home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           fontFamily: 'Poppins',

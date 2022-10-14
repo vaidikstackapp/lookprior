@@ -52,7 +52,7 @@ class AppTextField extends StatelessWidget {
           top: topMargin ?? 0,
           right: rightMargin ?? 18),
       child: TextFormField(
-        maxLines: maxLines,
+        maxLines: maxLines ?? 1,
         onTap: onTap,
         readOnly: readOnly ?? false,
         obscureText: obscureText ?? false,

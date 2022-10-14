@@ -49,6 +49,18 @@ dependencies:
   zoom_widget: ^2.0.0
   video_thumbnail: ^0.5.3
 
+  #Api
+  http: ^0.13.5
+
+  #Firebase
+  firebase_messaging: ^13.1.0
+  firebase_core: ^1.24.0
+  # loader
+  flutter_easyloading: ^3.0.5
+
+  #toast
+  fluttertoast: ^8.0.9
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

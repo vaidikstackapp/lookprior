@@ -5,9 +5,13 @@ import 'package:look_prior/common/widgets/app_background.dart';
 import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/app_textfield.dart';
+import 'package:look_prior/common/widgets/custom_route.dart';
+import 'package:look_prior/screens/home_screen/home_screen.dart';
+import 'package:look_prior/screens/register_screen/register_screen.dart';
 import 'package:look_prior/utils/app_validation/app_validation.dart';
 
 import '../../common/contants/icon_constants.dart';
+import 'dart:convert';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -18,6 +22,10 @@ class LogInScreen extends StatefulWidget {
 
 class _LogInScreenState extends State<LogInScreen> {
   final logInFormKey = GlobalKey<FormState>();
+
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,27 +55,37 @@ class _LogInScreenState extends State<LogInScreen> {
               right: 0,
               left: 0,
               child: AppBackRound(
-                widget: Form(
-                  key: logInFormKey,
-                  child: ListView(
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    children: [
-                      headerText(),
-                      subtitleText(),
-                      emailTextFiled(context),
-                      passwordTextFiled(context),
-                      forgotPassword(),
-                      loginButton(
-                        context,
-                        loginOnTap: () => logInOnTap(logInFormKey, context),
+                widget: Column(
+                  children: [
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Form(
+                      key: logInFormKey,
+                      child: Expanded(
+                        child: ListView(
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          children: [
+                            headerText(),
+                            subtitleText(),
+                            emailTextFiled(context),
+                            passwordTextFiled(context),
+                            forgotPassword(),
+                            loginButton(
+                              context,
+                              loginOnTap: () =>
+                                  logInOnTap(logInFormKey, context),
+                            ),
+                            divider(),
+                            facebookButton(context),
+                            appleButton(context),
+                            checkAccountRegister(context),
+                          ],
+                        ),
                       ),
-                      divider(),
-                      facebookButton(context),
-                      appleButton(context),
-                      checkAccountRegister(context),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -75,6 +93,14 @@ class _LogInScreenState extends State<LogInScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> logInOnTap(
+      GlobalKey<FormState> logInFormKey, BuildContext context) async {
+    if (logInFormKey.currentState!.validate()) {
+      Navigator.pushReplacement(
+          context, CustomRoutes(child: const HomeScreen()));
+    }
   }
 
   Widget headerText() {
@@ -99,6 +125,7 @@ class _LogInScreenState extends State<LogInScreen> {
     return AppTextField(
         topMargin: 15,
         hintTextSize: 13,
+        controller: emailController,
         validator: (value) => AppValidation.loginEmailValidation(value),
         keyboardType: TextInputType.emailAddress,
         hintText: StringConstants.email,
@@ -109,6 +136,7 @@ class _LogInScreenState extends State<LogInScreen> {
     return AppTextField(
         topMargin: 15,
         obscureText: true,
+        controller: passwordController,
         hintTextSize: 13,
         validator: (value) => AppValidation.loginPasswordValidation(value),
         hintText: StringConstants.password,
@@ -205,7 +233,8 @@ class _LogInScreenState extends State<LogInScreen> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/RegisterScreen');
+              Navigator.pushReplacement(
+                  context, CustomRoutes(child: const RegisterScreen()));
             },
             child: AppText(
               text: StringConstants.register,
@@ -218,8 +247,55 @@ class _LogInScreenState extends State<LogInScreen> {
   }
 }
 
-void logInOnTap(GlobalKey<FormState> logInFormKey, BuildContext context) {
-  if (logInFormKey.currentState!.validate()) {
-    Navigator.pushReplacementNamed(context, "/HomeScreen");
-  }
+// To parse this JSON data, do
+//
+//     final logInModel = logInModelFromJson(jsonString);
+
+LogInModel logInModelFromJson(String str) =>
+    LogInModel.fromJson(json.decode(str));
+
+String logInModelToJson(LogInModel data) => json.encode(data.toJson());
+
+class LogInModel {
+  LogInModel({
+    this.deviceToken,
+    this.deviceType,
+    this.email,
+    this.password,
+    this.userName,
+    this.facebookProfileUrl,
+    this.mobileVersion,
+    this.osVersion,
+  });
+
+  String? deviceToken;
+  String? deviceType;
+  String? email;
+  String? password;
+  String? userName;
+  String? facebookProfileUrl;
+  String? mobileVersion;
+  String? osVersion;
+
+  factory LogInModel.fromJson(Map<String, dynamic> json) => LogInModel(
+        deviceToken: json["devicetoken"],
+        deviceType: json["devicetype"],
+        email: json["email"],
+        password: json["password"],
+        userName: json["userName"],
+        facebookProfileUrl: json["facebookProfileUrl"],
+        mobileVersion: json["mobileVersion"],
+        osVersion: json["osVersion"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "devicetoken": deviceToken,
+        "devicetype": deviceType,
+        "email": email,
+        "password": password,
+        "userName": userName,
+        "facebookProfileUrl": facebookProfileUrl,
+        "mobileVersion": mobileVersion,
+        "osVersion": osVersion,
+      };
 }

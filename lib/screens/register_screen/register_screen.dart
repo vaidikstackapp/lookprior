@@ -7,6 +7,7 @@ import 'package:look_prior/common/widgets/app_background.dart';
 import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/app_textfield.dart';
+import 'package:look_prior/screens/register_screen/register_screen_view_model.dart';
 import 'package:look_prior/utils/app_validation/app_validation.dart';
 
 import '../../common/contants/icon_constants.dart';
@@ -19,27 +20,13 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class RegisterScreenState extends State<RegisterScreen> {
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
-  Country? country = Country(
-      phoneCode: '91',
-      countryCode: 'IN',
-      e164Sc: 0,
-      geographic: true,
-      level: 1,
-      name: 'India',
-      example: '9123456789',
-      displayName: 'India (IN) [+91]',
-      displayNameNoCountryCode: 'India (IN)',
-      e164Key: '91-IN-0');
-
-  final registerKey = GlobalKey<FormState>();
+  RegisterScreenViewModel? registerScreenViewModel;
 
   @override
   Widget build(BuildContext context) {
+    registerScreenViewModel ??
+        (registerScreenViewModel = RegisterScreenViewModel(this));
+
     return Scaffold(
       body: SizedBox(
         height: double.infinity,
@@ -79,46 +66,54 @@ class RegisterScreenState extends State<RegisterScreen> {
                 right: 0,
                 bottom: 0,
                 child: AppBackRound(
-                  widget: Form(
-                      key: registerKey,
-                      child: ListView(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        children: [
-                          userNameTextField(context),
-                          emailTextFiled(context),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 15, left: 14),
-                            child: Row(
-                              children: [
-                                InkWell(
-                                  onTap: countryPicker,
-                                  child: showCountry(),
+                  widget: (registerScreenViewModel!.status)
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : Form(
+                          key: registerScreenViewModel!.registerKey,
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Expanded(
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  physics: const BouncingScrollPhysics(),
+                                  children: [
+                                    userNameTextField(context),
+                                    emailTextFiled(context),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 15, left: 14),
+                                      child: Row(
+                                        children: [
+                                          InkWell(
+                                            onTap: countryPicker,
+                                            child: showCountry(),
+                                          ),
+                                          phoneNumberTextField(context),
+                                        ],
+                                      ),
+                                    ),
+                                    passwordTextField(),
+                                    confirmPasswordTextField(),
+                                    registerButton(
+                                      registerOnTap: () {
+                                        registerScreenViewModel!
+                                            .registerOnTap(context);
+                                      },
+                                    ),
+                                    divider(),
+                                    facebookButton(),
+                                    appleButton(),
+                                    privacyPolicy()
+                                  ],
                                 ),
-                                phoneNumberTextField(context),
-                              ],
-                            ),
-                          ),
-                          passwordTextField(context),
-                          confirmPasswordTextField(context),
-                          registerButton(
-                            context,
-                            registerOnTap: () => registerOnTap(
-                              context,
-                              registerKey,
-                              userNameController,
-                              emailController,
-                              passwordController,
-                              confirmPasswordController,
-                              phoneController,
-                            ),
-                          ),
-                          divider(),
-                          facebookButton(context),
-                          appleButton(context),
-                          privacyPolicy()
-                        ],
-                      )),
+                              ),
+                            ],
+                          )),
                 )),
           ],
         ),
@@ -126,12 +121,16 @@ class RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  void refresh() {
+    setState(() {});
+  }
+
   //----------------Username textFiled---------------
 
   Widget userNameTextField(BuildContext context) {
     return AppTextField(
         hintTextSize: 13,
-        controller: userNameController,
+        controller: registerScreenViewModel!.userNameController,
         validator: (value) => AppValidation.usernameValidation(value),
         hintText: StringConstants.name,
         prefixIcon: IconConstants.userIcon);
@@ -142,7 +141,7 @@ class RegisterScreenState extends State<RegisterScreen> {
   Widget emailTextFiled(BuildContext context) {
     return AppTextField(
         topMargin: 15,
-        controller: emailController,
+        controller: registerScreenViewModel!.emailController,
         validator: (value) => AppValidation.registerEmailValidation(value),
         hintTextSize: 13,
         keyboardType: TextInputType.emailAddress,
@@ -156,7 +155,7 @@ class RegisterScreenState extends State<RegisterScreen> {
     return Expanded(
       //flex: 2,
       child: AppTextField(
-        controller: phoneController,
+        controller: registerScreenViewModel!.phoneController,
         validator: (value) => AppValidation.phoneValidation(value),
         keyboardType: TextInputType.phone,
         prefixIcon: IconConstants.phoneIcon,
@@ -168,10 +167,10 @@ class RegisterScreenState extends State<RegisterScreen> {
 
 //----------------Password textFiled---------------
 
-  Widget passwordTextField(BuildContext context) {
+  Widget passwordTextField() {
     return AppTextField(
       topMargin: 15,
-      controller: passwordController,
+      controller: registerScreenViewModel!.passwordController,
       obscureText: true,
       validator: (value) => AppValidation.registerPasswordValidation(value),
       prefixIcon: IconConstants.lockIcon,
@@ -182,13 +181,13 @@ class RegisterScreenState extends State<RegisterScreen> {
 
 //----------------Confirm password textFiled---------------
 
-  Widget confirmPasswordTextField(BuildContext context) {
+  Widget confirmPasswordTextField() {
     return AppTextField(
-      controller: confirmPasswordController,
+      controller: registerScreenViewModel!.confirmPasswordController,
       topMargin: 15,
       obscureText: true,
       validator: (value) => AppValidation.confirmPasswordValidation(
-          value, passwordController.text),
+          value, registerScreenViewModel!.passwordController.text),
       prefixIcon: IconConstants.lockIcon,
       hintTextSize: 13,
       hintText: StringConstants.confirmPassword,
@@ -204,7 +203,7 @@ class RegisterScreenState extends State<RegisterScreen> {
       favorite: <String>['SE'],
       showPhoneCode: true,
       onSelect: (val) {
-        country = val;
+        registerScreenViewModel!.country = val;
         setState(() {});
       },
       countryListTheme: CountryListThemeData(
@@ -240,16 +239,16 @@ class RegisterScreenState extends State<RegisterScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 AppText(
-                  text: country!.flagEmoji,
+                  text: registerScreenViewModel!.country!.flagEmoji,
                   fontSize: 20,
                 ),
                 AppText(
-                  text: "(${country!.countryCode})",
+                  text: "(${registerScreenViewModel!.country!.countryCode})",
                   fontSize: 12,
                   color: Colors.black,
                 ),
                 AppText(
-                  text: "+${country!.phoneCode}",
+                  text: "+${registerScreenViewModel!.country!.phoneCode}",
                   fontSize: 12,
                   color: Colors.black,
                 ),
@@ -265,7 +264,7 @@ class RegisterScreenState extends State<RegisterScreen> {
 
   //-----------------Register button--------------
 
-  Widget registerButton(BuildContext context, {Function()? registerOnTap}) {
+  Widget registerButton({Function()? registerOnTap}) {
     return AppButton(
       onTap: registerOnTap,
       text: StringConstants.register,
@@ -281,7 +280,7 @@ class RegisterScreenState extends State<RegisterScreen> {
 
   //-------------------Facebook button--------------
 
-  Widget facebookButton(BuildContext context) {
+  Widget facebookButton() {
     return AppButton(
       text: StringConstants.loginWithFb,
       buttonIcon: IconConstants.facebookIcon,
@@ -294,7 +293,7 @@ class RegisterScreenState extends State<RegisterScreen> {
   }
 
   //----------------Apple button--------------
-  Widget appleButton(BuildContext context) {
+  Widget appleButton() {
     return AppButton(
       text: StringConstants.loginWithApple,
       iconWidth: 20.5,
@@ -356,23 +355,5 @@ class RegisterScreenState extends State<RegisterScreen> {
         ],
       ),
     );
-  }
-}
-
-registerOnTap(
-    BuildContext context,
-    GlobalKey<FormState> registerKey,
-    TextEditingController userNameController,
-    TextEditingController emailController,
-    TextEditingController phoneController,
-    TextEditingController passwordController,
-    TextEditingController confirmPasswordController) {
-  if (registerKey.currentState!.validate()) {
-    Navigator.of(context).pushNamed("/LoginScreen");
-    userNameController.clear();
-    emailController.clear();
-    phoneController.clear();
-    passwordController.clear();
-    confirmPasswordController.clear();
   }
 }
