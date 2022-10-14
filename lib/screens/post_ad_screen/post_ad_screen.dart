@@ -16,6 +16,7 @@ import 'package:look_prior/screens/post_ad_screen/post_ad_screen_view_model.dart
 import 'package:look_prior/utils/scroll_behavior/scroll_brehavior.dart';
 import '../../common/contants/color_contants.dart';
 import '../../common/widgets/app_text.dart';
+import '../ad_details_screen/ad_details_screen.dart';
 import '../storage_plan_screen/storage_plan_screen.dart';
 
 class PostAdScreen extends StatefulWidget {
@@ -97,6 +98,8 @@ class PostAdScreenState extends State<PostAdScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: AppButton(
+            onTap: () => Navigator.push(
+                context, CustomRoutes(child: const AdDetailScreen())),
             buttonColor: ColorConstants.appColor,
             text: "Next",
             fontSize: 16,
