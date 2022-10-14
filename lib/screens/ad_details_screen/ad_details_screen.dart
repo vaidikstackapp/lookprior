@@ -20,6 +20,7 @@ class _AdDetailScreenState extends State<AdDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: AppScreenBackGround(
         appbarWidget: CommonAppBar(title: StringConstants.postAd),
         bodyWidget: adDetailContent(),
@@ -94,7 +95,7 @@ class _AdDetailScreenState extends State<AdDetailScreen> {
                     topMargin: 5,
                     leftMargin: 0,
                     rightMargin: 0,
-                    maxLines: 6,
+                    maxLines: 5,
                     hintText: "Description",
                   ),
                   const SizedBox(
