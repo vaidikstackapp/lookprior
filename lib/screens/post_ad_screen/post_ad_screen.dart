@@ -17,7 +17,6 @@ import 'package:look_prior/utils/scroll_brehavior.dart';
 import '../../common/contants/color_contants.dart';
 import '../../common/widgets/app_text.dart';
 import '../ad_details_screen/ad_details_screen.dart';
-import '../storage_plan_screen/storage_plan_screen.dart';
 
 class PostAdScreen extends StatefulWidget {
   const PostAdScreen({Key? key}) : super(key: key);
@@ -33,7 +32,7 @@ class PostAdScreenState extends State<PostAdScreen> {
     postAdScreenViewModel ??
         (postAdScreenViewModel = PostAdScreenViewModel(this));
     return Scaffold(
-      bottomNavigationBar: BottomAppBar(),
+      bottomNavigationBar: const BottomAppBar(),
       body: AppScreenBackGround(
         appbarWidget: CommonAppBar(title: StringConstants.postAd),
         bodyWidget: postAdContent(),

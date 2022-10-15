@@ -11,7 +11,9 @@ import 'package:look_prior/common/widgets/app_product_list.dart';
 import 'package:look_prior/common/widgets/app_screen_backgroud.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/custom_route.dart';
+import 'package:look_prior/screens/home_screen/home_screen_view_model.dart';
 import 'package:look_prior/screens/location_screen/location_screen.dart';
+import 'package:look_prior/screens/login_screen/login_screen.dart';
 import 'package:look_prior/screens/post_ad_screen/post_ad_screen.dart';
 import 'package:look_prior/screens/storage_plan_screen/storage_plan_screen.dart';
 
@@ -24,10 +26,12 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreen> createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
+  HomeScreenViewModel? homeScreenViewModel;
+
   @override
   void initState() {
     super.initState();
@@ -84,10 +88,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  int bottomBaractiveIndex = 0;
-
   @override
   Widget build(BuildContext context) {
+    homeScreenViewModel ?? (homeScreenViewModel = HomeScreenViewModel(this));
     return Scaffold(
       resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
@@ -123,10 +126,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         },
-        activeIndex: bottomBaractiveIndex,
+        activeIndex: homeScreenViewModel!.bottomBarActiveIndex,
         onTap: (p0) {
           setState(() {
-            bottomBaractiveIndex = p0;
+            homeScreenViewModel!.bottomBarActiveIndex = p0;
           });
         },
       ),
@@ -221,14 +224,18 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           shrinkWrap: true,
           children: [
-            Container(
-                height: 133,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                alignment: Alignment.centerLeft,
-                width: double.infinity,
-                color: ColorConstants.appColor,
-                child: SvgPicture.asset(DrawerImgConstants.userImage)),
+            GestureDetector(
+              onTap: () => Navigator.pushReplacement(
+                  context, CustomRoutes(child: const LogInScreen())),
+              child: Container(
+                  height: 133,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  alignment: Alignment.centerLeft,
+                  width: double.infinity,
+                  color: ColorConstants.appColor,
+                  child: SvgPicture.asset(DrawerImgConstants.userImage)),
+            ),
             SizedBox(
               height: 350,
               child: ListView.builder(
@@ -268,128 +275,126 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget homeScreenContent() {
     return ScrollConfiguration(
       behavior: MyBehavior(),
-      child: Container(
-        child: ListView(
-          shrinkWrap: true,
-          padding: const EdgeInsets.symmetric(horizontal: 14),
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 23, bottom: 10),
-              child: AppText(
-                textAlign: TextAlign.start,
-                color: ColorConstants.headerColor,
-                text: "Catagory",
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-              ),
+      child: ListView(
+        shrinkWrap: true,
+        padding: const EdgeInsets.symmetric(horizontal: 14),
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 23, bottom: 10),
+            child: AppText(
+              textAlign: TextAlign.start,
+              color: ColorConstants.headerColor,
+              text: "Catagory",
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
             ),
-            Container(
-              height: 100,
-              alignment: Alignment.center,
-              child: ScrollConfiguration(
-                behavior: MyBehavior(),
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: IconConstants.catagoryListIcon.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: (index == 0)
-                          ? const EdgeInsets.only(left: 0)
-                          : const EdgeInsets.only(left: 16),
-                      child: Column(
-                        children: [
-                          AppIconButton(
-                              height: 71,
-                              width: 76,
-                              color: ColorConstants.catagoryListColor,
-                              iconName: IconConstants.catagoryListIcon[index]),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: AppText(
-                              text: StringConstants.catagoryListTitle[index],
-                              fontSize: 11,
-                              color: ColorConstants.fontColor,
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 23),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AppText(
-                    textAlign: TextAlign.start,
-                    color: ColorConstants.headerColor,
-                    text: StringConstants.topAds,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  AppText(
-                    text: "See all >",
-                    fontSize: 14,
-                    color: ColorConstants.appColor,
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 218,
+          ),
+          Container(
+            height: 100,
+            alignment: Alignment.center,
+            child: ScrollConfiguration(
+              behavior: MyBehavior(),
               child: ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemCount: ImageConstants.topAdsList.length,
+                itemCount: IconConstants.catagoryListIcon.length,
                 itemBuilder: (context, index) {
-                  return AppProductList(
-                    pictureHeight: 110,
-                    pictureWidth: 150,
-                    productName: StringConstants.topAdProduct[index],
-                    productPrize: StringConstants.topAdProductPrize[index],
-                    image: ImageConstants.topAdsList[index],
+                  return Padding(
+                    padding: (index == 0)
+                        ? const EdgeInsets.only(left: 0)
+                        : const EdgeInsets.only(left: 16),
+                    child: Column(
+                      children: [
+                        AppIconButton(
+                            height: 71,
+                            width: 76,
+                            color: ColorConstants.catagoryListColor,
+                            iconName: IconConstants.catagoryListIcon[index]),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: AppText(
+                            text: StringConstants.catagoryListTitle[index],
+                            fontSize: 11,
+                            color: ColorConstants.fontColor,
+                          ),
+                        )
+                      ],
+                    ),
                   );
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: AppText(
-                textAlign: TextAlign.start,
-                color: ColorConstants.headerColor,
-                text: "Near you",
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 23),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppText(
+                  textAlign: TextAlign.start,
+                  color: ColorConstants.headerColor,
+                  text: StringConstants.topAds,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+                AppText(
+                  text: "See all >",
+                  fontSize: 14,
+                  color: ColorConstants.appColor,
+                )
+              ],
             ),
-            GridView.builder(
+          ),
+          SizedBox(
+            height: 218,
+            child: ListView.builder(
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: ImageConstants.nearYouList.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisSpacing: 5,
-                  crossAxisSpacing: 2,
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.78),
+              scrollDirection: Axis.horizontal,
+              itemCount: ImageConstants.topAdsList.length,
               itemBuilder: (context, index) {
                 return AppProductList(
-                  width: 100,
-                  pictureHeight: 100,
-                  pictureWidth: 130,
-                  paddingLeft: 10,
-                  image: ImageConstants.nearYouList[index],
-                  productName: StringConstants.nearYouProductList[index],
-                  productPrize: StringConstants.nearYouProductPrize[index],
+                  pictureHeight: 110,
+                  pictureWidth: 150,
+                  productName: StringConstants.topAdProduct[index],
+                  productPrize: StringConstants.topAdProductPrize[index],
+                  image: ImageConstants.topAdsList[index],
                 );
               },
-            )
-          ],
-        ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: AppText(
+              textAlign: TextAlign.start,
+              color: ColorConstants.headerColor,
+              text: "Near you",
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: ImageConstants.nearYouList.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 2,
+                crossAxisCount: 2,
+                childAspectRatio: 0.78),
+            itemBuilder: (context, index) {
+              return AppProductList(
+                width: 100,
+                pictureHeight: 100,
+                pictureWidth: 130,
+                paddingLeft: 10,
+                image: ImageConstants.nearYouList[index],
+                productName: StringConstants.nearYouProductList[index],
+                productPrize: StringConstants.nearYouProductPrize[index],
+              );
+            },
+          )
+        ],
       ),
     );
   }

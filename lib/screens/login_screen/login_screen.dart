@@ -6,29 +6,30 @@ import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/app_textfield.dart';
 import 'package:look_prior/common/widgets/custom_route.dart';
-import 'package:look_prior/screens/home_screen/home_screen.dart';
+import 'package:look_prior/screens/login_screen/login_screen_view_model.dart';
 import 'package:look_prior/screens/register_screen/register_screen.dart';
 import 'package:look_prior/utils/app_validation.dart';
-import 'package:look_prior/utils/share_preference.dart';
 
 import '../../common/contants/icon_constants.dart';
-import 'dart:convert';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
 
   @override
-  State<LogInScreen> createState() => _LogInScreenState();
+  State<LogInScreen> createState() => LogInScreenState();
 }
 
-class _LogInScreenState extends State<LogInScreen> {
-  final logInFormKey = GlobalKey<FormState>();
+class LogInScreenState extends State<LogInScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  LogInScreenViewModel? logInScreenViewModel;
 
   @override
   Widget build(BuildContext context) {
+    logInScreenViewModel ?? (logInScreenViewModel = LogInScreenViewModel(this));
     return Scaffold(
       body: SizedBox(
         height: double.infinity,
@@ -42,10 +43,15 @@ class _LogInScreenState extends State<LogInScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(IconConstants.appLogoWithoutColor),
+                  Image.asset(
+                    IconConstants.appLogoWithoutColor,
+                    height: 60,
+                    width: 100,
+                    fit: BoxFit.fill,
+                  ),
                   AppText(
                       text: StringConstants.login,
-                      fontSize: 26,
+                      fontSize: 22,
                       textAlign: TextAlign.center)
                 ],
               ),
@@ -56,36 +62,55 @@ class _LogInScreenState extends State<LogInScreen> {
               right: 0,
               left: 0,
               child: AppBackRound(
-                widget: Column(
+                widget: Stack(
                   children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
                     Form(
-                      key: logInFormKey,
-                      child: Expanded(
-                        child: ListView(
-                          physics: const BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          children: [
-                            headerText(),
-                            subtitleText(),
-                            emailTextFiled(context),
-                            passwordTextFiled(context),
-                            forgotPassword(),
-                            loginButton(
-                              context,
-                              loginOnTap: () =>
-                                  logInOnTap(logInFormKey, context),
+                      key: logInScreenViewModel!.logInFormKey,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Expanded(
+                            child: ListView(
+                              physics: const BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              children: [
+                                headerText(),
+                                subtitleText(),
+                                emailTextFiled(context),
+                                passwordTextFiled(context),
+                                forgotPassword(),
+                                loginButton(() =>
+                                    logInScreenViewModel!.logInOnTap(context)),
+                                divider(),
+                                facebookButton(context),
+                                appleButton(context),
+                                checkAccountRegister(context),
+                              ],
                             ),
-                            divider(),
-                            facebookButton(context),
-                            appleButton(context),
-                            checkAccountRegister(context),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
+                    (logInScreenViewModel!.status)
+                        ? Center(
+                            child: Container(
+                              height: double.infinity,
+                              width: double.infinity,
+                              decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30),
+                                topRight: Radius.circular(30),
+                              )),
+                              child: const Center(
+                                  child: SizedBox(
+                                      height: 40,
+                                      width: 40,
+                                      child: CircularProgressIndicator())),
+                            ),
+                          )
+                        : SizedBox(),
                   ],
                 ),
               ),
@@ -94,15 +119,6 @@ class _LogInScreenState extends State<LogInScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> logInOnTap(
-      GlobalKey<FormState> logInFormKey, BuildContext context) async {
-    if (logInFormKey.currentState!.validate()) {
-      setPrefBoolValue(isLogin, true);
-      Navigator.pushReplacement(
-          context, CustomRoutes(child: const HomeScreen()));
-    }
   }
 
   Widget headerText() {
@@ -127,7 +143,7 @@ class _LogInScreenState extends State<LogInScreen> {
     return AppTextField(
         topMargin: 15,
         hintTextSize: 13,
-        controller: emailController,
+        controller: logInScreenViewModel!.emailController,
         validator: (value) => AppValidation.loginEmailValidation(value),
         keyboardType: TextInputType.emailAddress,
         hintText: StringConstants.email,
@@ -138,7 +154,7 @@ class _LogInScreenState extends State<LogInScreen> {
     return AppTextField(
         topMargin: 15,
         obscureText: true,
-        controller: passwordController,
+        controller: logInScreenViewModel!.passwordController,
         hintTextSize: 13,
         validator: (value) => AppValidation.loginPasswordValidation(value),
         hintText: StringConstants.password,
@@ -155,7 +171,7 @@ class _LogInScreenState extends State<LogInScreen> {
     );
   }
 
-  Widget loginButton(BuildContext context, {Function()? loginOnTap}) {
+  Widget loginButton(Function()? loginOnTap) {
     return AppButton(
       onTap: loginOnTap,
       text: StringConstants.login,
@@ -233,7 +249,7 @@ class _LogInScreenState extends State<LogInScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AppText(
-              text: "Didn’t have an account? ",
+              text: "Don’t have an account? ",
               color: ColorConstants.subTitleColor,
             ),
             AppText(
@@ -245,57 +261,8 @@ class _LogInScreenState extends State<LogInScreen> {
       ),
     );
   }
-}
 
-// To parse this JSON data, do
-//
-//     final logInModel = logInModelFromJson(jsonString);
-
-LogInModel logInModelFromJson(String str) =>
-    LogInModel.fromJson(json.decode(str));
-
-String logInModelToJson(LogInModel data) => json.encode(data.toJson());
-
-class LogInModel {
-  LogInModel({
-    this.deviceToken,
-    this.deviceType,
-    this.email,
-    this.password,
-    this.userName,
-    this.facebookProfileUrl,
-    this.mobileVersion,
-    this.osVersion,
-  });
-
-  String? deviceToken;
-  String? deviceType;
-  String? email;
-  String? password;
-  String? userName;
-  String? facebookProfileUrl;
-  String? mobileVersion;
-  String? osVersion;
-
-  factory LogInModel.fromJson(Map<String, dynamic> json) => LogInModel(
-        deviceToken: json["devicetoken"],
-        deviceType: json["devicetype"],
-        email: json["email"],
-        password: json["password"],
-        userName: json["userName"],
-        facebookProfileUrl: json["facebookProfileUrl"],
-        mobileVersion: json["mobileVersion"],
-        osVersion: json["osVersion"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "devicetoken": deviceToken,
-        "devicetype": deviceType,
-        "email": email,
-        "password": password,
-        "userName": userName,
-        "facebookProfileUrl": facebookProfileUrl,
-        "mobileVersion": mobileVersion,
-        "osVersion": osVersion,
-      };
+  void refresh() {
+    setState(() {});
+  }
 }

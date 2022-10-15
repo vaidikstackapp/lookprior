@@ -21,7 +21,7 @@ Future<void> main() async {
       FocusManager.instance.primaryFocus?.unfocus();
     },
     child: MaterialApp(
-      home: const HomeScreen(),
+      home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Poppins'),
       initialRoute: "/",

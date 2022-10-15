@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'dart:io';
 
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:look_prior/common/widgets/app_toast.dart';
 import 'package:look_prior/common/widgets/custom_route.dart';
-import 'package:look_prior/model/register_model.dart';
 import 'package:look_prior/screens/register_screen/register_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:look_prior/service/rest_service.dart';
@@ -39,49 +38,47 @@ class RegisterScreenViewModel {
 
   Future<void> registerOnTap(BuildContext context) async {
     if (registerKey.currentState!.validate()) {
-      // setDataInApi(context);
+      setRegisterDataInApi(context);
     }
   }
 
-  setDataInApi(BuildContext context) async {
+  setRegisterDataInApi(BuildContext context) async {
     try {
       status = true;
       registerScreenState.refresh();
-      String uri = RestServiceConstants.registerApi;
 
-      RegisterModel model = RegisterModel(
-          deviceToken: RestServiceConstants.deviceToken,
-          phoneNumber: phoneController.text.trim(),
-          countryCode: country!.countryCode.trim(),
-          name: userNameController.text.trim(),
-          deviceType: "1",
-          password: passwordController.text.trim(),
-          email: emailController.text.trim());
-
-      var url = Uri.parse(uri);
-      Response response = await http.post(url, body: model.toJson());
-      print("response code------------>${response.statusCode}");
+      Map<String, dynamic> setRegisterData = {
+        'email': emailController.text.trim(),
+        'name': emailController.text.trim(),
+        'password': passwordController.text.trim(),
+        'phoneNumber': phoneController.text.trim(),
+        'countryCode': country!.countryCode,
+        'deviceToken': RestServiceConstants.deviceToken,
+        'deviceType': "1",
+      };
+      Response response = await http.post(
+          Uri.parse(RestServiceConstants.registerApi),
+          body: setRegisterData);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print("response------------>${response.body}");
-        Map m = jsonDecode(response.body);
-        if (m['Success'] == true) {
+        Map<String, dynamic> registerResponse = jsonDecode(response.body);
+
+        if (registerResponse['Success'] == true) {
+          status = false;
+          registerScreenState.refresh();
+          appToast(registerResponse['Message']);
           if (registerScreenState.mounted) {
-            Navigator.pushReplacement(
-                context, CustomRoutes(child: const LogInScreen()));
+            Navigator.pushAndRemoveUntil(context,
+                CustomRoutes(child: const LogInScreen()), (route) => false);
           }
         } else {
           status = false;
           registerScreenState.refresh();
-          appToast(m['Message']);
+          appToast(registerResponse['Message']);
         }
       }
-    } on ClientException catch (e) {
-      log("Catch exception for setDataInApi--------------->${e.uri}");
-      appToast(e.message);
-      status = false;
-      registerScreenState.refresh();
-    } finally {
+    } on SocketException catch (e) {
+      print("catch exception for setRegisterDataInApi----->${e.message}");
       status = false;
       registerScreenState.refresh();
     }

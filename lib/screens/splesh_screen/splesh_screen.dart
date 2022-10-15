@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     firebaseMessaging.getToken().then(
       (token) {
         RestServiceConstants.deviceToken = token;
-        print(
-            "deviceToken----------------->${RestServiceConstants.deviceToken}");
+        log("deviceToken----------------->${RestServiceConstants.deviceToken}");
       },
     );
     checkLogin();
@@ -43,7 +44,6 @@ class _SplashScreenState extends State<SplashScreen> {
           splashIconSize: 100,
           splash: ImageConstants.appLogo,
           nextScreen: (login) ? const HomeScreen() : const LogInScreen()),
-      //   nextScreen: RegisterScreen(),
     ));
   }
 }

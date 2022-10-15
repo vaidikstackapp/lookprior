@@ -11,40 +11,20 @@ String registerModelToJson(RegisterModel data) => json.encode(data.toJson());
 
 class RegisterModel {
   RegisterModel({
-    this.email,
-    this.name,
-    this.password,
-    this.phoneNumber,
-    this.countryCode,
-    this.deviceToken,
-    this.deviceType,
+    this.success = false,
+    this.message,
   });
 
-  String? email;
-  String? name;
-  String? password;
-  String? phoneNumber;
-  String? countryCode;
-  String? deviceToken;
-  String? deviceType;
+  bool success;
+  String? message;
 
-  factory RegisterModel.fromJson(Map json) => RegisterModel(
-        email: json["email"],
-        name: json["name"],
-        password: json["password"],
-        phoneNumber: json["phoneNumber"],
-        countryCode: json["countryCode"],
-        deviceToken: json["deviceToken"],
-        deviceType: json["deviceType"],
+  factory RegisterModel.fromJson(Map<String, dynamic> json) => RegisterModel(
+        success: json["Success"],
+        message: json["Message"],
       );
 
-  Map toJson() => {
-        "email": email,
-        "name": name,
-        "password": password,
-        "phoneNumber": phoneNumber,
-        "countryCode": countryCode,
-        "deviceToken": deviceToken,
-        "deviceType": deviceType,
+  Map<String, dynamic> toJson() => {
+        "Success": success,
+        "Message": message,
       };
 }

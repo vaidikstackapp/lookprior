@@ -57,9 +57,9 @@ Widget notificationScreenContent(BuildContext context) {
             decoration: const BoxDecoration(
                 shape: BoxShape.circle, color: ColorConstants.appColor),
             child: Image.asset(
-              fit: BoxFit.contain,
+              height: 30,
+              fit: BoxFit.fill,
               IconConstants.appLogoWithoutColor,
-              scale: 1.8,
             ),
           ),
           trailing: const Icon(Icons.more_horiz),
@@ -82,9 +82,9 @@ Widget notificationScreenContent(BuildContext context) {
             decoration: const BoxDecoration(
                 shape: BoxShape.circle, color: ColorConstants.appColor),
             child: Image.asset(
-              fit: BoxFit.contain,
+              height: 30,
+              fit: BoxFit.fill,
               IconConstants.appLogoWithoutColor,
-              scale: 1.8,
             ),
           ),
           trailing: const Icon(Icons.more_horiz),
@@ -119,9 +119,9 @@ Widget notificationScreenContent(BuildContext context) {
                 decoration: const BoxDecoration(
                     shape: BoxShape.circle, color: ColorConstants.appColor),
                 child: Image.asset(
-                  fit: BoxFit.contain,
+                  height: 30,
+                  fit: BoxFit.fill,
                   IconConstants.appLogoWithoutColor,
-                  scale: 1.8,
                 ),
               ),
               trailing: const Icon(Icons.more_horiz),

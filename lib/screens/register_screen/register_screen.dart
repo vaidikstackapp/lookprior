@@ -49,13 +49,14 @@ class RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   children: [
                     Image.asset(
-                        height: 56,
-                        width: 87,
-                        fit: BoxFit.fill,
-                        IconConstants.appLogoWithoutColor),
+                      IconConstants.appLogoWithoutColor,
+                      height: 70,
+                      width: 100,
+                      fit: BoxFit.fill,
+                    ),
                     AppText(
                       text: 'Register',
-                      fontSize: 26,
+                      fontSize: 20,
                       textAlign: TextAlign.center,
                     )
                   ],
@@ -68,11 +69,9 @@ class RegisterScreenState extends State<RegisterScreen> {
                 right: 0,
                 bottom: 0,
                 child: AppBackRound(
-                  widget: (registerScreenViewModel!.status)
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : Form(
+                  widget: Stack(
+                    children: [
+                      Form(
                           key: registerScreenViewModel!.registerKey,
                           child: Column(
                             children: [
@@ -120,6 +119,26 @@ class RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ],
                           )),
+                      (registerScreenViewModel!.status)
+                          ? Center(
+                              child: Container(
+                                height: double.infinity,
+                                width: double.infinity,
+                                decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30),
+                                )),
+                                child: const Center(
+                                    child: SizedBox(
+                                        height: 40,
+                                        width: 40,
+                                        child: CircularProgressIndicator())),
+                              ),
+                            )
+                          : const SizedBox(),
+                    ],
+                  ),
                 )),
           ],
         ),
