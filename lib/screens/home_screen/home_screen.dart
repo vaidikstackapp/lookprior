@@ -13,9 +13,10 @@ import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/custom_route.dart';
 import 'package:look_prior/screens/location_screen/location_screen.dart';
 import 'package:look_prior/screens/post_ad_screen/post_ad_screen.dart';
+import 'package:look_prior/screens/storage_plan_screen/storage_plan_screen.dart';
 
 import '../../common/contants/icon_constants.dart';
-import '../../utils/scroll_behavior/scroll_brehavior.dart';
+import '../../utils/scroll_brehavior.dart';
 import '../catagory_screen/catagory_screen.dart';
 import '../notification_screen/notification_screen.dart';
 
@@ -88,53 +89,48 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        key: _scaffoldKey,
-        drawer: homeScreenDrawer(_scaffoldKey, mounted),
-        body: AppScreenBackGround(
-          appBarHeight: 200,
-          appbarWidget: homeScreenAppBar(),
-          topPosition: 170,
-          bodyWidget: homeScreenContent(),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: FloatingActionButton(
-            backgroundColor: ColorConstants.appColor,
-            onPressed: () => Navigator.push(
-                context,
-                CustomRoutes(
-                    child: const PostAdScreen(),
-                    direction: AxisDirection.down)),
-            child: const Icon(
-              Icons.add,
-            )),
-        bottomNavigationBar: AnimatedBottomNavigationBar.builder(
-          gapLocation: GapLocation.center,
-          notchSmoothness: NotchSmoothness.verySmoothEdge,
-          itemCount: 4,
-          tabBuilder: (index, isActive) {
-            final color = isActive ? ColorConstants.appColor : Colors.black;
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  IconConstants.bottomIcon[index],
-                  height: 20,
-                  width: 20,
-                  color: color,
-                  fit: BoxFit.fill,
-                ),
-              ],
-            );
-          },
-          activeIndex: bottomBaractiveIndex,
-          onTap: (p0) {
-            setState(() {
-              bottomBaractiveIndex = p0;
-            });
-          },
-        ));
+      resizeToAvoidBottomInset: false,
+      key: _scaffoldKey,
+      drawer: homeScreenDrawer(_scaffoldKey, mounted),
+      body: AppScreenBackGround(
+        appBarHeight: 200,
+        appbarWidget: homeScreenAppBar(),
+        topPosition: 170,
+        bodyWidget: homeScreenContent(),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: ColorConstants.appColor,
+          onPressed: () => Navigator.push(
+              context,
+              CustomRoutes(
+                  child: const PostAdScreen(), direction: AxisDirection.down)),
+          child: const Icon(
+            Icons.add,
+          )),
+      bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+        gapLocation: GapLocation.center,
+        notchSmoothness: NotchSmoothness.verySmoothEdge,
+        itemCount: 4,
+        tabBuilder: (index, isActive) {
+          final color = isActive ? ColorConstants.appColor : Colors.black;
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+            child: SvgPicture.asset(
+              IconConstants.bottomIcon[index],
+              color: color,
+              fit: BoxFit.fill,
+            ),
+          );
+        },
+        activeIndex: bottomBaractiveIndex,
+        onTap: (p0) {
+          setState(() {
+            bottomBaractiveIndex = p0;
+          });
+        },
+      ),
+    );
   }
 
   Widget homeScreenAppBar() {
@@ -272,126 +268,128 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget homeScreenContent() {
     return ScrollConfiguration(
       behavior: MyBehavior(),
-      child: ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.symmetric(horizontal: 14),
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 23, bottom: 10),
-            child: AppText(
-              textAlign: TextAlign.start,
-              color: ColorConstants.headerColor,
-              text: "Catagory",
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
+      child: Container(
+        child: ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 23, bottom: 10),
+              child: AppText(
+                textAlign: TextAlign.start,
+                color: ColorConstants.headerColor,
+                text: "Catagory",
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-          Container(
-            height: 100,
-            alignment: Alignment.center,
-            child: ScrollConfiguration(
-              behavior: MyBehavior(),
+            Container(
+              height: 100,
+              alignment: Alignment.center,
+              child: ScrollConfiguration(
+                behavior: MyBehavior(),
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: IconConstants.catagoryListIcon.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: (index == 0)
+                          ? const EdgeInsets.only(left: 0)
+                          : const EdgeInsets.only(left: 16),
+                      child: Column(
+                        children: [
+                          AppIconButton(
+                              height: 71,
+                              width: 76,
+                              color: ColorConstants.catagoryListColor,
+                              iconName: IconConstants.catagoryListIcon[index]),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: AppText(
+                              text: StringConstants.catagoryListTitle[index],
+                              fontSize: 11,
+                              color: ColorConstants.fontColor,
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 23),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AppText(
+                    textAlign: TextAlign.start,
+                    color: ColorConstants.headerColor,
+                    text: StringConstants.topAds,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  AppText(
+                    text: "See all >",
+                    fontSize: 14,
+                    color: ColorConstants.appColor,
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 218,
               child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemCount: IconConstants.catagoryListIcon.length,
+                itemCount: ImageConstants.topAdsList.length,
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: (index == 0)
-                        ? const EdgeInsets.only(left: 0)
-                        : const EdgeInsets.only(left: 16),
-                    child: Column(
-                      children: [
-                        AppIconButton(
-                            height: 71,
-                            width: 76,
-                            color: ColorConstants.catagoryListColor,
-                            iconName: IconConstants.catagoryListIcon[index]),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: AppText(
-                            text: StringConstants.catagoryListTitle[index],
-                            fontSize: 11,
-                            color: ColorConstants.fontColor,
-                          ),
-                        )
-                      ],
-                    ),
+                  return AppProductList(
+                    pictureHeight: 110,
+                    pictureWidth: 150,
+                    productName: StringConstants.topAdProduct[index],
+                    productPrize: StringConstants.topAdProductPrize[index],
+                    image: ImageConstants.topAdsList[index],
                   );
                 },
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 23),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppText(
-                  textAlign: TextAlign.start,
-                  color: ColorConstants.headerColor,
-                  text: StringConstants.topAds,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-                AppText(
-                  text: "See all >",
-                  fontSize: 14,
-                  color: ColorConstants.appColor,
-                )
-              ],
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: AppText(
+                textAlign: TextAlign.start,
+                color: ColorConstants.headerColor,
+                text: "Near you",
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-          SizedBox(
-            height: 218,
-            child: ListView.builder(
+            GridView.builder(
               shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: ImageConstants.topAdsList.length,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: ImageConstants.nearYouList.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  mainAxisSpacing: 5,
+                  crossAxisSpacing: 2,
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.78),
               itemBuilder: (context, index) {
                 return AppProductList(
-                  pictureHeight: 110,
-                  pictureWidth: 150,
-                  productName: StringConstants.topAdProduct[index],
-                  productPrize: StringConstants.topAdProductPrize[index],
-                  image: ImageConstants.topAdsList[index],
+                  width: 100,
+                  pictureHeight: 100,
+                  pictureWidth: 130,
+                  paddingLeft: 10,
+                  image: ImageConstants.nearYouList[index],
+                  productName: StringConstants.nearYouProductList[index],
+                  productPrize: StringConstants.nearYouProductPrize[index],
                 );
               },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: AppText(
-              textAlign: TextAlign.start,
-              color: ColorConstants.headerColor,
-              text: "Near you",
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: ImageConstants.nearYouList.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 2,
-                crossAxisCount: 2,
-                childAspectRatio: 0.78),
-            itemBuilder: (context, index) {
-              return AppProductList(
-                width: 100,
-                pictureHeight: 100,
-                pictureWidth: 130,
-                paddingLeft: 10,
-                image: ImageConstants.nearYouList[index],
-                productName: StringConstants.nearYouProductList[index],
-                productPrize: StringConstants.nearYouProductPrize[index],
-              );
-            },
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -405,6 +403,12 @@ drawerListOnTap(int index, BuildContext context,
       await Future.delayed(const Duration(milliseconds: 300));
       if (!mounted) return null;
       Navigator.push(context, CustomRoutes(child: const CatagoryScreen()));
+      break;
+    case 3:
+      Navigator.pop(context);
+      await Future.delayed(const Duration(milliseconds: 300));
+      if (!mounted) return null;
+      Navigator.push(context, CustomRoutes(child: const StoragePlanScreen()));
       break;
   }
 }

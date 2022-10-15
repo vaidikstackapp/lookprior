@@ -21,11 +21,9 @@ Future<void> main() async {
       FocusManager.instance.primaryFocus?.unfocus();
     },
     child: MaterialApp(
-      home: const SplashScreen(),
+      home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          fontFamily: 'Poppins',
-          scaffoldBackgroundColor: ColorConstants.appColor),
+      theme: ThemeData(fontFamily: 'Poppins'),
       initialRoute: "/",
       routes: {
         "/RegisterScreen": (context) => const RegisterScreen(),

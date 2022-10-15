@@ -7,8 +7,10 @@ import 'package:look_prior/common/widgets/app_background.dart';
 import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/app_textfield.dart';
+import 'package:look_prior/common/widgets/custom_route.dart';
+import 'package:look_prior/screens/login_screen/login_screen.dart';
 import 'package:look_prior/screens/register_screen/register_screen_view_model.dart';
-import 'package:look_prior/utils/app_validation/app_validation.dart';
+import 'package:look_prior/utils/app_validation.dart';
 
 import '../../common/contants/icon_constants.dart';
 
@@ -108,7 +110,11 @@ class RegisterScreenState extends State<RegisterScreen> {
                                     divider(),
                                     facebookButton(),
                                     appleButton(),
-                                    privacyPolicy()
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    alreadyAccount(),
+                                    privacyPolicy(),
                                   ],
                                 ),
                               ),
@@ -341,7 +347,7 @@ class RegisterScreenState extends State<RegisterScreen> {
 
   Widget privacyPolicy() {
     return Padding(
-      padding: const EdgeInsets.only(left: 14, right: 15, top: 19, bottom: 19),
+      padding: const EdgeInsets.only(left: 14, right: 15, top: 10, bottom: 19),
       child: Row(
         children: [
           Expanded(
@@ -352,6 +358,28 @@ class RegisterScreenState extends State<RegisterScreen> {
               text: StringConstants.privacy,
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  Widget alreadyAccount() {
+    return InkWell(
+      onTap: () => Navigator.pushReplacement(
+          context, CustomRoutes(child: const LogInScreen())),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AppText(
+            textAlign: TextAlign.center,
+            text: "Already have an account? ",
+            color: ColorConstants.subTitleColor,
+          ),
+          AppText(
+            textAlign: TextAlign.center,
+            text: "Login",
+            color: ColorConstants.fontColor,
+          ),
         ],
       ),
     );

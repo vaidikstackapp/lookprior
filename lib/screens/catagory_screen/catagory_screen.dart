@@ -6,7 +6,7 @@ import 'package:look_prior/common/widgets/app_screen_backgroud.dart';
 
 import '../../common/contants/color_contants.dart';
 import '../../common/widgets/app_text.dart';
-import '../../utils/scroll_behavior/scroll_brehavior.dart';
+import '../../utils/scroll_brehavior.dart';
 
 class CatagoryScreen extends StatefulWidget {
   const CatagoryScreen({Key? key}) : super(key: key);

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:look_prior/common/contants/icon_constants.dart';
 import 'package:look_prior/common/widgets/app_bar.dart';
 import 'package:look_prior/common/widgets/app_screen_backgroud.dart';
-import 'package:look_prior/utils/scroll_behavior/scroll_brehavior.dart';
+import 'package:look_prior/utils/scroll_brehavior.dart';
 
 import '../../common/contants/color_contants.dart';
 import '../../common/widgets/app_text.dart';

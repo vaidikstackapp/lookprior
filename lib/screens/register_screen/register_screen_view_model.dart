@@ -39,7 +39,7 @@ class RegisterScreenViewModel {
 
   Future<void> registerOnTap(BuildContext context) async {
     if (registerKey.currentState!.validate()) {
-      setDataInApi(context);
+      // setDataInApi(context);
     }
   }
 

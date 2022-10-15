@@ -7,7 +7,7 @@ import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_screen_backgroud.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/app_textfield.dart';
-import '../../utils/scroll_behavior/scroll_brehavior.dart';
+import '../../utils/scroll_brehavior.dart';
 
 class AdDetailScreen extends StatefulWidget {
   const AdDetailScreen({Key? key}) : super(key: key);
@@ -20,7 +20,15 @@ class _AdDetailScreenState extends State<AdDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      bottomNavigationBar: BottomAppBar(
+        child: AppButton(
+          text: "Next",
+          fontSize: 16,
+          bottomPadding: 10,
+          topPadding: 10,
+          buttonColor: ColorConstants.appColor,
+        ),
+      ),
       body: AppScreenBackGround(
         appbarWidget: CommonAppBar(title: StringConstants.postAd),
         bodyWidget: adDetailContent(),
@@ -29,6 +37,7 @@ class _AdDetailScreenState extends State<AdDetailScreen> {
   }
 
   final key = GlobalKey<FormState>();
+
   Widget adDetailContent() {
     return Column(
       children: [
@@ -120,14 +129,6 @@ class _AdDetailScreenState extends State<AdDetailScreen> {
             ),
           ),
         )),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: AppButton(
-            buttonColor: ColorConstants.appColor,
-            text: "Next",
-            fontSize: 16,
-          ),
-        ),
       ],
     );
   }

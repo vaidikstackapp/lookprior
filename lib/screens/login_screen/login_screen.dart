@@ -8,7 +8,8 @@ import 'package:look_prior/common/widgets/app_textfield.dart';
 import 'package:look_prior/common/widgets/custom_route.dart';
 import 'package:look_prior/screens/home_screen/home_screen.dart';
 import 'package:look_prior/screens/register_screen/register_screen.dart';
-import 'package:look_prior/utils/app_validation/app_validation.dart';
+import 'package:look_prior/utils/app_validation.dart';
+import 'package:look_prior/utils/share_preference.dart';
 
 import '../../common/contants/icon_constants.dart';
 import 'dart:convert';
@@ -98,6 +99,7 @@ class _LogInScreenState extends State<LogInScreen> {
   Future<void> logInOnTap(
       GlobalKey<FormState> logInFormKey, BuildContext context) async {
     if (logInFormKey.currentState!.validate()) {
+      setPrefBoolValue(isLogin, true);
       Navigator.pushReplacement(
           context, CustomRoutes(child: const HomeScreen()));
     }
@@ -224,24 +226,22 @@ class _LogInScreenState extends State<LogInScreen> {
   Widget checkAccountRegister(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 20, bottom: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AppText(
-            text: "Didn’t have an account? ",
-            color: ColorConstants.subTitleColor,
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushReplacement(
-                  context, CustomRoutes(child: const RegisterScreen()));
-            },
-            child: AppText(
+      child: GestureDetector(
+        onTap: () => Navigator.pushReplacement(
+            context, CustomRoutes(child: const RegisterScreen())),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AppText(
+              text: "Didn’t have an account? ",
+              color: ColorConstants.subTitleColor,
+            ),
+            AppText(
               text: StringConstants.register,
               color: ColorConstants.headerColor,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

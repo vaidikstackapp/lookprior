@@ -13,7 +13,7 @@ import 'package:look_prior/common/widgets/custom_route.dart';
 import 'package:look_prior/screens/post_ad_screen/full_screen_view_image.dart';
 import 'package:look_prior/screens/post_ad_screen/play_video_screen.dart';
 import 'package:look_prior/screens/post_ad_screen/post_ad_screen_view_model.dart';
-import 'package:look_prior/utils/scroll_behavior/scroll_brehavior.dart';
+import 'package:look_prior/utils/scroll_brehavior.dart';
 import '../../common/contants/color_contants.dart';
 import '../../common/widgets/app_text.dart';
 import '../ad_details_screen/ad_details_screen.dart';
@@ -33,6 +33,7 @@ class PostAdScreenState extends State<PostAdScreen> {
     postAdScreenViewModel ??
         (postAdScreenViewModel = PostAdScreenViewModel(this));
     return Scaffold(
+      bottomNavigationBar: BottomAppBar(),
       body: AppScreenBackGround(
         appbarWidget: CommonAppBar(title: StringConstants.postAd),
         bodyWidget: postAdContent(),
@@ -73,26 +74,22 @@ class PostAdScreenState extends State<PostAdScreen> {
             ),
           ),
         ),
-        InkWell(
-          onTap: () => Navigator.push(
-              context, CustomRoutes(child: const StoragePlanScreen())),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AppText(
-                  fontSize: 13,
-                  text: "Go to my options",
-                  color: ColorConstants.appColor,
-                ),
-                const Icon(
-                  Icons.arrow_forward,
-                  color: ColorConstants.appColor,
-                  size: 13,
-                ),
-              ],
-            ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AppText(
+                fontSize: 13,
+                text: "Go to my options",
+                color: ColorConstants.appColor,
+              ),
+              const Icon(
+                Icons.arrow_forward,
+                color: ColorConstants.appColor,
+                size: 13,
+              ),
+            ],
           ),
         ),
         Padding(
