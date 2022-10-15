@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:look_prior/common/contants/images_contants.dart';
 import 'package:look_prior/screens/home_screen/home_screen.dart';
 import 'package:look_prior/screens/login_screen/login_screen.dart';
-import 'package:look_prior/screens/register_screen/register_screen.dart';
 import 'package:look_prior/service/rest_service.dart';
 import 'package:look_prior/utils/share_preference.dart';
 
