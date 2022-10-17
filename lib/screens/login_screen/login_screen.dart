@@ -110,7 +110,7 @@ class LogInScreenState extends State<LogInScreen> {
                                       child: CircularProgressIndicator())),
                             ),
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   ],
                 ),
               ),
