@@ -15,6 +15,7 @@ class AppButton extends StatelessWidget {
   Color? buttonColor;
   String? text;
   String? buttonIcon;
+  String? url;
   AppButton(
       {super.key,
       this.topPadding,

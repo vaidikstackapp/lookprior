@@ -34,6 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> checkLogin() async {
     login = await getPrefBoolValue(isLogin) ?? false;
+    log("login----->$login");
   }
 
   @override

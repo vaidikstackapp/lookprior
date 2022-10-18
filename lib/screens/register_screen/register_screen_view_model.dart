@@ -1,16 +1,15 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
-
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:look_prior/common/widgets/app_toast.dart';
 import 'package:look_prior/common/widgets/custom_route.dart';
+import 'package:look_prior/model/register_model.dart';
+import 'package:look_prior/screens/login_screen/login_screen.dart';
 import 'package:look_prior/screens/register_screen/register_screen.dart';
-import 'package:http/http.dart' as http;
+import 'package:look_prior/service/auth_service.dart';
 import 'package:look_prior/service/rest_service.dart';
-
-import '../login_screen/login_screen.dart';
 
 class RegisterScreenViewModel {
   RegisterScreenState registerScreenState;
@@ -54,31 +53,35 @@ class RegisterScreenViewModel {
         'phoneNumber': phoneController.text.trim(),
         'countryCode': country!.countryCode,
         'deviceToken': RestServiceConstants.deviceToken,
-        'deviceType': "1",
+        'deviceType': (Platform.isAndroid) ? 1 : 2,
       };
-      Response response = await http.post(
-          Uri.parse(RestServiceConstants.registerApi),
-          body: setRegisterData);
+      String? registerResponse = await RestServiceConstants.postRestMethods(
+          endPoint: RestServiceConstants.registerApi,
+          bodyParam: setRegisterData);
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        Map<String, dynamic> registerResponse = jsonDecode(response.body);
+      if (registerResponse != null && registerResponse.isNotEmpty) {
+        Map<String, dynamic> registerResponseMap = jsonDecode(registerResponse);
 
-        if (registerResponse['Success'] == true) {
-          status = false;
-          registerScreenState.refresh();
-          appToast(registerResponse['Message']);
+        if (registerResponseMap.containsKey('Success') &&
+            registerResponseMap['Success']) {
+          RegisterModel registerModel = registerModelFromJson(registerResponse);
+          log("registerModel---->${registerModel.toJson()}");
+
           if (registerScreenState.mounted) {
+            appToast(registerResponseMap['Message']);
+            status = false;
+            registerScreenState.refresh();
             Navigator.pushAndRemoveUntil(context,
                 CustomRoutes(child: const LogInScreen()), (route) => false);
           }
         } else {
+          appToast(registerResponseMap['Message']);
           status = false;
           registerScreenState.refresh();
-          appToast(registerResponse['Message']);
         }
       }
     } on SocketException catch (e) {
-      print("catch exception for setRegisterDataInApi----->${e.message}");
+      log("catch exception for setRegisterDataInApi----->${e.message}");
       status = false;
       registerScreenState.refresh();
     }

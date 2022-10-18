@@ -84,8 +84,14 @@ class LogInScreenState extends State<LogInScreen> {
                                 loginButton(() =>
                                     logInScreenViewModel!.logInOnTap(context)),
                                 divider(),
-                                facebookButton(context),
-                                appleButton(context),
+                                facebookButton(context,
+                                    onTap: () => logInScreenViewModel!
+                                        .faceBookLogIn(context)),
+                                appleButton(
+                                  context,
+                                  onTap: () => logInScreenViewModel!
+                                      .googleOnTap(context),
+                                ),
                                 checkAccountRegister(context),
                               ],
                             ),
@@ -215,7 +221,7 @@ class LogInScreenState extends State<LogInScreen> {
     );
   }
 
-  Widget facebookButton(BuildContext context) {
+  Widget facebookButton(BuildContext context, {Function()? onTap}) {
     return AppButton(
       text: StringConstants.loginWithFb,
       buttonIcon: IconConstants.facebookIcon,
@@ -223,19 +229,21 @@ class LogInScreenState extends State<LogInScreen> {
       fontWeight: FontWeight.w500,
       fontSize: 16,
       bottomPadding: 16,
+      onTap: onTap,
       topPadding: 10,
     );
   }
 
-  Widget appleButton(BuildContext context) {
+  Widget appleButton(BuildContext context, {Function()? onTap}) {
     return AppButton(
-      text: StringConstants.loginWithApple,
+      text: "Login with Google",
       iconWidth: 20.5,
       iconHeight: 18.38,
-      buttonIcon: IconConstants.appleIcon,
+      buttonIcon: IconConstants.googleIcon,
       buttonColor: ColorConstants.appleButtonColor,
       fontWeight: FontWeight.w500,
       fontSize: 16,
+      onTap: onTap,
     );
   }
 

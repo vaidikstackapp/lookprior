@@ -19,6 +19,7 @@ class IconConstants {
   static String shareIcon = "assets/icons/home_screen_icon/share_icon.svg";
   static String starIcon = "assets/icons/home_screen_icon/star.svg";
   static String moreIcon = "assets/icons/home_screen_icon/more_icon.svg";
+  static String googleIcon = "assets/icons/icons8-google.svg";
 
   static List<String> catagoryListIcon = [
     "assets/icons/home_screen_icon/hotel_icon.svg",
