@@ -11,6 +11,7 @@ class RestServiceConstants {
   static const String registerApi = "/api/v1/data/signup";
   static const String signInApi = "/api/v1/data/signin";
   static const String forgotPassApi = "/api/v1/data/forgotpassword";
+  static const String getProfileApi = "/api/v1/data/getprofiledetail";
 
   static Map<String, String> headers = {'Content-Type': 'application/json'};
 
@@ -53,6 +54,26 @@ class RestServiceConstants {
     } on Exception catch (e) {
       log("catch exception for post $endPoint----->$e");
       return null;
+    }
+  }
+
+  static dynamic getRestMethods(
+      {@required String? endPoint, @required String? token}) async {
+    try {
+      Map<String, String> header = {'Authorization': 'Bearer $token'};
+      String url = "$baseUrl$endPoint";
+
+      log("url---->$url");
+
+      Response response = await http.get(Uri.parse(url), headers: header);
+      log("response status code---->${response.statusCode}");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        log("response body ----->${response.body}");
+        return response.body;
+      }
+    } catch (e) {
+      log("catch exception for getRestMethods $endPoint----->$e");
     }
   }
 }

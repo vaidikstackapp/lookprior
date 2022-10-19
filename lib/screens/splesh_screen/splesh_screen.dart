@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:look_prior/common/contants/images_contants.dart';
-import 'package:look_prior/screens/home_screen/home_screen.dart';
+//import 'package:look_prior/screens/home_screen/home_screen.dart';
 import 'package:look_prior/screens/login_screen/login_screen.dart';
+import 'package:look_prior/screens/screens.dart';
 import 'package:look_prior/service/rest_service.dart';
 import 'package:look_prior/utils/share_preference.dart';
 
@@ -45,13 +48,13 @@ class _SplashScreenState extends State<SplashScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container();
           }
-          print("snapsort----->${snapshot.data}");
+          log("snapsort----->${snapshot.data}");
           bool login = snapshot.data as bool;
-          print("login----->$login");
+          log("login----->$login");
           return AnimatedSplashScreen(
               splashIconSize: 100,
               splash: ImageConstants.appLogo,
-              nextScreen: (login) ? const HomeScreen() : const LogInScreen());
+              nextScreen: (login) ? const Screens() : const LogInScreen());
         },
       ),
     ));

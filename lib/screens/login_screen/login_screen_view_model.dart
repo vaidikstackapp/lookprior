@@ -14,6 +14,7 @@ import 'package:look_prior/service/rest_service.dart';
 import '../../common/widgets/custom_route.dart';
 import '../../utils/share_preference.dart';
 import '../home_screen/home_screen.dart';
+import '../screens.dart';
 import 'login_screen.dart';
 
 class LogInScreenViewModel {
@@ -71,7 +72,7 @@ class LogInScreenViewModel {
           appToast(logInModel.message);
           if (logInScreenState.mounted) {
             Navigator.pushAndRemoveUntil(context,
-                CustomRoutes(child: const HomeScreen()), (route) => false);
+                CustomRoutes(child: const Screens()), (route) => false);
           }
         } else {
           status = false;
@@ -125,8 +126,13 @@ class LogInScreenViewModel {
             if (logInScreenState.mounted) {
               status = false;
               logInScreenState.refresh();
-              Navigator.pushAndRemoveUntil(context,
-                  CustomRoutes(child: const HomeScreen()), (route) => false);
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  CustomRoutes(
+                      child: HomeScreen(
+                    scaffoldKey: null,
+                  )),
+                  (route) => false);
             }
           } else {
             appToast(responseMap['Message']);
@@ -188,8 +194,13 @@ class LogInScreenViewModel {
               if (logInScreenState.mounted) {
                 status = false;
                 logInScreenState.refresh();
-                Navigator.pushAndRemoveUntil(context,
-                    CustomRoutes(child: const HomeScreen()), (route) => false);
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    CustomRoutes(
+                        child: HomeScreen(
+                      scaffoldKey: null,
+                    )),
+                    (route) => false);
               }
             } else {
               status = false;

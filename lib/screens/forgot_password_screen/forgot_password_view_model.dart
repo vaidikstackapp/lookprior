@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:look_prior/common/widgets/app_snackbar.dart';
 import 'package:look_prior/common/widgets/app_toast.dart';
-import 'package:look_prior/common/widgets/custom_route.dart';
 import 'package:look_prior/screens/forgot_password_screen/forgot_password_screen.dart';
-import 'package:look_prior/screens/login_screen/login_screen.dart';
 import 'package:look_prior/service/rest_service.dart';
 
 class ForgotPassViewModel {

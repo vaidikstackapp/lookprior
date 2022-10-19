@@ -3,10 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:look_prior/common/contants/color_contants.dart';
-import 'package:look_prior/screens/home_screen/home_screen.dart';
-import 'package:look_prior/screens/location_screen/location_screen.dart';
-import 'package:look_prior/screens/login_screen/login_screen.dart';
-import 'package:look_prior/screens/register_screen/register_screen.dart';
 import 'package:look_prior/screens/splesh_screen/splesh_screen.dart';
 
 Future<void> main() async {
@@ -24,13 +20,6 @@ Future<void> main() async {
       home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Poppins'),
-      initialRoute: "/",
-      routes: {
-        "/RegisterScreen": (context) => const RegisterScreen(),
-        "/LoginScreen": (context) => const LogInScreen(),
-        "/HomeScreen": (context) => const HomeScreen(),
-        "/LocationScreen": (context) => const LocationScreen(),
-      },
       supportedLocales: const [
         Locale('en'),
         Locale('ar'),

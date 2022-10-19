@@ -21,6 +21,8 @@ class IconConstants {
   static String moreIcon = "assets/icons/home_screen_icon/more_icon.svg";
   static String googleIcon = "assets/icons/icons8-google.svg";
 
+  static String editIcon = "assets/icons/Edit.svg";
+
   static List<String> catagoryListIcon = [
     "assets/icons/home_screen_icon/hotel_icon.svg",
     "assets/icons/home_screen_icon/vehical_icon.svg",
@@ -53,9 +55,6 @@ class LocationIconConstants {
   static String location = "assets/icons/location_screen_icon";
   static String moveIcon = "$location/Vector.svg";
   static String editIcon = "$location/Edit.svg";
-  static String blueRound = "$location/Ellipse 63.svg";
-  static String locationIcon = "$location/Vector (6).svg";
-  static String currentLocationIcon = "$location/crosshair 1.svg";
 }
 
 class PostAdIconConstants {

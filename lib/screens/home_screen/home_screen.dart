@@ -1,4 +1,3 @@
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:look_prior/common/contants/color_contants.dart';
@@ -13,17 +12,25 @@ import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/custom_route.dart';
 import 'package:look_prior/screens/home_screen/home_screen_view_model.dart';
 import 'package:look_prior/screens/location_screen/location_screen.dart';
-import 'package:look_prior/screens/login_screen/login_screen.dart';
-import 'package:look_prior/screens/post_ad_screen/post_ad_screen.dart';
+
+//import 'package:look_prior/screens/login_screen/login_screen.dart';
 import 'package:look_prior/screens/storage_plan_screen/storage_plan_screen.dart';
+import 'package:look_prior/utils/share_preference.dart';
+import 'package:look_prior/utils/single_tone.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../common/contants/icon_constants.dart';
 import '../../utils/scroll_brehavior.dart';
 import '../catagory_screen/catagory_screen.dart';
 import '../notification_screen/notification_screen.dart';
 
+// ignore: must_be_immutable
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  GlobalKey<ScaffoldState>? scaffoldKey;
+
+  HomeScreen(
+      {required this.scaffoldKey,
+      super.key}); //final GlobalKey<ScaffoldState>? scaffoldKey;
 
   @override
   State<HomeScreen> createState() => HomeScreenState();
@@ -35,12 +42,21 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () => dialog());
+    SharedPreferences.getInstance().then((prefs) {
+      final bool dialogOpen = prefs.getBool('dialog_open') ?? false;
+      if (dialogOpen == false) {
+        Future.delayed(const Duration(seconds: 3), () async => dialog());
+        prefs.setBool("dialog_open", true);
+      }
+    });
+    getToken();
   }
 
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  Future<void> getToken() async {
+    Singleton.accessToken = await getPrefStringValue(accessToken);
+  }
 
-  dialog() {
+  void dialog() {
     showDialog(
       context: context,
       builder: (context) {
@@ -93,45 +109,11 @@ class HomeScreenState extends State<HomeScreen> {
     homeScreenViewModel ?? (homeScreenViewModel = HomeScreenViewModel(this));
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      key: _scaffoldKey,
-      drawer: homeScreenDrawer(_scaffoldKey, mounted),
       body: AppScreenBackGround(
         appBarHeight: 200,
         appbarWidget: homeScreenAppBar(),
         topPosition: 170,
         bodyWidget: homeScreenContent(),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: ColorConstants.appColor,
-          onPressed: () => Navigator.push(
-              context,
-              CustomRoutes(
-                  child: const PostAdScreen(), direction: AxisDirection.down)),
-          child: const Icon(
-            Icons.add,
-          )),
-      bottomNavigationBar: AnimatedBottomNavigationBar.builder(
-        gapLocation: GapLocation.center,
-        notchSmoothness: NotchSmoothness.verySmoothEdge,
-        itemCount: 4,
-        tabBuilder: (index, isActive) {
-          final color = isActive ? ColorConstants.appColor : Colors.black;
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-            child: SvgPicture.asset(
-              IconConstants.bottomIcon[index],
-              color: color,
-              fit: BoxFit.fill,
-            ),
-          );
-        },
-        activeIndex: homeScreenViewModel!.bottomBarActiveIndex,
-        onTap: (p0) {
-          setState(() {
-            homeScreenViewModel!.bottomBarActiveIndex = p0;
-          });
-        },
       ),
     );
   }
@@ -146,8 +128,8 @@ class HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
-                  onTap: () => (_scaffoldKey.currentState != null)
-                      ? _scaffoldKey.currentState!.openDrawer()
+                  onTap: () => (widget.scaffoldKey!.currentState != null)
+                      ? widget.scaffoldKey!.currentState!.openDrawer()
                       : null,
                   child: SvgPicture.asset(IconConstants.drawerIcon)),
               Image.asset(
@@ -211,66 +193,66 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget homeScreenDrawer(GlobalKey<ScaffoldState> scaffoldKey, bool mounted) {
-    return ScrollConfiguration(
-      behavior: MyBehavior(),
-      child: Drawer(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(30),
-            bottomRight: Radius.circular(30),
-          ),
-        ),
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            GestureDetector(
-              onTap: () => Navigator.pushReplacement(
-                  context, CustomRoutes(child: const LogInScreen())),
-              child: Container(
-                  height: 133,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  alignment: Alignment.centerLeft,
-                  width: double.infinity,
-                  color: ColorConstants.appColor,
-                  child: SvgPicture.asset(DrawerImgConstants.userImage)),
-            ),
-            SizedBox(
-              height: 350,
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: DrawerIconConstants.drawerIconList.length,
-                itemBuilder: (context1, index) {
-                  return ListTile(
-                    onTap: () =>
-                        drawerListOnTap(index, context, _scaffoldKey, mounted),
-                    leading: AppIconButton(
-                        color: ColorConstants.iconButtonColor,
-                        iconName: DrawerIconConstants.drawerIconList[index]),
-                    title: AppText(
-                      text: StringConstants.drawerTitle[index],
-                      color: ColorConstants.fontColor,
-                      fontSize: 15,
-                    ),
-                    trailing: const Icon(Icons.navigate_next_outlined),
-                  );
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 60, right: 170),
-              child: SizedBox(
-                  height: 56,
-                  width: 86,
-                  child: Image.asset(ImageConstants.appLogo)),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget homeScreenDrawer(GlobalKey<ScaffoldState> scaffoldKey, bool mounted) {
+  //   return ScrollConfiguration(
+  //     behavior: MyBehavior(),
+  //     child: Drawer(
+  //       shape: const RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.only(
+  //           topRight: Radius.circular(30),
+  //           bottomRight: Radius.circular(30),
+  //         ),
+  //       ),
+  //       child: ListView(
+  //         shrinkWrap: true,
+  //         children: [
+  //           GestureDetector(
+  //             onTap: () => Navigator.pushReplacement(
+  //                 context, CustomRoutes(child: const LogInScreen())),
+  //             child: Container(
+  //                 height: 133,
+  //                 padding:
+  //                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+  //                 alignment: Alignment.centerLeft,
+  //                 width: double.infinity,
+  //                 color: ColorConstants.appColor,
+  //                 child: SvgPicture.asset(DrawerImgConstants.userImage)),
+  //           ),
+  //           SizedBox(
+  //             height: 350,
+  //             child: ListView.builder(
+  //               shrinkWrap: true,
+  //               physics: const NeverScrollableScrollPhysics(),
+  //               itemCount: DrawerIconConstants.drawerIconList.length,
+  //               itemBuilder: (context1, index) {
+  //                 return ListTile(
+  //                   onTap: () =>
+  //                       drawerListOnTap(index, context, _scaffoldKey, mounted),
+  //                   leading: AppIconButton(
+  //                       color: ColorConstants.iconButtonColor,
+  //                       iconName: DrawerIconConstants.drawerIconList[index]),
+  //                   title: AppText(
+  //                     text: StringConstants.drawerTitle[index],
+  //                     color: ColorConstants.fontColor,
+  //                     fontSize: 15,
+  //                   ),
+  //                   trailing: const Icon(Icons.navigate_next_outlined),
+  //                 );
+  //               },
+  //             ),
+  //           ),
+  //           Padding(
+  //             padding: const EdgeInsets.only(top: 60, right: 170),
+  //             child: SizedBox(
+  //                 height: 56,
+  //                 width: 86,
+  //                 child: Image.asset(ImageConstants.appLogo)),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget homeScreenContent() {
     return ScrollConfiguration(

@@ -47,7 +47,7 @@ class RegisterScreenViewModel {
 
       Map<String, dynamic> setRegisterData = {
         'email': emailController.text.trim(),
-        'name': emailController.text.trim(),
+        'name': userNameController.text.trim(),
         'password': passwordController.text.trim(),
         'phoneNumber': phoneController.text.trim(),
         'countryCode': country!.countryCode,
