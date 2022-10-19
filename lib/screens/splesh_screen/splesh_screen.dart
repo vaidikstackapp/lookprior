@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +16,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   bool login = false;
+
   @override
   void initState() {
     super.initState();
@@ -26,25 +25,35 @@ class _SplashScreenState extends State<SplashScreen> {
     firebaseMessaging.getToken().then(
       (token) {
         RestServiceConstants.deviceToken = token;
-        log("deviceToken----------------->${RestServiceConstants.deviceToken}");
+        // log("deviceToken----------------->${RestServiceConstants.deviceToken}");
       },
     );
-    checkLogin();
   }
 
-  Future<void> checkLogin() async {
-    login = await getPrefBoolValue(isLogin) ?? false;
-    log("login----->$login");
+  Future<bool> checkLogin() async {
+    bool login = await getPrefBoolValue(isLogin) ?? false;
+    return login;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-      child: AnimatedSplashScreen(
-          splashIconSize: 100,
-          splash: ImageConstants.appLogo,
-          nextScreen: (login) ? const HomeScreen() : const LogInScreen()),
+      child: StreamBuilder(
+        stream: checkLogin().asStream(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container();
+          }
+          print("snapsort----->${snapshot.data}");
+          bool login = snapshot.data as bool;
+          print("login----->$login");
+          return AnimatedSplashScreen(
+              splashIconSize: 100,
+              splash: ImageConstants.appLogo,
+              nextScreen: (login) ? const HomeScreen() : const LogInScreen());
+        },
+      ),
     ));
   }
 }

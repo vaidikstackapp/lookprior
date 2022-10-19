@@ -13,6 +13,8 @@ class StringConstants {
   static const loginWithApple = "Login with Apple";
   static const topAds = "Top Ads";
   static const postAd = "Post your Ad";
+  static const forgotPass =
+      "Forgot your password? Please enter your registered email address to get new password";
   static const storageDescription =
       "With more storage space,you can post as many videos as you want in your ads or listings. Highlight the best parts of your items,business or services. With more videos,the more you sell. Choose the plan that works best for you";
   static const privacy =

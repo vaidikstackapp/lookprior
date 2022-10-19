@@ -80,13 +80,16 @@ class LogInScreenState extends State<LogInScreen> {
                                 subtitleText(),
                                 emailTextFiled(context),
                                 passwordTextFiled(context),
-                                forgotPassword(),
+                                forgotPassword(
+                                  onTap: () => logInScreenViewModel!
+                                      .forgotPasswordOnTap(context),
+                                ),
                                 loginButton(() =>
                                     logInScreenViewModel!.logInOnTap(context)),
                                 divider(),
                                 facebookButton(context,
                                     onTap: () => logInScreenViewModel!
-                                        .faceBookLogIn(context)),
+                                        .faceBookOnTap(context)),
                                 appleButton(
                                   context,
                                   onTap: () => logInScreenViewModel!
@@ -167,13 +170,16 @@ class LogInScreenState extends State<LogInScreen> {
         prefixIcon: IconConstants.mailIcon);
   }
 
-  Widget forgotPassword() {
+  Widget forgotPassword({Function()? onTap}) {
     return Padding(
       padding: const EdgeInsets.only(right: 18, top: 13),
-      child: AppText(
-          text: StringConstants.forgotPassword,
-          textAlign: TextAlign.end,
-          color: ColorConstants.headerColor),
+      child: GestureDetector(
+        onTap: onTap,
+        child: AppText(
+            text: StringConstants.forgotPassword,
+            textAlign: TextAlign.end,
+            color: ColorConstants.headerColor),
+      ),
     );
   }
 

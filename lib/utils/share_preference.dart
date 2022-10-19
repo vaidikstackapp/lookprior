@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const String isLogin = 'isLogin';
 const String accessToken = 'accessToken';
+const String uid = 'uid';
 checkPrefKey(String key) async {
   final prefs = await SharedPreferences.getInstance();
   return prefs.containsKey(key);

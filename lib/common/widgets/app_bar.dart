@@ -5,13 +5,14 @@ import 'package:look_prior/common/widgets/app_text.dart';
 // ignore: must_be_immutable
 class CommonAppBar extends StatelessWidget {
   String? title;
-  CommonAppBar({Key? key, this.title}) : super(key: key);
+  Color? color;
+  CommonAppBar({Key? key, this.title, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
-      backgroundColor: ColorConstants.appColor,
+      backgroundColor: color ?? ColorConstants.appColor,
       title: AppText(
         text: title,
         fontSize: 20,

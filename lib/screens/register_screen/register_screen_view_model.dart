@@ -8,7 +8,6 @@ import 'package:look_prior/common/widgets/custom_route.dart';
 import 'package:look_prior/model/register_model.dart';
 import 'package:look_prior/screens/login_screen/login_screen.dart';
 import 'package:look_prior/screens/register_screen/register_screen.dart';
-import 'package:look_prior/service/auth_service.dart';
 import 'package:look_prior/service/rest_service.dart';
 
 class RegisterScreenViewModel {

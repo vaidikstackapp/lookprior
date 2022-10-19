@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
@@ -11,6 +10,7 @@ class RestServiceConstants {
   static const String baseUrl = "https://lookprstage.com/admin/";
   static const String registerApi = "/api/v1/data/signup";
   static const String signInApi = "/api/v1/data/signin";
+  static const String forgotPassApi = "/api/v1/data/forgotpassword";
 
   static Map<String, String> headers = {'Content-Type': 'application/json'};
 
@@ -32,6 +32,26 @@ class RestServiceConstants {
       }
     } catch (e) {
       log("catch exception for post $endPoint---->$e");
+      return null;
+    }
+  }
+
+  static dynamic postRestMethodWithParameter(
+      {@required String? endPoint, @required String? parameter}) async {
+    try {
+      String url = "$baseUrl$endPoint?$parameter";
+
+      log("url------>$url");
+
+      Response response = await http.post(Uri.parse(url), headers: headers);
+      log("status code---->${response.statusCode}");
+
+      if (response.statusCode == 200) {
+        log("body---->${response.body}");
+        return response.body;
+      }
+    } on Exception catch (e) {
+      log("catch exception for post $endPoint----->$e");
       return null;
     }
   }
