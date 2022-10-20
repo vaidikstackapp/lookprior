@@ -10,6 +10,7 @@ class ColorConstants {
   static const Color headerColor = Colors.black;
   static const Color fontColor = Colors.black;
   static Color subTitleColor = Colors.black.withOpacity(0.5);
+  static Color fontSubTitleColor = Colors.black.withOpacity(0.4);
   static Color appbarIconColor = const Color(0xff19C060);
   static Color catagoryListColor = const Color(0xffE4FFEF);
   static Color iconButtonColor = appColor.withOpacity(0.2);

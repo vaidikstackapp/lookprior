@@ -3,7 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:look_prior/common/contants/color_contants.dart';
 import 'package:look_prior/common/contants/icon_constants.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
+import 'package:look_prior/common/widgets/custom_route.dart';
 import 'package:look_prior/model/user_model.dart';
+import 'package:look_prior/screens/edit_user_detail_screen/edit_user_detail_screen.dart';
 import 'package:look_prior/screens/user_details_screen/user_screen_view_model.dart';
 import 'package:look_prior/utils/scroll_brehavior.dart';
 
@@ -33,11 +35,14 @@ class UserDetailScreenState extends State<UserDetailScreen> {
   Widget build(BuildContext context) {
     userScreenViewModel ?? (userScreenViewModel = UserScreenViewModel(this));
     return Scaffold(
-      backgroundColor: ColorConstants.appColor,
+      backgroundColor: (userScreenViewModel!.status)
+          ? ColorConstants.white
+          : ColorConstants.appColor,
       appBar: userScreenAppBar(),
       body: userScreenBody(),
     );
   }
+
   //------------------userScreenBody---------------------------------
 
   Widget userScreenBody() {
@@ -289,6 +294,8 @@ class UserDetailScreenState extends State<UserDetailScreen> {
       actions: [
         GestureDetector(
           onTap: (userScreenViewModel!.status) ? null : () {},
+          // : () => Navigator.push(
+          //     context, CustomRoutes(child: const EditUserDetailScreen())),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SvgPicture.asset(IconConstants.editIcon),
