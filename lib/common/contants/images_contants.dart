@@ -1,5 +1,6 @@
 class ImageConstants {
   static String appLogo = "assets/images/app_icon.png";
+  static String user = "assets/images/user.png";
   static String welcomeImage =
       "assets/images/home_screen_image/dialog_image.png";
 
@@ -27,4 +28,12 @@ class DrawerImgConstants {
 
 class LocationImgConstants {
   static String locationImg = "assets/images/location_image/location_image.png";
+}
+
+class UserImgConstants {
+  static String userImgConstants = "assets/images/profile_images";
+  static String recordWithPhone = "$userImgConstants/Group 10360.png";
+  static String takePhoto = "$userImgConstants/Group 10361.png";
+  static String meetBuyer = "$userImgConstants/Group 10362.png";
+  static String makeMoney = "$userImgConstants/Group 10363.png";
 }

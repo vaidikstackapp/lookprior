@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:look_prior/common/contants/color_contants.dart';
@@ -54,6 +56,10 @@ class HomeScreenState extends State<HomeScreen> {
 
   Future<void> getToken() async {
     Singleton.accessToken = await getPrefStringValue(accessToken);
+    Singleton.uid = await getPrefIntValue(userId);
+
+    log("uid--->${Singleton.uid}");
+    log("accessToken--->${Singleton.accessToken}");
   }
 
   void dialog() {
@@ -193,191 +199,141 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Widget homeScreenDrawer(GlobalKey<ScaffoldState> scaffoldKey, bool mounted) {
-  //   return ScrollConfiguration(
-  //     behavior: MyBehavior(),
-  //     child: Drawer(
-  //       shape: const RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.only(
-  //           topRight: Radius.circular(30),
-  //           bottomRight: Radius.circular(30),
-  //         ),
-  //       ),
-  //       child: ListView(
-  //         shrinkWrap: true,
-  //         children: [
-  //           GestureDetector(
-  //             onTap: () => Navigator.pushReplacement(
-  //                 context, CustomRoutes(child: const LogInScreen())),
-  //             child: Container(
-  //                 height: 133,
-  //                 padding:
-  //                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-  //                 alignment: Alignment.centerLeft,
-  //                 width: double.infinity,
-  //                 color: ColorConstants.appColor,
-  //                 child: SvgPicture.asset(DrawerImgConstants.userImage)),
-  //           ),
-  //           SizedBox(
-  //             height: 350,
-  //             child: ListView.builder(
-  //               shrinkWrap: true,
-  //               physics: const NeverScrollableScrollPhysics(),
-  //               itemCount: DrawerIconConstants.drawerIconList.length,
-  //               itemBuilder: (context1, index) {
-  //                 return ListTile(
-  //                   onTap: () =>
-  //                       drawerListOnTap(index, context, _scaffoldKey, mounted),
-  //                   leading: AppIconButton(
-  //                       color: ColorConstants.iconButtonColor,
-  //                       iconName: DrawerIconConstants.drawerIconList[index]),
-  //                   title: AppText(
-  //                     text: StringConstants.drawerTitle[index],
-  //                     color: ColorConstants.fontColor,
-  //                     fontSize: 15,
-  //                   ),
-  //                   trailing: const Icon(Icons.navigate_next_outlined),
-  //                 );
-  //               },
-  //             ),
-  //           ),
-  //           Padding(
-  //             padding: const EdgeInsets.only(top: 60, right: 170),
-  //             child: SizedBox(
-  //                 height: 56,
-  //                 width: 86,
-  //                 child: Image.asset(ImageConstants.appLogo)),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Widget homeScreenContent() {
-    return ScrollConfiguration(
-      behavior: MyBehavior(),
-      child: ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.symmetric(horizontal: 14),
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 23, bottom: 10),
-            child: AppText(
-              textAlign: TextAlign.start,
-              color: ColorConstants.headerColor,
-              text: "Catagory",
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          Container(
-            height: 100,
-            alignment: Alignment.center,
-            child: ScrollConfiguration(
-              behavior: MyBehavior(),
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: IconConstants.catagoryListIcon.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: (index == 0)
-                        ? const EdgeInsets.only(left: 0)
-                        : const EdgeInsets.only(left: 16),
-                    child: Column(
-                      children: [
-                        AppIconButton(
-                            height: 71,
-                            width: 76,
-                            color: ColorConstants.catagoryListColor,
-                            iconName: IconConstants.catagoryListIcon[index]),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: AppText(
-                            text: StringConstants.catagoryListTitle[index],
-                            fontSize: 11,
-                            color: ColorConstants.fontColor,
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 23),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      children: [
+        const SizedBox(
+          height: 15,
+        ),
+        Expanded(
+          child: ScrollConfiguration(
+            behavior: MyBehavior(),
+            child: ListView(
+              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(horizontal: 14),
               children: [
-                AppText(
-                  textAlign: TextAlign.start,
-                  color: ColorConstants.headerColor,
-                  text: StringConstants.topAds,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: AppText(
+                    textAlign: TextAlign.start,
+                    color: ColorConstants.headerColor,
+                    text: "Catagory",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-                AppText(
-                  text: "See all >",
-                  fontSize: 14,
-                  color: ColorConstants.appColor,
+                Container(
+                  height: 100,
+                  alignment: Alignment.center,
+                  child: ScrollConfiguration(
+                    behavior: MyBehavior(),
+                    child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: IconConstants.catagoryListIcon.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: (index == 0)
+                              ? const EdgeInsets.only(left: 0)
+                              : const EdgeInsets.only(left: 16),
+                          child: Column(
+                            children: [
+                              AppIconButton(
+                                  height: 71,
+                                  width: 76,
+                                  color: ColorConstants.catagoryListColor,
+                                  iconName:
+                                      IconConstants.catagoryListIcon[index]),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: AppText(
+                                  text:
+                                      StringConstants.catagoryListTitle[index],
+                                  fontSize: 11,
+                                  color: ColorConstants.fontColor,
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 23),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AppText(
+                        textAlign: TextAlign.start,
+                        color: ColorConstants.headerColor,
+                        text: StringConstants.topAds,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      AppText(
+                        text: "See all >",
+                        fontSize: 14,
+                        color: ColorConstants.appColor,
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 218,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: ImageConstants.topAdsList.length,
+                    itemBuilder: (context, index) {
+                      return AppProductList(
+                        pictureHeight: 110,
+                        pictureWidth: 150,
+                        productName: StringConstants.topAdProduct[index],
+                        productPrize: StringConstants.topAdProductPrize[index],
+                        image: ImageConstants.topAdsList[index],
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: AppText(
+                    textAlign: TextAlign.start,
+                    color: ColorConstants.headerColor,
+                    text: "Near you",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: ImageConstants.nearYouList.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      mainAxisSpacing: 5,
+                      crossAxisSpacing: 2,
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.78),
+                  itemBuilder: (context, index) {
+                    return AppProductList(
+                      width: 100,
+                      pictureHeight: 100,
+                      pictureWidth: 130,
+                      paddingLeft: 10,
+                      image: ImageConstants.nearYouList[index],
+                      productName: StringConstants.nearYouProductList[index],
+                      productPrize: StringConstants.nearYouProductPrize[index],
+                    );
+                  },
                 )
               ],
             ),
           ),
-          SizedBox(
-            height: 218,
-            child: ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: ImageConstants.topAdsList.length,
-              itemBuilder: (context, index) {
-                return AppProductList(
-                  pictureHeight: 110,
-                  pictureWidth: 150,
-                  productName: StringConstants.topAdProduct[index],
-                  productPrize: StringConstants.topAdProductPrize[index],
-                  image: ImageConstants.topAdsList[index],
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: AppText(
-              textAlign: TextAlign.start,
-              color: ColorConstants.headerColor,
-              text: "Near you",
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: ImageConstants.nearYouList.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 2,
-                crossAxisCount: 2,
-                childAspectRatio: 0.78),
-            itemBuilder: (context, index) {
-              return AppProductList(
-                width: 100,
-                pictureHeight: 100,
-                pictureWidth: 130,
-                paddingLeft: 10,
-                image: ImageConstants.nearYouList[index],
-                productName: StringConstants.nearYouProductList[index],
-                productPrize: StringConstants.nearYouProductPrize[index],
-              );
-            },
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

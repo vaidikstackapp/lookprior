@@ -6,7 +6,7 @@ class ColorConstants {
   static const Color faceBookButtonColor = Color(0xff546DFD);
   static const Color dividerColor = Color(0xff333333);
   static const Color appleButtonColor = Colors.black;
-  static const Color containerBackgroundColor = Colors.white;
+  static const Color containerBackgroundColor = Color(0xffFAFAFA);
   static const Color headerColor = Colors.black;
   static const Color fontColor = Colors.black;
   static Color subTitleColor = Colors.black.withOpacity(0.5);
@@ -14,4 +14,5 @@ class ColorConstants {
   static Color catagoryListColor = const Color(0xffE4FFEF);
   static Color iconButtonColor = appColor.withOpacity(0.2);
   static Color checkIconColor = Colors.white;
+  static Color white = Colors.white;
 }

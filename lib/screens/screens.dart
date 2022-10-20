@@ -1,6 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:look_prior/screens/catagory_screen/catagory_screen.dart';
 import 'package:look_prior/screens/home_screen/home_screen.dart';
 import 'package:look_prior/screens/notification_screen/notification_screen.dart';
 import 'package:look_prior/screens/post_ad_screen/post_ad_screen.dart';
@@ -35,9 +36,7 @@ class _ScreensState extends State<Screens> {
     screens = [
       HomeScreen(scaffoldKey: _scaffoldKey),
       const NotificationScreen(),
-      UserDetailScreen(
-        scaffoldKey: _scaffoldKey,
-      ),
+      const CatagoryScreen(),
       UserDetailScreen(
         scaffoldKey: _scaffoldKey,
       )
@@ -123,9 +122,11 @@ class _ScreensState extends State<Screens> {
         notchSmoothness: NotchSmoothness.verySmoothEdge,
         itemCount: 4,
         tabBuilder: (index, isActive) {
-          final color = isActive ? ColorConstants.appColor : Colors.black;
+          final color = isActive
+              ? ColorConstants.appColor
+              : Colors.black.withOpacity(0.3);
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 19),
             child: SvgPicture.asset(
               IconConstants.bottomIcon[index],
               color: color,

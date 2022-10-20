@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
+import 'package:look_prior/common/widgets/app_toast.dart';
 
 class RestServiceConstants {
   static String? deviceToken;
@@ -12,15 +13,25 @@ class RestServiceConstants {
   static const String signInApi = "/api/v1/data/signin";
   static const String forgotPassApi = "/api/v1/data/forgotpassword";
   static const String getProfileApi = "/api/v1/data/getprofiledetail";
+  static const String changePassApi = "/api/v1/data/changepassword";
+  static const String logOutApi = "/api/v1/data/logout";
 
   static Map<String, String> headers = {'Content-Type': 'application/json'};
 
   static dynamic postRestMethods(
       {@required String? endPoint,
-      @required Map<String, dynamic>? bodyParam}) async {
+      @required Map<String, dynamic>? bodyParam,
+      String? token}) async {
     try {
       String url = '$baseUrl$endPoint';
 
+      if (token != null && token.isNotEmpty) {
+        headers = {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        };
+      }
+      log("header----->${headers.toString()}");
       log("url---->$url");
 
       Response response = await http.post(Uri.parse(url),

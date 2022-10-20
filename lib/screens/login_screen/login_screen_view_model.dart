@@ -13,7 +13,6 @@ import 'package:look_prior/service/rest_service.dart';
 
 import '../../common/widgets/custom_route.dart';
 import '../../utils/share_preference.dart';
-import '../home_screen/home_screen.dart';
 import '../screens.dart';
 import 'login_screen.dart';
 
@@ -65,7 +64,7 @@ class LogInScreenViewModel {
           log("Log in response------>${logInModel.toJson()}");
 
           setPrefStringValue(accessToken, '${logInModel.accessToken}');
-          setPrefStringValue(uid, '${logInModel.userId}');
+          setPrefIntValue(userId, logInModel.userId);
           setPrefBoolValue(isLogin, true);
           status = false;
           logInScreenState.refresh();
@@ -121,18 +120,13 @@ class LogInScreenViewModel {
 
             setPrefStringValue(accessToken, '${logInModel.accessToken}');
             setPrefBoolValue(isLogin, true);
-            setPrefStringValue(uid, '${logInModel.userId}');
+            setPrefIntValue(userId, logInModel.userId);
             appToast(logInModel.message);
             if (logInScreenState.mounted) {
               status = false;
               logInScreenState.refresh();
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  CustomRoutes(
-                      child: HomeScreen(
-                    scaffoldKey: null,
-                  )),
-                  (route) => false);
+              Navigator.pushAndRemoveUntil(context,
+                  CustomRoutes(child: const Screens()), (route) => false);
             }
           } else {
             appToast(responseMap['Message']);
@@ -189,18 +183,13 @@ class LogInScreenViewModel {
               appToast(logInModel.message);
               setPrefStringValue(accessToken, '${logInModel.accessToken}');
               setPrefBoolValue(isLogin, true);
-              setPrefStringValue(uid, '${logInModel.userId}');
+              setPrefIntValue(userId, logInModel.userId);
 
               if (logInScreenState.mounted) {
                 status = false;
                 logInScreenState.refresh();
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    CustomRoutes(
-                        child: HomeScreen(
-                      scaffoldKey: null,
-                    )),
-                    (route) => false);
+                Navigator.pushAndRemoveUntil(context,
+                    CustomRoutes(child: const Screens()), (route) => false);
               }
             } else {
               status = false;
