@@ -20,6 +20,7 @@ class IconConstants {
   static String starIcon = "assets/icons/home_screen_icon/star.svg";
   static String moreIcon = "assets/icons/home_screen_icon/more_icon.svg";
   static String googleIcon = "assets/icons/icons8-google.svg";
+  static String profileEditIcon = "assets/icons/edit_icon.png";
 
   static String editIcon = "assets/icons/Edit.svg";
 

@@ -13,6 +13,7 @@ class AppButton extends StatelessWidget {
   FontWeight? fontWeight;
   Function()? onTap;
   Color? buttonColor;
+  Color? textColor;
   String? text;
   String? buttonIcon;
   String? url;
@@ -27,6 +28,7 @@ class AppButton extends StatelessWidget {
       this.buttonIcon,
       this.iconHeight,
       this.iconWidth,
+      this.textColor,
       this.fontWeight});
 
   @override
@@ -62,7 +64,7 @@ class AppButton extends StatelessWidget {
                 text: text,
                 fontSize: fontSize,
                 fontWeight: fontWeight,
-                color: ColorConstants.textColor,
+                color: textColor ?? ColorConstants.textColor,
               ),
             ],
           ),

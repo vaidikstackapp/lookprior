@@ -4,9 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:look_prior/common/widgets/app_toast.dart';
-import 'package:look_prior/common/widgets/custom_route.dart';
 import 'package:look_prior/screens/change_password_screen/change_password_screen.dart';
-import 'package:look_prior/screens/user_details_screen/user_details_screen.dart';
 import 'package:look_prior/service/rest_service.dart';
 import 'package:look_prior/utils/single_tone.dart';
 

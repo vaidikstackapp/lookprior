@@ -18,7 +18,8 @@ import '../utils/scroll_brehavior.dart';
 import 'login_screen/login_screen.dart';
 
 class Screens extends StatefulWidget {
-  const Screens({Key? key}) : super(key: key);
+  final int index;
+  const Screens({Key? key, this.index = 0}) : super(key: key);
 
   @override
   State<Screens> createState() => _ScreensState();
@@ -33,6 +34,7 @@ class _ScreensState extends State<Screens> {
   @override
   void initState() {
     super.initState();
+    bottomBarActiveIndex = widget.index;
     screens = [
       HomeScreen(scaffoldKey: _scaffoldKey),
       const NotificationScreen(),

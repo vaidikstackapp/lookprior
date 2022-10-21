@@ -1,6 +1,6 @@
-import 'package:country_picker/country_picker.dart';
+import 'package:country_pickers/country.dart';
+import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:look_prior/common/contants/color_contants.dart';
 import 'package:look_prior/common/contants/string_contants.dart';
 import 'package:look_prior/common/widgets/app_background.dart';
@@ -91,7 +91,9 @@ class RegisterScreenState extends State<RegisterScreen> {
                                       child: Row(
                                         children: [
                                           InkWell(
-                                            onTap: countryPicker,
+                                            onTap: () =>
+                                                openCountryPickerDialog(
+                                                    context),
                                             child: showCountry(),
                                           ),
                                           phoneNumberTextField(context),
@@ -221,38 +223,45 @@ class RegisterScreenState extends State<RegisterScreen> {
 
   //-----------------Country Picker-------------------
 
-  countryPicker() {
-    showCountryPicker(
-      context: context,
-      exclude: <String>['KN', 'MF'],
-      favorite: <String>['SE'],
-      showPhoneCode: true,
-      onSelect: (val) {
-        registerScreenViewModel!.country = val;
-        setState(() {});
-      },
-      countryListTheme: CountryListThemeData(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(40.0),
-          topRight: Radius.circular(40.0),
-        ),
-        inputDecoration: InputDecoration(
-          labelText: 'Search',
-          hintText: 'Start typing to search',
-          prefixIcon: const Icon(Icons.search),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: const Color(0xFF8C98A8).withOpacity(0.2),
-            ),
+  void openCountryPickerDialog(BuildContext context) => showDialog(
+        context: context,
+        builder: (context) => Theme(
+          data: Theme.of(context).copyWith(primaryColor: Colors.pink),
+          child: CountryPickerDialog(
+            titlePadding: const EdgeInsets.all(8.0),
+            searchCursorColor: Colors.pinkAccent,
+            searchInputDecoration: const InputDecoration(hintText: 'Search...'),
+            isSearchable: true,
+            title: const Text('Select your phone code'),
+            onValuePicked: (value) {
+              registerScreenViewModel!.country = value;
+              setState(() {});
+            },
+            itemBuilder: buildDialogItem,
+            priorityList: [
+              CountryPickerUtils.getCountryByIsoCode('TR'),
+              CountryPickerUtils.getCountryByIsoCode('US'),
+            ],
           ),
         ),
-      ),
-    );
-  }
+      );
+  Widget buildDialogItem(Country country) => Padding(
+        padding: const EdgeInsets.only(bottom: 13),
+        child: Row(
+          children: <Widget>[
+            CountryPickerUtils.getDefaultFlagImage(country),
+            Flexible(
+                child: Text(
+              "(${country.name})+${country.phoneCode}",
+              overflow: TextOverflow.ellipsis,
+            )),
+          ],
+        ),
+      );
 
 //----------------------Show Country--------------------
 
-  Widget showCountry() {
+  showCountry() {
     return Card(
       child: Container(
           height: 50,
@@ -263,23 +272,14 @@ class RegisterScreenState extends State<RegisterScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                AppText(
-                  text: registerScreenViewModel!.country!.flagEmoji,
-                  fontSize: 20,
-                ),
-                AppText(
-                  text: "(${registerScreenViewModel!.country!.countryCode})",
-                  fontSize: 12,
-                  color: Colors.black,
-                ),
-                AppText(
-                  text: "+${registerScreenViewModel!.country!.phoneCode}",
-                  fontSize: 12,
-                  color: Colors.black,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 3),
-                  child: SvgPicture.asset(IconConstants.dropDownIcon),
+                CountryPickerUtils.getDefaultFlagImage(
+                    registerScreenViewModel!.country),
+                Flexible(
+                  child: AppText(
+                    text:
+                        "(${registerScreenViewModel!.country.isoCode})+${registerScreenViewModel!.country.phoneCode}",
+                    color: ColorConstants.fontColor,
+                  ),
                 ),
               ],
             ),

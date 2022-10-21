@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
-import 'package:look_prior/common/widgets/app_toast.dart';
 
 class RestServiceConstants {
   static String? deviceToken;
@@ -15,6 +14,7 @@ class RestServiceConstants {
   static const String getProfileApi = "/api/v1/data/getprofiledetail";
   static const String changePassApi = "/api/v1/data/changepassword";
   static const String logOutApi = "/api/v1/data/logout";
+  static const String updateProfileApi = "/api/v1/data/updateprofile";
 
   static Map<String, String> headers = {'Content-Type': 'application/json'};
 

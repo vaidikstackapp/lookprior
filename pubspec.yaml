@@ -37,7 +37,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   animated_splash_screen: ^1.3.0
-  country_picker: ^2.0.16
+ 
   flutter_svg: ^1.1.5
   animated_bottom_navigation_bar: ^1.1.0
   google_maps_flutter: ^2.2.1
@@ -47,6 +47,7 @@ dependencies:
   video_player: ^2.4.7
   zoom_widget: ^2.0.0
   video_thumbnail: ^0.5.3
+  country_pickers: ^2.0.0
 
   #Api
   http: ^0.13.5

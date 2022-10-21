@@ -7,6 +7,7 @@ class AppTextField extends StatelessWidget {
   String? prefixIcon;
   String? suffixIcon;
   String? hintText;
+  String? initialValue;
   double? topMargin;
   double? hintTextSize;
   double? width;
@@ -40,7 +41,8 @@ class AppTextField extends StatelessWidget {
       this.readOnly,
       this.contentPadding,
       this.onTap,
-      this.maxLines});
+      this.maxLines,
+      this.initialValue});
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +54,7 @@ class AppTextField extends StatelessWidget {
           top: topMargin ?? 0,
           right: rightMargin ?? 18),
       child: TextFormField(
+        initialValue: initialValue,
         maxLines: maxLines ?? 1,
         onTap: onTap,
         readOnly: readOnly ?? false,

@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:country_picker/country_picker.dart';
+import 'package:country_pickers/country.dart';
+import 'package:country_pickers/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:look_prior/common/widgets/app_toast.dart';
 import 'package:look_prior/common/widgets/custom_route.dart';
@@ -18,17 +19,7 @@ class RegisterScreenViewModel {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   bool status = false;
-  Country? country = Country(
-      phoneCode: '91',
-      countryCode: 'IN',
-      e164Sc: 0,
-      geographic: true,
-      level: 1,
-      name: 'India',
-      example: '9123456789',
-      displayName: 'India (IN) [+91]',
-      displayNameNoCountryCode: 'India (IN)',
-      e164Key: '91-IN-0');
+  Country country = CountryPickerUtils.getCountryByPhoneCode('91');
 
   final registerKey = GlobalKey<FormState>();
 
@@ -50,7 +41,7 @@ class RegisterScreenViewModel {
         'name': userNameController.text.trim(),
         'password': passwordController.text.trim(),
         'phoneNumber': phoneController.text.trim(),
-        'countryCode': country!.countryCode,
+        'countryCode': country.phoneCode,
         'deviceToken': RestServiceConstants.deviceToken,
         'deviceType': (Platform.isAndroid) ? 1 : 2,
       };

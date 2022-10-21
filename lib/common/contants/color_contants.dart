@@ -15,5 +15,7 @@ class ColorConstants {
   static Color catagoryListColor = const Color(0xffE4FFEF);
   static Color iconButtonColor = appColor.withOpacity(0.2);
   static Color checkIconColor = Colors.white;
+  static Color cancelButtonColor = const Color(0xffE1DED5);
+  static Color cancelTextColor = const Color(0xff9A9999);
   static Color white = Colors.white;
 }

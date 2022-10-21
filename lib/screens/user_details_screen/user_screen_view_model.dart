@@ -8,6 +8,7 @@ import 'package:look_prior/model/user_model.dart';
 import 'package:look_prior/screens/change_password_screen/change_password_screen.dart';
 import 'package:look_prior/screens/login_screen/login_screen.dart';
 import 'package:look_prior/screens/user_details_screen/user_details_screen.dart';
+import 'package:look_prior/service/auth_service.dart';
 import 'package:look_prior/utils/share_preference.dart';
 import 'package:look_prior/utils/single_tone.dart';
 
@@ -24,7 +25,6 @@ class UserScreenViewModel {
   }
 
   bool status = false;
-
   Future<UserModel?> getProfileData() async {
     try {
       status = true;
@@ -38,6 +38,7 @@ class UserScreenViewModel {
           userDetailScreenState.userModel =
               userModelFromJson(getProfileResponse);
           log("userDetailScreenState.userModel---->${userDetailScreenState.userModel!.email}");
+
           status = false;
           userDetailScreenState.refresh();
         }
@@ -75,13 +76,14 @@ class UserScreenViewModel {
 
         if (logoutResponseMap.containsKey('Success') &&
             logoutResponseMap['Success']) {
-          status = false;
-          userDetailScreenState.refresh();
           appToast(logoutResponseMap['Message']);
           if (userDetailScreenState.mounted) {
             removePrefValue(isLogin);
             removePrefValue(accessToken);
             removePrefValue(userId);
+            AuthService().signOutWithGoogle();
+            status = false;
+            userDetailScreenState.refresh();
             Navigator.pushAndRemoveUntil(userDetailScreenState.context,
                 CustomRoutes(child: const LogInScreen()), (route) => false);
           }

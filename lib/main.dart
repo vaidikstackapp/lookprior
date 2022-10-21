@@ -1,4 +1,3 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -49,7 +48,6 @@ Future<void> main() async {
             scriptCode: 'Hant'), // Generic traditional Chinese 'zh_Hant'
       ],
       localizationsDelegates: const [
-        CountryLocalizations.delegate,
         DefaultWidgetsLocalizations.delegate,
         DefaultMaterialLocalizations.delegate
       ],

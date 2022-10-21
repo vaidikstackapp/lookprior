@@ -35,4 +35,15 @@ class AuthService {
       return null;
     }
   }
+
+  Future<GoogleSignInAccount?> signOutWithGoogle() async {
+    try {
+      GoogleSignInAccount? account = await GoogleSignIn().signOut();
+      log('account----->$account');
+      return account;
+    } on PlatformException catch (e) {
+      log("Catch exception for logOutWithGoogle----->${e.message}");
+    }
+    return null;
+  }
 }

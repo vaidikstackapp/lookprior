@@ -70,7 +70,9 @@ class UserDetailScreenState extends State<UserDetailScreen> {
                                 height: 60,
                               ),
                               AppText(
-                                text: userModel!.userName,
+                                text: (userModel!.userName == null)
+                                    ? "User name"
+                                    : userModel!.userName,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 17,
                                 color: ColorConstants.fontColor,
@@ -79,7 +81,9 @@ class UserDetailScreenState extends State<UserDetailScreen> {
                                 height: 2,
                               ),
                               AppText(
-                                text: "Owner",
+                                text: (userModel!.userTypeId == 1)
+                                    ? "Owner"
+                                    : "Business",
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black.withOpacity(0.4),
@@ -87,26 +91,30 @@ class UserDetailScreenState extends State<UserDetailScreen> {
                               const SizedBox(
                                 height: 2,
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    IconConstants.locationIcon,
-                                    height: 9.17,
-                                    width: 7.79,
-                                    color: Colors.black.withOpacity(0.5),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  AppText(
-                                    text: "California, USA",
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black.withOpacity(0.4),
-                                  ),
-                                ],
-                              ),
+                              userModel!.fullAddress == null
+                                  ? const SizedBox()
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          IconConstants.locationIcon,
+                                          height: 9.17,
+                                          width: 7.79,
+                                          color: Colors.black.withOpacity(0.5),
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        AppText(
+                                          text:
+                                              userModel!.fullAddress.toString(),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black.withOpacity(0.4),
+                                        ),
+                                      ],
+                                    ),
                               const SizedBox(
                                 height: 15,
                               ),
@@ -234,28 +242,20 @@ class UserDetailScreenState extends State<UserDetailScreen> {
                     height: 100,
                     width: 100,
                     decoration: BoxDecoration(
+                        image: (userModel == null)
+                            ? DecorationImage(
+                                image: AssetImage(ImageConstants.user),
+                                scale: 5.2,
+                              )
+                            : DecorationImage(
+                                image: NetworkImage(
+                                    userModel!.imagePath.toString())),
                         shape: BoxShape.circle,
                         border: Border.all(
                           width: 3,
                           color: ColorConstants.white,
                         ),
                         color: ColorConstants.white),
-                    child: (userModel == null)
-                        ? Image.asset(
-                            ImageConstants.user,
-                            scale: 5.2,
-                          )
-                        : Image.network(
-                            '${userModel!.imagePath}',
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              }
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            },
-                            scale: 4.5,
-                          ),
                   ),
                 ),
               ],
@@ -293,9 +293,14 @@ class UserDetailScreenState extends State<UserDetailScreen> {
       ),
       actions: [
         GestureDetector(
-          onTap: (userScreenViewModel!.status) ? null : () {},
-          // : () => Navigator.push(
-          //     context, CustomRoutes(child: const EditUserDetailScreen())),
+          onTap: (userScreenViewModel!.status)
+              ? null
+              : () => Navigator.push(
+                  context,
+                  CustomRoutes(
+                      child: EditUserDetailScreen(
+                    userModel: userModel,
+                  ))),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SvgPicture.asset(IconConstants.editIcon),

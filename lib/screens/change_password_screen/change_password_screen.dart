@@ -23,9 +23,9 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
         toolbarHeight: 80,
         centerTitle: true,
         leading: GestureDetector(
-            child: const Icon(Icons.arrow_back),
             onTap:
-                (passViewModel!.status) ? null : () => Navigator.pop(context)),
+                (passViewModel!.status) ? null : () => Navigator.pop(context),
+            child: const Icon(Icons.arrow_back)),
         elevation: 0,
         backgroundColor: ColorConstants.appColor,
         title: AppText(
