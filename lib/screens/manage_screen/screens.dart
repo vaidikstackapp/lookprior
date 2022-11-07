@@ -7,15 +7,15 @@ import 'package:look_prior/screens/notification_screen/notification_screen.dart'
 import 'package:look_prior/screens/post_ad_screen/post_ad_screen.dart';
 import 'package:look_prior/screens/user_details_screen/user_details_screen.dart';
 
-import '../common/contants/color_contants.dart';
-import '../common/contants/icon_constants.dart';
-import '../common/contants/images_contants.dart';
-import '../common/contants/string_contants.dart';
-import '../common/widgets/app_icon_button.dart';
-import '../common/widgets/app_text.dart';
-import '../common/widgets/custom_route.dart';
-import '../utils/scroll_brehavior.dart';
-import 'login_screen/login_screen.dart';
+import '../../common/contants/color_contants.dart';
+import '../../common/contants/icon_constants.dart';
+import '../../common/contants/images_contants.dart';
+import '../../common/contants/string_contants.dart';
+import '../../common/widgets/app_icon_button.dart';
+import '../../common/widgets/app_text.dart';
+import '../../common/widgets/custom_route.dart';
+import '../../utils/scroll_brehavior.dart';
+import '../login_screen/login_screen.dart';
 
 class Screens extends StatefulWidget {
   final int index;

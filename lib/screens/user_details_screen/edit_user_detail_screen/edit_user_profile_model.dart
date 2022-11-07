@@ -8,10 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:look_prior/common/widgets/app_toast.dart';
 import 'package:look_prior/common/widgets/custom_route.dart';
 import 'package:look_prior/model/update_profile_model.dart';
-import 'package:look_prior/screens/edit_user_detail_screen/edit_user_detail_screen.dart';
-import 'package:look_prior/screens/screens.dart';
+import 'package:look_prior/screens/manage_screen/screens.dart';
 import 'package:look_prior/service/rest_service.dart';
 import 'package:look_prior/utils/single_tone.dart';
+
+import 'edit_user_detail_screen.dart';
 
 class EditUserModel {
   EditUserDetailScreenState editUserDetailScreenState;

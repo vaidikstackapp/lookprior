@@ -8,11 +8,11 @@ import 'package:look_prior/common/contants/string_contants.dart';
 import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_textfield.dart';
 import 'package:look_prior/model/user_model.dart';
-import 'package:look_prior/screens/edit_user_detail_screen/edit_user_profile_model.dart';
 
-import '../../common/contants/color_contants.dart';
-import '../../common/widgets/app_text.dart';
-import '../../utils/scroll_brehavior.dart';
+import '../../../common/contants/color_contants.dart';
+import '../../../common/widgets/app_text.dart';
+import '../../../utils/scroll_brehavior.dart';
+import 'edit_user_profile_model.dart';
 
 // ignore: must_be_immutable
 class EditUserDetailScreen extends StatefulWidget {
@@ -47,6 +47,7 @@ class EditUserDetailScreenState extends State<EditUserDetailScreen> {
               Expanded(
                   flex: 2,
                   child: AppButton(
+                    onTap: () => Navigator.pop(context),
                     topPadding: 10,
                     bottomPadding: 10,
                     textColor: const Color(0xff9A9999),

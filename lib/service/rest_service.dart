@@ -15,6 +15,8 @@ class RestServiceConstants {
   static const String changePassApi = "/api/v1/data/changepassword";
   static const String logOutApi = "/api/v1/data/logout";
   static const String updateProfileApi = "/api/v1/data/updateprofile";
+  static const String postAdDetailApi = "$baseUrl/api/v1/detail/AddOrUpdateAd2";
+  static const String getAdDetailApi = "/api/v1/detail/getmyadds";
 
   static Map<String, String> headers = {'Content-Type': 'application/json'};
 

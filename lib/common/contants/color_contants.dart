@@ -18,4 +18,6 @@ class ColorConstants {
   static Color cancelButtonColor = const Color(0xffE1DED5);
   static Color cancelTextColor = const Color(0xff9A9999);
   static Color white = Colors.white;
+  static Color blue = Colors.blue;
+  static Color purple = Colors.purple.shade700;
 }

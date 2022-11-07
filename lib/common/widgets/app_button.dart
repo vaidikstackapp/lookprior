@@ -10,9 +10,11 @@ class AppButton extends StatelessWidget {
   double? fontSize;
   double? iconHeight;
   double? iconWidth;
+  double? borderWidth;
   FontWeight? fontWeight;
   Function()? onTap;
   Color? buttonColor;
+  Color? borderColor;
   Color? textColor;
   String? text;
   String? buttonIcon;
@@ -29,6 +31,8 @@ class AppButton extends StatelessWidget {
       this.iconHeight,
       this.iconWidth,
       this.textColor,
+      this.borderColor,
+      this.borderWidth,
       this.fontWeight});
 
   @override
@@ -46,7 +50,10 @@ class AppButton extends StatelessWidget {
           height: 58,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              color: buttonColor, borderRadius: BorderRadius.circular(6)),
+              border: Border.all(
+                  color: borderColor ?? Colors.white, width: borderWidth ?? 0),
+              color: buttonColor,
+              borderRadius: BorderRadius.circular(6)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

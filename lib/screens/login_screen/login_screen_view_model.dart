@@ -13,7 +13,7 @@ import 'package:look_prior/service/rest_service.dart';
 
 import '../../common/widgets/custom_route.dart';
 import '../../utils/share_preference.dart';
-import '../screens.dart';
+import '../manage_screen/screens.dart';
 import 'login_screen.dart';
 
 class LogInScreenViewModel {

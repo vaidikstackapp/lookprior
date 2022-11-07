@@ -12,11 +12,12 @@ import 'package:look_prior/common/widgets/app_screen_backgroud.dart';
 import 'package:look_prior/common/widgets/custom_route.dart';
 import 'package:look_prior/screens/post_ad_screen/full_screen_view_image.dart';
 import 'package:look_prior/screens/post_ad_screen/play_video_screen.dart';
+import 'package:look_prior/screens/post_ad_screen/post_ad_details_screen/post_ad_details_screen.dart';
 import 'package:look_prior/screens/post_ad_screen/post_ad_screen_view_model.dart';
+import 'package:look_prior/screens/storage_plan_screen/storage_plan_screen.dart';
 import 'package:look_prior/utils/scroll_brehavior.dart';
 import '../../common/contants/color_contants.dart';
 import '../../common/widgets/app_text.dart';
-import '../ad_details_screen/ad_details_screen.dart';
 
 class PostAdScreen extends StatefulWidget {
   const PostAdScreen({Key? key}) : super(key: key);
@@ -27,12 +28,12 @@ class PostAdScreen extends StatefulWidget {
 
 class PostAdScreenState extends State<PostAdScreen> {
   PostAdScreenViewModel? postAdScreenViewModel;
+
   @override
   Widget build(BuildContext context) {
     postAdScreenViewModel ??
         (postAdScreenViewModel = PostAdScreenViewModel(this));
     return Scaffold(
-      bottomNavigationBar: const BottomAppBar(),
       body: AppScreenBackGround(
         appbarWidget: CommonAppBar(title: StringConstants.postAd),
         bodyWidget: postAdContent(),
@@ -73,29 +74,49 @@ class PostAdScreenState extends State<PostAdScreen> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AppText(
-                fontSize: 13,
-                text: "Go to my options",
-                color: ColorConstants.appColor,
-              ),
-              const Icon(
-                Icons.arrow_forward,
-                color: ColorConstants.appColor,
-                size: 13,
-              ),
-            ],
+        GestureDetector(
+          onTap: () => Navigator.push(
+              context, CustomRoutes(child: const StoragePlanScreen())),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AppText(
+                  fontSize: 13,
+                  text: "Go to my options",
+                  color: ColorConstants.appColor,
+                ),
+                const Icon(
+                  Icons.arrow_forward,
+                  color: ColorConstants.appColor,
+                  size: 13,
+                ),
+              ],
+            ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: AppButton(
-            onTap: () => Navigator.push(
-                context, CustomRoutes(child: const AdDetailScreen())),
+            onTap: () {
+              if (postAdScreenViewModel!.imagePath.isNotEmpty ||
+                  postAdScreenViewModel!.videoPath.isNotEmpty) {
+                Navigator.push(
+                    context,
+                    CustomRoutes(
+                        child: AdDetailScreen(postAdScreenViewModel!.imagePath,
+                            postAdScreenViewModel!.videoPath)));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  behavior: SnackBarBehavior.floating,
+                  duration: const Duration(seconds: 1),
+                  content: AppText(
+                      text: "Please add at least one media file", fontSize: 17),
+                  backgroundColor: ColorConstants.appColor,
+                ));
+              }
+            },
             buttonColor: ColorConstants.appColor,
             text: "Next",
             fontSize: 16,

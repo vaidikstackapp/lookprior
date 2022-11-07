@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:look_prior/common/contants/string_contants.dart';
 import 'package:look_prior/common/widgets/app_toast.dart';
 import 'package:look_prior/common/widgets/custom_route.dart';
+import 'package:look_prior/model/get_ad_data_model.dart';
 import 'package:look_prior/model/user_model.dart';
 import 'package:look_prior/screens/change_password_screen/change_password_screen.dart';
 import 'package:look_prior/screens/login_screen/login_screen.dart';
@@ -21,10 +23,14 @@ class UserScreenViewModel {
 
   UserScreenViewModel(this.userDetailScreenState) {
     token = Singleton.accessToken;
+    getAdData();
     getProfileData();
   }
 
   bool status = false;
+  bool postAnAd = false;
+  bool isLoading = false;
+  int pageSize = 10;
   Future<UserModel?> getProfileData() async {
     try {
       status = true;
@@ -100,6 +106,42 @@ class UserScreenViewModel {
       userDetailScreenState.refresh();
       appToast(e.message);
       log("catch exception for logoutOnTap---->${e.message}");
+    }
+  }
+
+  Future<void> getAdData() async {
+    token = Singleton.accessToken;
+    try {
+      isLoading = true;
+      userDetailScreenState.refresh();
+      Map<String, dynamic> getPostAdDataModel = {
+        "pageNo": 1,
+        "pageSize": pageSize,
+        "filterId": 1
+      };
+
+      String? getPostAdDataRes = await RestServiceConstants.postRestMethods(
+          endPoint: RestServiceConstants.getAdDetailApi,
+          bodyParam: getPostAdDataModel,
+          token: token);
+      if (getPostAdDataRes != null && getPostAdDataRes.isNotEmpty) {
+        userDetailScreenState.dataModel =
+            getAdDataModelFromJson(getPostAdDataRes);
+        log("dataModel---->${userDetailScreenState.dataModel!.toJson()}");
+        if (userDetailScreenState.dataModel!.success) {
+          isLoading = false;
+          userDetailScreenState.refresh();
+        } else {
+          isLoading = false;
+          userDetailScreenState.refresh();
+          appToast(userDetailScreenState.dataModel!.message);
+        }
+      }
+    } on SocketException catch (e) {
+      isLoading = false;
+      userDetailScreenState.refresh();
+      appToast(StringConstants.network);
+      log("catch exception for getAdData---->$e");
     }
   }
 }

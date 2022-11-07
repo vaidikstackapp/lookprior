@@ -14,6 +14,7 @@ class StringConstants {
   static const topAds = "Top Ads";
   static const postAd = "Post your Ad";
   static const profile = "Profile";
+  static const network = "Network Required";
   static const forgotPass =
       "Forgot your password? Please enter your registered email address to get new password";
   static const storageDescription =
