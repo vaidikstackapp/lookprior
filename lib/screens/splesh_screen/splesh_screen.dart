@@ -28,7 +28,6 @@ class _SplashScreenState extends State<SplashScreen> {
     firebaseMessaging.getToken().then(
       (token) {
         RestServiceConstants.deviceToken = token;
-        // log("deviceToken----------------->${RestServiceConstants.deviceToken}");
       },
     );
   }
