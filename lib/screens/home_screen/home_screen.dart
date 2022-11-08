@@ -15,7 +15,6 @@ import 'package:look_prior/common/widgets/custom_route.dart';
 import 'package:look_prior/screens/home_screen/home_screen_view_model.dart';
 import 'package:look_prior/screens/location_screen/location_screen.dart';
 
-//import 'package:look_prior/screens/login_screen/login_screen.dart';
 import 'package:look_prior/screens/storage_plan_screen/storage_plan_screen.dart';
 import 'package:look_prior/utils/share_preference.dart';
 import 'package:look_prior/utils/single_tone.dart';

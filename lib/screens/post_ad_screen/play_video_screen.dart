@@ -31,8 +31,8 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
   @override
   void initState() {
     super.initState();
-
-    playerController = VideoPlayerController.file(File((widget.videoPath)))
+    print("videopath--->${widget.videoPath}");
+    playerController = VideoPlayerController.network(widget.videoPath)
       ..initialize().then((_) => setState(() {}));
     playerController!.setVolume(1.0);
     playerController!.setLooping(true);

@@ -162,7 +162,9 @@ class AdDetailScreenState extends State<AdDetailScreen> {
                 width: double.infinity,
                 color: Colors.transparent,
                 child: const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: ColorConstants.appColor,
+                  ),
                 ),
               )
             : const SizedBox(),

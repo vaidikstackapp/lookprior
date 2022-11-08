@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:look_prior/common/widgets/app_bar.dart';
 import 'package:zoom_widget/zoom_widget.dart';
 
@@ -10,12 +9,13 @@ import '../../common/widgets/app_background.dart';
 
 // ignore: must_be_immutable
 class ViewImageScreen extends StatelessWidget {
-  XFile image;
+  String image;
 
   ViewImageScreen(this.image, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print("imagepath---->$image");
     return Scaffold(
       body: SizedBox(
         height: double.infinity,
@@ -43,8 +43,8 @@ class ViewImageScreen extends StatelessWidget {
                     scrollWeight: 0,
                     backgroundColor: Colors.white,
                     initTotalZoomOut: true,
-                    child: Image.file(
-                      File(image.path),
+                    child: Image.network(
+                      image,
                       fit: BoxFit.fill,
                     ),
                   ),

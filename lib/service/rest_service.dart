@@ -17,6 +17,9 @@ class RestServiceConstants {
   static const String updateProfileApi = "/api/v1/data/updateprofile";
   static const String postAdDetailApi = "$baseUrl/api/v1/detail/AddOrUpdateAd2";
   static const String getAdDetailApi = "/api/v1/detail/getmyadds";
+  static const String getDeleteAdApi = "/api/v1/detail/DeleteAdByAdmin";
+  static const String getBroadcastDetailApi =
+      "/api/v1/detail/getbroadcastdetailnew";
 
   static Map<String, String> headers = {'Content-Type': 'application/json'};
 
@@ -87,6 +90,22 @@ class RestServiceConstants {
       }
     } catch (e) {
       log("catch exception for getRestMethods $endPoint----->$e");
+    }
+  }
+
+  static dynamic getRestMethodWithoutToken({@required String? endPoint}) async {
+    try {
+      String url = "$baseUrl$endPoint";
+
+      log("url---->$url");
+
+      Response response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        log("response body ----->${response.body}");
+        return response.body;
+      }
+    } catch (e) {
+      log("catch exception for getRestMethodWithoutToken $endPoint----->$e");
     }
   }
 }

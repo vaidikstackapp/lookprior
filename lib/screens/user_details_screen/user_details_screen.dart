@@ -12,6 +12,7 @@ import 'package:look_prior/common/widgets/custom_route.dart';
 import 'package:look_prior/model/get_ad_data_model.dart';
 import 'package:look_prior/model/user_model.dart';
 import 'package:look_prior/screens/post_ad_screen/post_ad_screen.dart';
+import 'package:look_prior/screens/user_details_screen/ad_details_screen/ad_details_screen.dart';
 import 'package:look_prior/screens/user_details_screen/user_screen_view_model.dart';
 import 'package:look_prior/utils/scroll_brehavior.dart';
 
@@ -233,88 +234,98 @@ class UserDetailScreenState extends State<UserDetailScreen> {
                                               log("length---->${dataModel!.filteredAddList!.length}");
                                               var adDetail = dataModel!
                                                   .filteredAddList![index];
-                                              return Card(
-                                                  child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  Container(
-                                                    width: 50,
-                                                    height: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
+                                              return InkWell(
+                                                onTap: () => Navigator.push(
+                                                    context,
+                                                    CustomRoutes(
+                                                        child:
+                                                            FullAdDetailScreen(
+                                                                adDetail))),
+                                                child: Card(
+                                                    child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    Container(
+                                                      width: 50,
+                                                      height: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                      ),
+                                                      child: (adDetail
+                                                              .adImageThumb!
+                                                              .isNotEmpty)
+                                                          ? Image.network(
+                                                              "${adDetail.adImageThumb}",
+                                                              fit: BoxFit.fill,
+                                                              errorBuilder:
+                                                                  (context,
+                                                                      error,
+                                                                      stackTrace) {
+                                                                return Center(
+                                                                  child: AppText(
+                                                                      color: ColorConstants
+                                                                          .fontColor,
+                                                                      fontSize:
+                                                                          14,
+                                                                      text:
+                                                                          "No Image Found"),
+                                                                );
+                                                              },
+                                                            )
+                                                          : Image.network(
+                                                              "${adDetail.adVideoThumb}",
+                                                              errorBuilder:
+                                                                  (context,
+                                                                      error,
+                                                                      stackTrace) {
+                                                                return Center(
+                                                                  child: AppText(
+                                                                      color: ColorConstants
+                                                                          .fontColor,
+                                                                      fontSize:
+                                                                          14,
+                                                                      text:
+                                                                          "No Image Found"),
+                                                                );
+                                                              },
+                                                            ),
                                                     ),
-                                                    child: (adDetail
-                                                            .adImageThumb!
-                                                            .isNotEmpty)
-                                                        ? Image.network(
-                                                            "${adDetail.adImageThumb}",
-                                                            fit: BoxFit.fill,
-                                                            errorBuilder:
-                                                                (context, error,
-                                                                    stackTrace) {
-                                                              return Center(
-                                                                child: AppText(
-                                                                    color: ColorConstants
-                                                                        .fontColor,
-                                                                    fontSize:
-                                                                        14,
-                                                                    text:
-                                                                        "No Image Found"),
-                                                              );
-                                                            },
-                                                          )
-                                                        : Image.network(
-                                                            "${adDetail.adVideoThumb}",
-                                                            errorBuilder:
-                                                                (context, error,
-                                                                    stackTrace) {
-                                                              return Center(
-                                                                child: AppText(
-                                                                    color: ColorConstants
-                                                                        .fontColor,
-                                                                    fontSize:
-                                                                        14,
-                                                                    text:
-                                                                        "No Image Found"),
-                                                              );
-                                                            },
-                                                          ),
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      AppText(
-                                                        text:
-                                                            "Title : ${adDetail.title}",
-                                                        color: ColorConstants
-                                                            .fontColor,
-                                                      ),
-                                                      AppText(
-                                                        text:
-                                                            "Price : RS${adDetail.amount}",
-                                                        color: ColorConstants
-                                                            .fontColor,
-                                                      ),
-                                                      AppText(
-                                                        text:
-                                                            "category : ${adDetail.categoryName}",
-                                                        color: ColorConstants
-                                                            .fontColor,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  AppIconButton(
-                                                      width: 70,
-                                                      iconName: IconConstants
-                                                          .shareIcon),
-                                                ],
-                                              ));
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        AppText(
+                                                          text:
+                                                              "Title : ${adDetail.title}",
+                                                          color: ColorConstants
+                                                              .fontColor,
+                                                        ),
+                                                        AppText(
+                                                          text:
+                                                              "Price : RS${adDetail.amount}",
+                                                          color: ColorConstants
+                                                              .fontColor,
+                                                        ),
+                                                        AppText(
+                                                          text:
+                                                              "category : ${adDetail.categoryName}",
+                                                          color: ColorConstants
+                                                              .fontColor,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    AppIconButton(
+                                                        width: 70,
+                                                        iconName: IconConstants
+                                                            .shareIcon),
+                                                  ],
+                                                )),
+                                              );
                                             },
                                           ),
                                           (userScreenViewModel!.isLoading)
@@ -451,7 +462,10 @@ class UserDetailScreenState extends State<UserDetailScreen> {
           ]),
         ),
         (userScreenViewModel!.status)
-            ? const Center(child: CircularProgressIndicator())
+            ? const Center(
+                child: CircularProgressIndicator(
+                color: ColorConstants.appColor,
+              ))
             : const SizedBox(),
       ],
     );

@@ -344,20 +344,12 @@ class PostAdScreenState extends State<PostAdScreen> {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 2),
-                              child: InkWell(
-                                onTap: () => Navigator.push(
-                                    context,
-                                    CustomRoutes(
-                                        child: ViewImageScreen(
-                                            postAdScreenViewModel!
-                                                .imagePath[index]))),
-                                child: Image.file(
-                                    height: 109,
-                                    width: 113,
-                                    fit: BoxFit.fill,
-                                    File(postAdScreenViewModel!
-                                        .imagePath[index].path)),
-                              ),
+                              child: Image.file(
+                                  height: 109,
+                                  width: 113,
+                                  fit: BoxFit.fill,
+                                  File(postAdScreenViewModel!
+                                      .imagePath[index].path)),
                             ),
                             Positioned(
                               right: 0,

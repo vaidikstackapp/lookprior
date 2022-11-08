@@ -20,4 +20,5 @@ class ColorConstants {
   static Color white = Colors.white;
   static Color blue = Colors.blue;
   static Color purple = Colors.purple.shade700;
+  static Color shareButtonColor = Colors.grey;
 }
