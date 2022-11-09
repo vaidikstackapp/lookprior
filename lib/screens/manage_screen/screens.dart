@@ -14,7 +14,7 @@ import '../../common/contants/string_contants.dart';
 import '../../common/widgets/app_icon_button.dart';
 import '../../common/widgets/app_text.dart';
 import '../../common/widgets/custom_route.dart';
-import '../../utils/scroll_brehavior.dart';
+import '../../utils/scroll_behavior.dart';
 import '../login_screen/login_screen.dart';
 
 class Screens extends StatefulWidget {

@@ -41,62 +41,57 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
-        height: double.infinity,
-        width: double.infinity,
-        child: Stack(children: [
-          Container(
-            height: 100,
-            color: ColorConstants.appColor,
-            margin: const EdgeInsets.symmetric(vertical: 15),
-            alignment: Alignment.center,
-            child: CommonAppBar(title: "Video"),
-          ),
-          Positioned(
-            top: 93,
-            bottom: 0,
-            right: 0,
-            left: 0,
-            child: AppBackRound(
-                widget: Center(
-              child: (playerController != null)
-                  ? (playerController!.value.isInitialized)
-                      ? Stack(
-                          children: [
-                            Center(
-                                child: AspectRatio(
-                                    aspectRatio:
-                                        playerController!.value.aspectRatio,
-                                    child: VideoPlayer(playerController!))),
-                            Positioned(
-                                top: 40,
-                                bottom: 40,
-                                right: 40,
-                                left: 40,
-                                child: Center(
-                                  child: FloatingActionButton(
-                                    onPressed: () => videoPlayButtonOnTap(),
-                                    child: (playerController!.value.isPlaying)
-                                        ? const Icon(
-                                            Icons.pause,
-                                            color: Colors.white,
-                                          )
-                                        : const Icon(
-                                            Icons.play_arrow,
-                                            color: Colors.white,
-                                          ),
-                                  ),
-                                )),
-                          ],
-                        )
-                      : Container()
+      body: Column(children: [
+        Container(
+          height: 100,
+          color: ColorConstants.appColor,
+          margin: const EdgeInsets.symmetric(vertical: 15),
+          alignment: Alignment.center,
+          child: CommonAppBar(title: "Video"),
+        ),
+        Center(
+          child: (playerController != null)
+              ? (playerController!.value.isInitialized)
+                  ? Center(
+                      child: Stack(
+                        children: [
+                          AspectRatio(
+                              aspectRatio: 9 / 5,
+                              child: VideoPlayer(playerController!)),
+                          Positioned(
+                              top: 40,
+                              bottom: 40,
+                              right: 40,
+                              left: 40,
+                              child: Center(
+                                child: FloatingActionButton(
+                                  onPressed: () => videoPlayButtonOnTap(),
+                                  child: (playerController!.value.isPlaying)
+                                      ? const Icon(
+                                          Icons.pause,
+                                          color: Colors.white,
+                                        )
+                                      : const Icon(
+                                          Icons.play_arrow,
+                                          color: Colors.white,
+                                        ),
+                                ),
+                              )),
+                        ],
+                      ),
+                    )
                   : const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-            )),
-          ),
-        ]),
-      ),
+                      child: CircularProgressIndicator(
+                        color: ColorConstants.appColor,
+                      ),
+                    )
+              : const Center(
+                  child: CircularProgressIndicator(
+                    color: ColorConstants.appColor,
+                  ),
+                ),
+        ),
+      ]),
     );
   }
 

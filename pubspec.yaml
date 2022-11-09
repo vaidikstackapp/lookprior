@@ -57,6 +57,7 @@ dependencies:
   firebase_core: ^1.24.0
   # loader
   flutter_easyloading: ^3.0.5
+  lazy_load_scrollview: ^1.3.0
 
   #toast
   fluttertoast: ^8.0.9
@@ -69,6 +70,9 @@ dependencies:
 
   #google signIn
   google_sign_in: ^5.4.2
+
+  #connectivity
+  connectivity_plus: ^3.0.2
 
 dev_dependencies:
   flutter_test:

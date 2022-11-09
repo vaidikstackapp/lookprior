@@ -7,19 +7,18 @@ import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_icon_button.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/custom_route.dart';
-import 'package:look_prior/model/get_ad_data_model.dart';
 import 'package:look_prior/screens/post_ad_screen/full_screen_view_image.dart';
 import 'package:look_prior/screens/post_ad_screen/play_video_screen.dart';
 import 'package:look_prior/screens/user_details_screen/ad_details_screen/ad_detail_screen_view_model.dart';
 
 import '../../../model/get_ad_brodcast_detail_model.dart';
-import '../../../utils/scroll_brehavior.dart';
+import '../../../utils/scroll_behavior.dart';
 
 // ignore: must_be_immutable
 class FullAdDetailScreen extends StatefulWidget {
-  FilteredAddList adDetail;
+  num? broadCastId;
 
-  FullAdDetailScreen(this.adDetail, {Key? key}) : super(key: key);
+  FullAdDetailScreen(this.broadCastId, {super.key});
 
   @override
   State<FullAdDetailScreen> createState() => FullAdDetailScreenState();
@@ -74,37 +73,60 @@ class FullAdDetailScreenState extends State<FullAdDetailScreen> {
                         controller: pageController,
                         itemCount: detailViewModel!.allVideoAndImage.length,
                         itemBuilder: (context, index) {
+                          // print(
+                          //     "length--->${(detailViewModel!.allVideoAndImage.length)}");
+                          // print("index--->$index");
+
                           return GestureDetector(
                             onTap: () {
-                              if (broadcastDetailModel!.adImage == []) {
+                              if (detailViewModel!.allVideoAndImage[index]
+                                  .containsKey('video')) {
                                 Navigator.push(
                                     context,
                                     CustomRoutes(
                                         child: PlayVideoScreen(
                                             "${broadcastDetailModel!.adVideo![index].video}")));
                               } else {
+                                //  print("else index--->$index");
                                 Navigator.push(
                                     context,
                                     CustomRoutes(
                                         child: ViewImageScreen(
-                                            '${broadcastDetailModel!.adImage![index].image}')));
+                                            '${detailViewModel!.allVideoAndImage[index]['image']}')));
                               }
                             },
-                            child: Image.network(
-                              detailViewModel!.allVideoAndImage[index],
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress != null) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(
-                                      color: ColorConstants.appColor,
+                            child: (detailViewModel!.allVideoAndImage[index]
+                                    .containsKey('video'))
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                            "${detailViewModel!.allVideoAndImage[index]['video']}",
+                                          ),
+                                          fit: BoxFit.fill),
                                     ),
-                                  );
-                                }
-                                return child;
-                              },
-                              fit: BoxFit.fill,
-                            ),
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                        height: 50,
+                                        width: 50,
+                                        fit: BoxFit.fill,
+                                        IconConstants.playVideoIcon),
+                                  )
+                                : Image.network(
+                                    "${detailViewModel!.allVideoAndImage[index]['image']}",
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress != null) {
+                                        return const Center(
+                                          child: CircularProgressIndicator(
+                                            color: ColorConstants.appColor,
+                                          ),
+                                        );
+                                      }
+                                      return child;
+                                    },
+                                    fit: BoxFit.fill,
+                                  ),
                           );
                         },
                       ),
@@ -132,7 +154,8 @@ class FullAdDetailScreenState extends State<FullAdDetailScreen> {
                                 fontSize: 20,
                               ),
                               AppText(
-                                text: "\$${broadcastDetailModel!.amount}",
+                                text:
+                                    "\$${broadcastDetailModel!.amount.toString().split('.')[0]}",
                                 color: ColorConstants.appColor,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 20,
@@ -214,13 +237,22 @@ class FullAdDetailScreenState extends State<FullAdDetailScreen> {
                               fontSize: 16,
                             ),
                           ),
-                          ListView.builder(
-                            itemCount: 3,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) =>
-                                similarAdList(index),
-                          )
+                          (broadcastDetailModel!.similarAddList!.isEmpty)
+                              ? Center(
+                                  child: AppText(
+                                    text: "No similar ad found",
+                                    fontWeight: FontWeight.w900,
+                                    color: ColorConstants.fontColor,
+                                  ),
+                                )
+                              : ListView.builder(
+                                  itemCount: broadcastDetailModel!
+                                      .similarAddList!.length,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) =>
+                                      similarAdList(index),
+                                )
                         ],
                       ),
                     ),
@@ -339,6 +371,7 @@ class FullAdDetailScreenState extends State<FullAdDetailScreen> {
   }
 
   imageList(int index) {
+    // print("imageList---->${detailViewModel!.allVideoAndImage.toString()}");
     return GestureDetector(
       onTap: () {
         detailViewModel!.cnt = index;
@@ -351,20 +384,36 @@ class FullAdDetailScreenState extends State<FullAdDetailScreen> {
           margin: const EdgeInsets.symmetric(horizontal: 2),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              detailViewModel!.allVideoAndImage[index],
-              fit: BoxFit.fill,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress != null) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: ColorConstants.appColor,
-                    ),
-                  );
-                }
-                return child;
-              },
-            ),
+            child:
+                (detailViewModel!.allVideoAndImage[index].containsKey('video'))
+                    ? Image.network(
+                        "${detailViewModel!.allVideoAndImage[index]['video']}",
+                        fit: BoxFit.fill,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress != null) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: ColorConstants.appColor,
+                              ),
+                            );
+                          }
+                          return child;
+                        },
+                      )
+                    : Image.network(
+                        "${detailViewModel!.allVideoAndImage[index]['image']}",
+                        fit: BoxFit.fill,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress != null) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: ColorConstants.appColor,
+                              ),
+                            );
+                          }
+                          return child;
+                        },
+                      ),
           )),
     );
   }
@@ -380,6 +429,14 @@ class FullAdDetailScreenState extends State<FullAdDetailScreen> {
             child: Image.network(
               "${broadcastDetailModel!.similarAddList![index].adVideoThumb}",
               fit: BoxFit.fill,
+              errorBuilder: (context, error, stackTrace) {
+                return Center(
+                  child: AppText(
+                    text: "No image found",
+                    color: ColorConstants.fontColor,
+                  ),
+                );
+              },
             ),
           )
         else
@@ -390,6 +447,14 @@ class FullAdDetailScreenState extends State<FullAdDetailScreen> {
               fit: BoxFit.fill,
               height: 100,
               width: double.infinity,
+              errorBuilder: (context, error, stackTrace) {
+                return Center(
+                  child: AppText(
+                    text: "No image found",
+                    color: ColorConstants.fontColor,
+                  ),
+                );
+              },
             ),
           ),
         Row(
@@ -412,7 +477,7 @@ class FullAdDetailScreenState extends State<FullAdDetailScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: AppText(
                     text:
-                        "\$${broadcastDetailModel!.similarAddList![index].amount}",
+                        "\$${broadcastDetailModel!.similarAddList![index].amount.toString().split('.')[0]}",
                     color: ColorConstants.appColor,
                   ),
                 ),

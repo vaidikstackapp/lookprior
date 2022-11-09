@@ -11,7 +11,7 @@ import 'package:look_prior/model/user_model.dart';
 
 import '../../../common/contants/color_contants.dart';
 import '../../../common/widgets/app_text.dart';
-import '../../../utils/scroll_brehavior.dart';
+import '../../../utils/scroll_behavior.dart';
 import 'edit_user_profile_model.dart';
 
 // ignore: must_be_immutable

@@ -15,7 +15,7 @@ import 'package:look_prior/screens/post_ad_screen/play_video_screen.dart';
 import 'package:look_prior/screens/post_ad_screen/post_ad_details_screen/post_ad_details_screen.dart';
 import 'package:look_prior/screens/post_ad_screen/post_ad_screen_view_model.dart';
 import 'package:look_prior/screens/storage_plan_screen/storage_plan_screen.dart';
-import 'package:look_prior/utils/scroll_brehavior.dart';
+import 'package:look_prior/utils/scroll_behavior.dart';
 import '../../common/contants/color_contants.dart';
 import '../../common/widgets/app_text.dart';
 

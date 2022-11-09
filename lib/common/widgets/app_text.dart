@@ -8,6 +8,7 @@ class AppText extends StatelessWidget {
   TextAlign? textAlign;
   FontWeight? fontWeight;
   Color? color;
+  TextOverflow? textOverFlow;
 
   AppText(
       {super.key,
@@ -15,13 +16,15 @@ class AppText extends StatelessWidget {
       this.fontSize,
       this.textAlign,
       this.color,
-      this.fontWeight});
+      this.fontWeight,
+      this.textOverFlow});
 
   @override
   Widget build(BuildContext context) {
     return Text(
       "$text",
       style: TextStyle(
+        overflow: textOverFlow,
         fontSize: fontSize,
         fontWeight: fontWeight,
         color: color ?? ColorConstants.textColor,

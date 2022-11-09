@@ -3,7 +3,7 @@ import 'package:look_prior/common/contants/color_contants.dart';
 import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/screens/change_password_screen/change_password_screen_view_model.dart';
-import 'package:look_prior/utils/scroll_brehavior.dart';
+import 'package:look_prior/utils/scroll_behavior.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({Key? key}) : super(key: key);

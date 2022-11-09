@@ -1,7 +1,9 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:look_prior/common/contants/color_contants.dart';
 import 'package:look_prior/common/contants/images_contants.dart';
 import 'package:look_prior/common/contants/string_contants.dart';
@@ -16,12 +18,15 @@ import 'package:look_prior/screens/home_screen/home_screen_view_model.dart';
 import 'package:look_prior/screens/location_screen/location_screen.dart';
 
 import 'package:look_prior/screens/storage_plan_screen/storage_plan_screen.dart';
+import 'package:look_prior/screens/user_details_screen/ad_details_screen/ad_details_screen.dart';
+import 'package:look_prior/utils/scroll_behavior.dart';
 import 'package:look_prior/utils/share_preference.dart';
 import 'package:look_prior/utils/single_tone.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../common/contants/icon_constants.dart';
-import '../../utils/scroll_brehavior.dart';
+
+import '../../model/get_filtered_ads.dart';
 import '../catagory_screen/catagory_screen.dart';
 import '../notification_screen/notification_screen.dart';
 
@@ -39,6 +44,8 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   HomeScreenViewModel? homeScreenViewModel;
+  GetFilteredAdsModel? filteredAdsModel;
+  ScrollController controller = ScrollController();
 
   @override
   void initState() {
@@ -199,141 +206,166 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   Widget homeScreenContent() {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 15,
-        ),
-        Expanded(
-          child: ScrollConfiguration(
-            behavior: MyBehavior(),
-            child: ListView(
-              shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(horizontal: 14),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: AppText(
-                    textAlign: TextAlign.start,
-                    color: ColorConstants.headerColor,
-                    text: "Catagory",
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  alignment: Alignment.center,
-                  child: ScrollConfiguration(
-                    behavior: MyBehavior(),
-                    child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: IconConstants.catagoryListIcon.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: (index == 0)
-                              ? const EdgeInsets.only(left: 0)
-                              : const EdgeInsets.only(left: 16),
-                          child: Column(
-                            children: [
-                              AppIconButton(
-                                  height: 71,
-                                  width: 76,
-                                  color: ColorConstants.catagoryListColor,
-                                  iconName:
-                                      IconConstants.catagoryListIcon[index]),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10),
-                                child: AppText(
-                                  text:
-                                      StringConstants.catagoryListTitle[index],
-                                  fontSize: 11,
-                                  color: ColorConstants.fontColor,
-                                ),
-                              )
-                            ],
+    return (filteredAdsModel == null)
+        ? const Center(
+            child: CircularProgressIndicator(
+              color: ColorConstants.appColor,
+            ),
+          )
+        : Column(
+            children: [
+              const SizedBox(
+                height: 15,
+              ),
+              Expanded(
+                child: ScrollConfiguration(
+                  behavior: MyBehavior(),
+                  child: Scrollbar(
+                    controller: controller,
+                    thumbVisibility: true,
+                    child: LazyLoadScrollView(
+                      onEndOfPage: () => homeScreenViewModel!.loadMore(),
+                      child: ListView(
+                        shrinkWrap: true,
+                        controller: controller,
+                        padding: const EdgeInsets.symmetric(horizontal: 14),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: AppText(
+                              textAlign: TextAlign.start,
+                              color: ColorConstants.headerColor,
+                              text: "Catagory",
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        );
-                      },
+                          Container(
+                            height: 100,
+                            alignment: Alignment.center,
+                            child: ScrollConfiguration(
+                              behavior: MyBehavior(),
+                              child: ListView.builder(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount:
+                                    IconConstants.catagoryListIcon.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: (index == 0)
+                                        ? const EdgeInsets.only(left: 0)
+                                        : const EdgeInsets.only(left: 16),
+                                    child: Column(
+                                      children: [
+                                        AppIconButton(
+                                            height: 71,
+                                            width: 76,
+                                            color: ColorConstants
+                                                .catagoryListColor,
+                                            iconName: IconConstants
+                                                .catagoryListIcon[index]),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 10),
+                                          child: AppText(
+                                            text: StringConstants
+                                                .catagoryListTitle[index],
+                                            fontSize: 11,
+                                            color: ColorConstants.fontColor,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: AppText(
+                              textAlign: TextAlign.start,
+                              color: ColorConstants.headerColor,
+                              text: "Near you",
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount:
+                                    filteredAdsModel!.filteredAddList!.length,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        mainAxisSpacing: 5,
+                                        crossAxisSpacing: 2,
+                                        crossAxisCount: 2,
+                                        childAspectRatio: 0.78),
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () => Navigator.push(
+                                        context,
+                                        CustomRoutes(
+                                            child: FullAdDetailScreen(
+                                                filteredAdsModel!
+                                                    .filteredAddList![index]
+                                                    .broadCastId))),
+                                    child: AppProductList(
+                                      width: 100,
+                                      pictureHeight: 100,
+                                      pictureWidth: 130,
+                                      paddingLeft: 10,
+                                      image: (filteredAdsModel!
+                                              .filteredAddList![index]
+                                              .adImageThumb!
+                                              .isEmpty)
+                                          ? filteredAdsModel!
+                                              .filteredAddList![index]
+                                              .adVideoThumb
+                                          : filteredAdsModel!
+                                              .filteredAddList![index]
+                                              .adImageThumb,
+                                      productName: filteredAdsModel!
+                                          .filteredAddList![index].title,
+                                      productPrize: filteredAdsModel!
+                                          .filteredAddList![index].amountStr!
+                                          .split(".")[0],
+                                      address: filteredAdsModel!
+                                          .filteredAddList![index].fullAddress,
+                                    ),
+                                  );
+                                },
+                              ),
+                              (filteredAdsModel == null)
+                                  ? const SizedBox()
+                                  : (homeScreenViewModel!.isLoading)
+                                      ? const Center(
+                                          child: CircularProgressIndicator(
+                                            color: ColorConstants.appColor,
+                                          ),
+                                        )
+                                      : const SizedBox(
+                                          height: 20,
+                                        ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 23),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AppText(
-                        textAlign: TextAlign.start,
-                        color: ColorConstants.headerColor,
-                        text: StringConstants.topAds,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      AppText(
-                        text: "See all >",
-                        fontSize: 14,
-                        color: ColorConstants.appColor,
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 218,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: ImageConstants.topAdsList.length,
-                    itemBuilder: (context, index) {
-                      return AppProductList(
-                        pictureHeight: 110,
-                        pictureWidth: 150,
-                        productName: StringConstants.topAdProduct[index],
-                        productPrize: StringConstants.topAdProductPrize[index],
-                        image: ImageConstants.topAdsList[index],
-                      );
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: AppText(
-                    textAlign: TextAlign.start,
-                    color: ColorConstants.headerColor,
-                    text: "Near you",
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: ImageConstants.nearYouList.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 5,
-                      crossAxisSpacing: 2,
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.78),
-                  itemBuilder: (context, index) {
-                    return AppProductList(
-                      width: 100,
-                      pictureHeight: 100,
-                      pictureWidth: 130,
-                      paddingLeft: 10,
-                      image: ImageConstants.nearYouList[index],
-                      productName: StringConstants.nearYouProductList[index],
-                      productPrize: StringConstants.nearYouProductPrize[index],
-                    );
-                  },
-                )
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
+              ),
+            ],
+          );
+  }
+
+  void refresh() {
+    setState(() {});
   }
 }
 

@@ -8,7 +8,7 @@ import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_screen_backgroud.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/app_textfield.dart';
-import 'package:look_prior/utils/scroll_brehavior.dart';
+import 'package:look_prior/utils/scroll_behavior.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import '../../common/contants/color_contants.dart';
 

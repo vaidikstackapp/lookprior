@@ -4,7 +4,7 @@ import 'package:look_prior/common/contants/string_contants.dart';
 import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/screens/forgot_password_screen/forgot_password_view_model.dart';
-import 'package:look_prior/utils/scroll_brehavior.dart';
+import 'package:look_prior/utils/scroll_behavior.dart';
 
 class ForgotPassScreen extends StatefulWidget {
   const ForgotPassScreen({Key? key}) : super(key: key);

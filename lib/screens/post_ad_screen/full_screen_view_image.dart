@@ -34,20 +34,13 @@ class ViewImageScreen extends StatelessWidget {
               bottom: 0,
               right: 0,
               left: 0,
-              child: AppBackRound(
-                widget: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(30),
-                      topLeft: Radius.circular(30)),
-                  child: Zoom(
-                    scrollWeight: 0,
-                    backgroundColor: Colors.white,
-                    initTotalZoomOut: true,
-                    child: Image.network(
-                      image,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
+              child: Zoom(
+                scrollWeight: 0,
+                backgroundColor: Colors.white,
+                initTotalZoomOut: true,
+                child: Image.network(
+                  image,
+                  fit: BoxFit.fill,
                 ),
               )),
         ]),

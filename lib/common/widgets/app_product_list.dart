@@ -10,6 +10,7 @@ class AppProductList extends StatelessWidget {
   String? image;
   String? productName;
   String? productPrize;
+  String? address;
   double? height;
   double? width;
   double? pictureWidth;
@@ -25,7 +26,8 @@ class AppProductList extends StatelessWidget {
       this.width,
       this.pictureHeight,
       this.pictureWidth,
-      this.paddingLeft});
+      this.paddingLeft,
+      this.address});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class AppProductList extends StatelessWidget {
                   ? BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
-                          image: AssetImage(image!), fit: BoxFit.cover))
+                          image: NetworkImage(image!), fit: BoxFit.cover))
                   : null,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -54,20 +56,26 @@ class AppProductList extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AppText(
-                    textAlign: TextAlign.start,
-                    text: productName,
-                    color: ColorConstants.fontColor,
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 2),
+                      child: AppText(
+                        textOverFlow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.start,
+                        text: productName,
+                        color: ColorConstants.fontColor,
+                      ),
+                    ),
                   ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  AppText(
-                    textAlign: TextAlign.end,
-                    text: "\$$productPrize",
-                    color: ColorConstants.appColor,
+                  Flexible(
+                    child: AppText(
+                      textOverFlow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.start,
+                      text: "\$$productPrize",
+                      color: ColorConstants.appColor,
+                    ),
                   ),
                 ],
               ),
@@ -83,12 +91,14 @@ class AppProductList extends StatelessWidget {
                     width: 7.79,
                     color: Colors.black,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 2),
-                    child: AppText(
-                      textAlign: TextAlign.end,
-                      text: "California, USA",
-                      color: ColorConstants.fontColor.withOpacity(0.5),
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 2),
+                      child: AppText(
+                        textOverFlow: TextOverflow.ellipsis,
+                        text: address,
+                        color: ColorConstants.fontColor.withOpacity(0.5),
+                      ),
                     ),
                   ),
                 ],

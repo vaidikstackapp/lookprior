@@ -14,7 +14,7 @@ import 'package:look_prior/model/user_model.dart';
 import 'package:look_prior/screens/post_ad_screen/post_ad_screen.dart';
 import 'package:look_prior/screens/user_details_screen/ad_details_screen/ad_details_screen.dart';
 import 'package:look_prior/screens/user_details_screen/user_screen_view_model.dart';
-import 'package:look_prior/utils/scroll_brehavior.dart';
+import 'package:look_prior/utils/scroll_behavior.dart';
 
 import '../../common/contants/images_contants.dart';
 import 'edit_user_detail_screen/edit_user_detail_screen.dart';
@@ -238,9 +238,9 @@ class UserDetailScreenState extends State<UserDetailScreen> {
                                                 onTap: () => Navigator.push(
                                                     context,
                                                     CustomRoutes(
-                                                        child:
-                                                            FullAdDetailScreen(
-                                                                adDetail))),
+                                                        child: FullAdDetailScreen(
+                                                            adDetail
+                                                                .broadCastId))),
                                                 child: Card(
                                                     child: Row(
                                                   mainAxisAlignment:
@@ -307,9 +307,9 @@ class UserDetailScreenState extends State<UserDetailScreen> {
                                                         ),
                                                         AppText(
                                                           text:
-                                                              "Price : RS${adDetail.amount}",
+                                                              "Price : \$${adDetail.amount.toString().split('.')[0]}",
                                                           color: ColorConstants
-                                                              .fontColor,
+                                                              .appColor,
                                                         ),
                                                         AppText(
                                                           text:

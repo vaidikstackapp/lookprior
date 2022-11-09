@@ -9,7 +9,7 @@ import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/app_textfield.dart';
 import 'package:look_prior/screens/post_ad_screen/post_ad_details_screen/post_ad_details_view_model.dart';
 
-import '../../../utils/scroll_brehavior.dart';
+import '../../../utils/scroll_behavior.dart';
 
 // ignore: must_be_immutable
 class AdDetailScreen extends StatefulWidget {

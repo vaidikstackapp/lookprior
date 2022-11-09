@@ -21,18 +21,19 @@ class FullAdDetailViewModel {
 
   bool isLoading = false;
   bool isLoadingDelete = false;
-  List<String> allVideoAndImage = [];
+  List<Map<String, dynamic>> allVideoAndImage = [];
   bool isCheck1 = false;
   bool isCheck2 = false;
   int cnt = 0;
   Future<void> getBrodCastDetailData() async {
     String? token = Singleton.accessToken;
+    print("brodcasrt id--->${detailScreenState.widget.broadCastId}");
     try {
       isLoading = true;
       detailScreenState.refresh();
       String? brodCastResponse = await RestServiceConstants.getRestMethods(
           endPoint:
-              "${RestServiceConstants.getBroadcastDetailApi}?broadCastId=${detailScreenState.widget.adDetail.broadCastId}&res=true",
+              "${RestServiceConstants.getBroadcastDetailApi}?broadCastId=${detailScreenState.widget.broadCastId}&res=true",
           token: token);
       log("brodCastResponse---->${brodCastResponse.toString()}");
 
@@ -47,16 +48,22 @@ class FullAdDetailViewModel {
           log("GetBroadcastDetailModel----->${detailScreenState.broadcastDetailModel!.toJson()}");
 
           for (int i = 0;
-              i < detailScreenState.broadcastDetailModel!.adImage!.length;
-              i++) {
-            allVideoAndImage.add(
-                "${detailScreenState.broadcastDetailModel!.adImage![i].image}");
-          }
-          for (int i = 0;
               i < detailScreenState.broadcastDetailModel!.adVideo!.length;
               i++) {
-            allVideoAndImage.add(
-                "${detailScreenState.broadcastDetailModel!.adVideo![i].videoThumb}");
+            allVideoAndImage.add({
+              "video":
+                  "${detailScreenState.broadcastDetailModel!.adVideo![i].videoThumb}"
+            });
+            print("allVideoAndImage(video)--->$allVideoAndImage");
+          }
+          for (int i = 0;
+              i < detailScreenState.broadcastDetailModel!.adImage!.length;
+              i++) {
+            allVideoAndImage.add({
+              'image':
+                  '${detailScreenState.broadcastDetailModel!.adImage![i].adImageThumb}'
+            });
+            print("allVideoAndImage(Image)--->$allVideoAndImage");
           }
         } else {
           isLoading = false;

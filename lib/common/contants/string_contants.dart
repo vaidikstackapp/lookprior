@@ -16,6 +16,8 @@ class StringConstants {
   static const profile = "Profile";
   static const network = "Network Required";
   static const description = "Description";
+  static const noNetwork =
+      "No internet found.Please check your connection or try again";
   static const forgotPass =
       "Forgot your password? Please enter your registered email address to get new password";
   static const storageDescription =
