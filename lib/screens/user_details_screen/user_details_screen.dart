@@ -60,123 +60,8 @@ class UserDetailScreenState extends State<UserDetailScreen> {
         ScrollConfiguration(
           behavior: MyBehavior(),
           child: ListView(shrinkWrap: true, children: [
-            (userScreenViewModel!.postAnAd) // physics: (userModel != null)
-                //     ? null
-                //     : const NeverScrollableScrollPhysics(),
-                ? AppBackRound(
-                    widget: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 13),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: Column(children: [
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              AppText(
-                                textAlign: TextAlign.center,
-                                text: "How to Post Your Ads",
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                                color: ColorConstants.fontColor,
-                              ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              Container(
-                                height: 70,
-                                width: 70,
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                  UserImgConstants.recordWithPhone,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              AppText(
-                                textAlign: TextAlign.center,
-                                text: "Record it with your phone",
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                                color: ColorConstants.fontColor,
-                              ),
-                              Container(
-                                height: 100,
-                                width: 200,
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                  UserImgConstants.takePhoto,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              AppText(
-                                textAlign: TextAlign.center,
-                                text: "Take a photo of it",
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                                color: ColorConstants.fontColor,
-                              ),
-                              Container(
-                                height: 100,
-                                width: 200,
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                  UserImgConstants.meetBuyer,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              AppText(
-                                textAlign: TextAlign.center,
-                                text: "Meet Buyers",
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                                color: ColorConstants.fontColor,
-                              ),
-                              Container(
-                                height: 100,
-                                width: 200,
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                  UserImgConstants.makeMoney,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              AppText(
-                                textAlign: TextAlign.center,
-                                text: "Make Money",
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                                color: ColorConstants.fontColor,
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                            ]),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: AppButton(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          onTap: () => Navigator.push(
-                              context,
-                              CustomRoutes(
-                                  child: const PostAdScreen(),
-                                  direction: AxisDirection.down)),
-                          buttonColor: ColorConstants.purple,
-                          text: "Post Now",
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                    ],
-                  ))
+            (userScreenViewModel!.postAnAd)
+                ? adUploadSuggestion()
                 : Stack(
                     children: [
                       Container(
@@ -234,97 +119,105 @@ class UserDetailScreenState extends State<UserDetailScreen> {
                                               log("length---->${dataModel!.filteredAddList!.length}");
                                               var adDetail = dataModel!
                                                   .filteredAddList![index];
-                                              return InkWell(
-                                                onTap: () => Navigator.push(
-                                                    context,
-                                                    CustomRoutes(
-                                                        child: FullAdDetailScreen(
-                                                            adDetail
-                                                                .broadCastId))),
-                                                child: Card(
-                                                    child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    Container(
-                                                      width: 50,
-                                                      height: 100,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
+                                              return Card(
+                                                child: GestureDetector(
+                                                  onTap: () => Navigator.push(
+                                                      context,
+                                                      CustomRoutes(
+                                                          child: FullAdDetailScreen(
+                                                              adDetail
+                                                                  .broadCastId))),
+                                                  child: Card(
+                                                      child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      Container(
+                                                        width: 50,
+                                                        height: 100,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                        ),
+                                                        child: (adDetail
+                                                                .adImageThumb!
+                                                                .isNotEmpty)
+                                                            ? Image.network(
+                                                                "${adDetail.adImageThumb}",
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                                errorBuilder:
+                                                                    (context,
+                                                                        error,
+                                                                        stackTrace) {
+                                                                  return Center(
+                                                                    child: AppText(
+                                                                        color: ColorConstants
+                                                                            .fontColor,
+                                                                        fontSize:
+                                                                            14,
+                                                                        text:
+                                                                            "No Image Found"),
+                                                                  );
+                                                                },
+                                                              )
+                                                            : Image.network(
+                                                                "${adDetail.adVideoThumb}",
+                                                                errorBuilder:
+                                                                    (context,
+                                                                        error,
+                                                                        stackTrace) {
+                                                                  return Center(
+                                                                    child: AppText(
+                                                                        color: ColorConstants
+                                                                            .fontColor,
+                                                                        fontSize:
+                                                                            14,
+                                                                        text:
+                                                                            "No Image Found"),
+                                                                  );
+                                                                },
+                                                              ),
                                                       ),
-                                                      child: (adDetail
-                                                              .adImageThumb!
-                                                              .isNotEmpty)
-                                                          ? Image.network(
-                                                              "${adDetail.adImageThumb}",
-                                                              fit: BoxFit.fill,
-                                                              errorBuilder:
-                                                                  (context,
-                                                                      error,
-                                                                      stackTrace) {
-                                                                return Center(
-                                                                  child: AppText(
-                                                                      color: ColorConstants
-                                                                          .fontColor,
-                                                                      fontSize:
-                                                                          14,
-                                                                      text:
-                                                                          "No Image Found"),
-                                                                );
-                                                              },
-                                                            )
-                                                          : Image.network(
-                                                              "${adDetail.adVideoThumb}",
-                                                              errorBuilder:
-                                                                  (context,
-                                                                      error,
-                                                                      stackTrace) {
-                                                                return Center(
-                                                                  child: AppText(
-                                                                      color: ColorConstants
-                                                                          .fontColor,
-                                                                      fontSize:
-                                                                          14,
-                                                                      text:
-                                                                          "No Image Found"),
-                                                                );
-                                                              },
-                                                            ),
-                                                    ),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        AppText(
-                                                          text:
-                                                              "Title : ${adDetail.title}",
-                                                          color: ColorConstants
-                                                              .fontColor,
-                                                        ),
-                                                        AppText(
-                                                          text:
-                                                              "Price : \$${adDetail.amount.toString().split('.')[0]}",
-                                                          color: ColorConstants
-                                                              .appColor,
-                                                        ),
-                                                        AppText(
-                                                          text:
-                                                              "category : ${adDetail.categoryName}",
-                                                          color: ColorConstants
-                                                              .fontColor,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    AppIconButton(
-                                                        width: 70,
-                                                        iconName: IconConstants
-                                                            .shareIcon),
-                                                  ],
-                                                )),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          AppText(
+                                                            text:
+                                                                "Title : ${adDetail.title}",
+                                                            color:
+                                                                ColorConstants
+                                                                    .fontColor,
+                                                          ),
+                                                          AppText(
+                                                            text:
+                                                                "Price : \$${adDetail.amount.toString().split('.')[0]}",
+                                                            color:
+                                                                ColorConstants
+                                                                    .appColor,
+                                                          ),
+                                                          AppText(
+                                                            text:
+                                                                "category : ${adDetail.categoryName}",
+                                                            color:
+                                                                ColorConstants
+                                                                    .fontColor,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      AppIconButton(
+                                                          width: 70,
+                                                          iconName:
+                                                              IconConstants
+                                                                  .shareIcon),
+                                                    ],
+                                                  )),
+                                                ),
                                               );
                                             },
                                           ),
@@ -336,34 +229,39 @@ class UserDetailScreenState extends State<UserDetailScreen> {
                                                         ColorConstants.appColor,
                                                   ),
                                                 )
-                                              : GestureDetector(
-                                                  onTap: () {
-                                                    userScreenViewModel!
-                                                        .isLoading = true;
-                                                    setState(() {});
-                                                    userScreenViewModel!
-                                                            .pageSize =
+                                              : (userScreenViewModel!.pageSize >
+                                                      dataModel!
+                                                          .filteredAddList!
+                                                          .length)
+                                                  ? const SizedBox()
+                                                  : GestureDetector(
+                                                      onTap: () {
                                                         userScreenViewModel!
-                                                                .pageSize +
-                                                            10;
-                                                    userScreenViewModel!
-                                                        .getAdData()
-                                                        .then((value) =>
+                                                            .isLoading = true;
+                                                        setState(() {});
+                                                        userScreenViewModel!
+                                                                .pageSize =
                                                             userScreenViewModel!
-                                                                    .isLoading =
-                                                                false);
-                                                  },
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            15),
-                                                    child: AppText(
-                                                      text: "View All",
-                                                      color: ColorConstants
-                                                          .appColor,
+                                                                    .pageSize +
+                                                                10;
+                                                        userScreenViewModel!
+                                                            .getAdData()
+                                                            .then((value) =>
+                                                                userScreenViewModel!
+                                                                        .isLoading =
+                                                                    false);
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(15),
+                                                        child: AppText(
+                                                          text: "View All",
+                                                          color: ColorConstants
+                                                              .appColor,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
                                           const SizedBox(
                                             height: 20,
                                           ),
@@ -611,111 +509,122 @@ class UserDetailScreenState extends State<UserDetailScreen> {
       },
     );
   }
+
+  //--------------suggest how to upload ads-------------
+  Widget adUploadSuggestion() {
+    return AppBackRound(
+        widget: Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 13),
+          child: Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(children: [
+                const SizedBox(
+                  height: 15,
+                ),
+                AppText(
+                  textAlign: TextAlign.center,
+                  text: "How to Post Your Ads",
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                  color: ColorConstants.fontColor,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  height: 70,
+                  width: 70,
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    UserImgConstants.recordWithPhone,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                AppText(
+                  textAlign: TextAlign.center,
+                  text: "Record it with your phone",
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: ColorConstants.fontColor,
+                ),
+                Container(
+                  height: 100,
+                  width: 200,
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    UserImgConstants.takePhoto,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                AppText(
+                  textAlign: TextAlign.center,
+                  text: "Take a photo of it",
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: ColorConstants.fontColor,
+                ),
+                Container(
+                  height: 100,
+                  width: 200,
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    UserImgConstants.meetBuyer,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                AppText(
+                  textAlign: TextAlign.center,
+                  text: "Meet Buyers",
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: ColorConstants.fontColor,
+                ),
+                Container(
+                  height: 100,
+                  width: 200,
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    UserImgConstants.makeMoney,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                AppText(
+                  textAlign: TextAlign.center,
+                  text: "Make Money",
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: ColorConstants.fontColor,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+              ]),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: AppButton(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            onTap: () => Navigator.push(
+                context,
+                CustomRoutes(
+                    child: const PostAdScreen(),
+                    direction: AxisDirection.down)),
+            buttonColor: ColorConstants.purple,
+            text: "Post Now",
+          ),
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+      ],
+    ));
+  }
 }
-//Row(
-//                                 mainAxisAlignment: MainAxisAlignment.start,
-//                                 children: [
-//                                   const SizedBox(
-//                                     width: 20,
-//                                   ),
-//                                   AppText(
-//                                     text: "My Ads",
-//                                     fontSize: 16,
-//                                     fontWeight: FontWeight.w700,
-//                                     color: ColorConstants.fontColor,
-//                                   ),
-//                                 ],
-//                               ),
-//                               Padding(
-//                                 padding:
-//                                     const EdgeInsets.symmetric(vertical: 13),
-//                                 child: Card(
-//                                   shape: RoundedRectangleBorder(
-//                                       borderRadius: BorderRadius.circular(10)),
-//                                   child: SizedBox(
-//                                     width: double.infinity,
-//                                     child: Column(children: [
-//                                       const SizedBox(
-//                                         height: 15,
-//                                       ),
-//                                       AppText(
-//                                         textAlign: TextAlign.center,
-//                                         text: "Post something for sale today",
-//                                         fontWeight: FontWeight.w700,
-//                                         fontSize: 16,
-//                                         color: ColorConstants.fontColor,
-//                                       ),
-//                                       const SizedBox(
-//                                         height: 15,
-//                                       ),
-//                                       Container(
-//                                         height: 70,
-//                                         width: 70,
-//                                         alignment: Alignment.center,
-//                                         child: Image.asset(
-//                                           UserImgConstants.recordWithPhone,
-//                                           fit: BoxFit.fill,
-//                                         ),
-//                                       ),
-//                                       AppText(
-//                                         textAlign: TextAlign.center,
-//                                         text: "Record it with your phone",
-//                                         fontWeight: FontWeight.w400,
-//                                         fontSize: 14,
-//                                         color: ColorConstants.fontColor,
-//                                       ),
-//                                       Container(
-//                                         height: 100,
-//                                         width: 200,
-//                                         alignment: Alignment.center,
-//                                         child: Image.asset(
-//                                           UserImgConstants.takePhoto,
-//                                           fit: BoxFit.fill,
-//                                         ),
-//                                       ),
-//                                       AppText(
-//                                         textAlign: TextAlign.center,
-//                                         text: "Take a photo of it",
-//                                         fontWeight: FontWeight.w400,
-//                                         fontSize: 14,
-//                                         color: ColorConstants.fontColor,
-//                                       ),
-//                                       Container(
-//                                         height: 100,
-//                                         width: 200,
-//                                         alignment: Alignment.center,
-//                                         child: Image.asset(
-//                                           UserImgConstants.meetBuyer,
-//                                           fit: BoxFit.fill,
-//                                         ),
-//                                       ),
-//                                       AppText(
-//                                         textAlign: TextAlign.center,
-//                                         text: "Meet Buyers",
-//                                         fontWeight: FontWeight.w400,
-//                                         fontSize: 14,
-//                                         color: ColorConstants.fontColor,
-//                                       ),
-//                                       Container(
-//                                         height: 100,
-//                                         width: 200,
-//                                         alignment: Alignment.center,
-//                                         child: Image.asset(
-//                                           UserImgConstants.makeMoney,
-//                                           fit: BoxFit.fill,
-//                                         ),
-//                                       ),
-//                                       AppText(
-//                                         textAlign: TextAlign.center,
-//                                         text: "Make Money",
-//                                         fontWeight: FontWeight.w400,
-//                                         fontSize: 14,
-//                                         color: ColorConstants.fontColor,
-//                                       ),
-//                                       const SizedBox(
-//                                         height: 20,
-//                                       ),
-//                                     ]),
-//                                   ),
-//                                 ),
-//                               ),
