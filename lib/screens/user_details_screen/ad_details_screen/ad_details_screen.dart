@@ -147,18 +147,24 @@ class FullAdDetailScreenState extends State<FullAdDetailScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              AppText(
-                                text: broadcastDetailModel!.title,
-                                color: ColorConstants.fontColor,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 20,
+                              Flexible(
+                                child: AppText(
+                                  textOverFlow: TextOverflow.ellipsis,
+                                  text: broadcastDetailModel!.title,
+                                  color: ColorConstants.fontColor,
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 20,
+                                ),
                               ),
-                              AppText(
-                                text:
-                                    "\$${broadcastDetailModel!.amount.toString().split('.')[0]}",
-                                color: ColorConstants.appColor,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 20,
+                              Flexible(
+                                child: AppText(
+                                  textOverFlow: TextOverflow.ellipsis,
+                                  text:
+                                      "\$${broadcastDetailModel!.amount.toString().split('.')[0]}",
+                                  color: ColorConstants.appColor,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 20,
+                                ),
                               ),
                             ],
                           ),
