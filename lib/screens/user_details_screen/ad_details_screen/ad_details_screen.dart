@@ -182,12 +182,14 @@ class FullAdDetailScreenState extends State<FullAdDetailScreen> {
                                 const SizedBox(
                                   width: 7,
                                 ),
-                                AppText(
-                                  text: broadcastDetailModel!.location,
-                                  color:
-                                      ColorConstants.fontColor.withOpacity(0.4),
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
+                                Expanded(
+                                  child: AppText(
+                                    text: broadcastDetailModel!.location,
+                                    color: ColorConstants.fontColor
+                                        .withOpacity(0.4),
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                  ),
                                 ),
                               ],
                             ),
@@ -392,19 +394,34 @@ class FullAdDetailScreenState extends State<FullAdDetailScreen> {
             borderRadius: BorderRadius.circular(10),
             child:
                 (detailViewModel!.allVideoAndImage[index].containsKey('video'))
-                    ? Image.network(
-                        "${detailViewModel!.allVideoAndImage[index]['video']}",
-                        fit: BoxFit.fill,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress != null) {
-                            return const Center(
-                              child: CircularProgressIndicator(
-                                color: ColorConstants.appColor,
-                              ),
-                            );
-                          }
-                          return child;
-                        },
+                    ? Stack(
+                        children: [
+                          Image.network(
+                            "${detailViewModel!.allVideoAndImage[index]['video']}",
+                            fit: BoxFit.fill,
+                            width: double.infinity,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress != null) {
+                                return const Center(
+                                  child: CircularProgressIndicator(
+                                    color: ColorConstants.appColor,
+                                  ),
+                                );
+                              }
+                              return child;
+                            },
+                          ),
+                          Positioned(
+                            top: 25,
+                            left: 25,
+                            right: 25,
+                            bottom: 25,
+                            child: Image.asset(
+                              IconConstants.playVideoIcon,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ],
                       )
                     : Image.network(
                         "${detailViewModel!.allVideoAndImage[index]['image']}",

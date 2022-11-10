@@ -11,6 +11,8 @@ Future<void> main() async {
   ));
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(GestureDetector(
     onTap: () {
       FocusManager.instance.primaryFocus?.unfocus();
