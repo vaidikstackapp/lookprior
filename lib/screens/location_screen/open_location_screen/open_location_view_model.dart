@@ -111,6 +111,7 @@ class OpenLocationViewModel {
       List<Location> location = await locationFromAddress(query);
       print("location--->${location[0].latitude}");
       controllerMapCameraPosition(location[0].latitude, location[0].longitude);
+      convertLayLongToAddress(location[0].latitude, location[0].longitude);
       if (locationScreenState.mounted) {
         locationScreenState.refresh();
       }
