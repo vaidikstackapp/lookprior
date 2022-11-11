@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:look_prior/common/contants/icon_constants.dart';
@@ -43,13 +42,6 @@ class LocationScreenState extends State<LocationScreen> {
               title: "Select Category",
               leadingWidget: GestureDetector(
                   onTap: () {
-                    // Navigator.pushAndRemoveUntil(
-                    //     context,
-                    //     CustomRoutes(
-                    //         child: Screens(
-                    //       index: 0,
-                    //     )),
-                    //     (route) => false);
                     Navigator.pop(context);
                   },
                   child: const Icon(Icons.arrow_back))),

@@ -10,6 +10,7 @@ class AppIconButton extends StatelessWidget {
   double? width;
   double? borderRadius;
   Color? color;
+  Color? iconColor;
   String? iconName;
   Function()? iconOnTap;
   AppIconButton(
@@ -21,7 +22,8 @@ class AppIconButton extends StatelessWidget {
       this.width,
       this.height,
       this.color,
-      this.borderRadius})
+      this.borderRadius,
+      this.iconColor})
       : super(key: key);
 
   @override
@@ -42,6 +44,7 @@ class AppIconButton extends StatelessWidget {
             child: SvgPicture.asset(
               "$iconName",
               fit: BoxFit.contain,
+              color: iconColor,
             )),
       ),
     );

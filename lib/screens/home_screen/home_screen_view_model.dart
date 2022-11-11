@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:geolocator/geolocator.dart';
 import 'package:look_prior/common/widgets/app_toast.dart';
 import 'package:look_prior/model/get_filtered_ads.dart';
 import 'package:look_prior/service/rest_service.dart';
