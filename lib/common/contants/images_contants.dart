@@ -1,6 +1,7 @@
 class ImageConstants {
   static String appLogo = "assets/images/app_icon.png";
   static String user = "assets/images/user.png";
+  static String noSimilarAd = "assets/images/no_similar_ad.png";
   static String welcomeImage =
       "assets/images/home_screen_image/dialog_image.png";
 

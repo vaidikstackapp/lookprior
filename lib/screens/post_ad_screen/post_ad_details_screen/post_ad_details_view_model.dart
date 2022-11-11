@@ -94,7 +94,7 @@ class PostAdDetailViewModel {
       for (var i = 0; i < screenState.widget.videoPath.length; i++) {
         request.files.add(await http.MultipartFile.fromPath(
             'adVideoList[$i].adVideo', screenState.widget.videoPath[i].path));
-        log("imgPath${screenState.widget.videoPath[i]}");
+        log("videoPath${screenState.widget.videoPath[i].path}");
       }
 
       http.StreamedResponse response = await request.send();

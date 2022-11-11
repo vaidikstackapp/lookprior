@@ -134,20 +134,6 @@ class AdDetailScreenState extends State<AdDetailScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        // AppText(
-                        //   text: "Select Category",
-                        //   fontSize: 14,
-                        //   color: ColorConstants.fontColor.withOpacity(0.4),
-                        // ),
-                        // AppTextField(
-                        //   topMargin: 14,
-                        //   contentPadding: const EdgeInsets.only(top: 10, left: 10),
-                        //   leftMargin: 0,
-                        //   rightMargin: 0,
-                        //   readOnly: true,
-                        //   suffixIcon: IconConstants.dropDownIcon,
-                        //   hintText: "Select Category",
-                        // ),
                       ],
                     ),
                   ),

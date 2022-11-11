@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:look_prior/common/widgets/app_bar.dart';
 import 'package:zoom_widget/zoom_widget.dart';
 
 import '../../common/contants/color_contants.dart';
-import '../../common/widgets/app_background.dart';
 
 // ignore: must_be_immutable
 class ViewImageScreen extends StatelessWidget {

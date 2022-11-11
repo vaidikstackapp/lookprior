@@ -76,6 +76,7 @@ class RestServiceConstants {
       }
     } on PlatformException catch (e) {
       log("catch exception for post $endPoint---->${e.message}");
+      ErrorWidget(e);
     }
     return responseData;
   }
@@ -117,6 +118,7 @@ class RestServiceConstants {
       }
     } catch (e) {
       log("catch exception for getRestMethods $endPoint----->$e");
+      ErrorWidget(e);
     }
   }
 

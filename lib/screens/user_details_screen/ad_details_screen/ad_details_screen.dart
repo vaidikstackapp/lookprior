@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:look_prior/common/contants/color_contants.dart';
 import 'package:look_prior/common/contants/icon_constants.dart';
+import 'package:look_prior/common/contants/images_contants.dart';
 import 'package:look_prior/common/contants/string_contants.dart';
 import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_icon_button.dart';
@@ -81,6 +82,9 @@ class FullAdDetailScreenState extends State<FullAdDetailScreen> {
                             onTap: () {
                               if (detailViewModel!.allVideoAndImage[index]
                                   .containsKey('video')) {
+                                print(
+                                    "videopath12--->${broadcastDetailModel!.adVideo![index].video}");
+
                                 Navigator.push(
                                     context,
                                     CustomRoutes(
@@ -88,11 +92,15 @@ class FullAdDetailScreenState extends State<FullAdDetailScreen> {
                                             "${broadcastDetailModel!.adVideo![index].video}")));
                               } else {
                                 //  print("else index--->$index");
+                                String imagePath = detailViewModel!
+                                    .allVideoAndImage[index]['image'];
                                 Navigator.push(
                                     context,
                                     CustomRoutes(
-                                        child: ViewImageScreen(
-                                            '${detailViewModel!.allVideoAndImage[index]['image']}')));
+                                        child: ViewImageScreen(imagePath)));
+                                //   print(
+                                //       "imagepath12--->${detailViewModel!.allVideoAndImage[index]['image']}");
+                                // }
                               }
                             },
                             child: (detailViewModel!.allVideoAndImage[index]
@@ -247,12 +255,23 @@ class FullAdDetailScreenState extends State<FullAdDetailScreen> {
                           ),
                           (broadcastDetailModel!.similarAddList!.isEmpty)
                               ? Center(
-                                  child: AppText(
-                                    text: "No similar ad found",
-                                    fontWeight: FontWeight.w900,
-                                    color: ColorConstants.fontColor,
-                                  ),
-                                )
+                                  child: Column(
+                                  children: [
+                                    Image.asset(
+                                      ImageConstants.noSimilarAd,
+                                      height: 148,
+                                      width: 148,
+                                      fit: BoxFit.fill,
+                                    ),
+                                    AppText(
+                                      text: "No Simillar ads yet!",
+                                      color: ColorConstants.fontColor
+                                          .withOpacity(0.5),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    )
+                                  ],
+                                ))
                               : ListView.builder(
                                   itemCount: broadcastDetailModel!
                                       .similarAddList!.length,

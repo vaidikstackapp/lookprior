@@ -73,7 +73,7 @@ class UserDetailScreenState extends State<UserDetailScreen> {
                               topLeft: Radius.circular(30),
                               topRight: Radius.circular(30),
                             )),
-                        child: SizedBox(
+                        child: Container(
                             child: (userModel == null)
                                 ? const SizedBox()
                                 : Column(children: [
@@ -267,7 +267,8 @@ class UserDetailScreenState extends State<UserDetailScreen> {
                                           ),
                                         ],
                                       )
-                                    else
+                                    else if (dataModel != null &&
+                                        dataModel!.filteredAddList!.isEmpty)
                                       Card(
                                         child: Column(
                                           children: [
@@ -331,6 +332,14 @@ class UserDetailScreenState extends State<UserDetailScreen> {
                                           ],
                                         ),
                                       )
+                                    else
+                                      Container(
+                                        child: const Center(
+                                          child: CircularProgressIndicator(
+                                            color: ColorConstants.appColor,
+                                          ),
+                                        ),
+                                      ),
                                   ])),
                       ),
                       Align(

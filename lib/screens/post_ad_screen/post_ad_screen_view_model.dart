@@ -42,7 +42,7 @@ class PostAdScreenViewModel {
   videoSource(ImageSource imageSource) async {
     try {
       final XFile? video = await _picker.pickVideo(
-          source: imageSource, maxDuration: const Duration(seconds: 10));
+          source: imageSource, maxDuration: const Duration(seconds: 59));
       if (video != null) {
         videoPath.add(video);
         //lo("videopath length--------->${videoPath.length}");

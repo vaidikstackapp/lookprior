@@ -9,6 +9,7 @@ class AppButton extends StatelessWidget {
   double? bottomPadding;
   double? fontSize;
   double? iconHeight;
+  double? buttonWidth;
   double? iconWidth;
   double? borderWidth;
   FontWeight? fontWeight;
@@ -33,7 +34,8 @@ class AppButton extends StatelessWidget {
       this.textColor,
       this.borderColor,
       this.borderWidth,
-      this.fontWeight});
+      this.fontWeight,
+      this.buttonWidth});
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,7 @@ class AppButton extends StatelessWidget {
         ),
         child: Container(
           height: 58,
+          width: buttonWidth,
           alignment: Alignment.center,
           decoration: BoxDecoration(
               border: Border.all(

@@ -5,12 +5,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:look_prior/common/contants/icon_constants.dart';
+import 'package:look_prior/common/contants/images_contants.dart';
 import 'package:look_prior/common/contants/string_contants.dart';
 import 'package:look_prior/common/widgets/app_bar.dart';
 import 'package:look_prior/common/widgets/app_button.dart';
 import 'package:look_prior/common/widgets/app_screen_backgroud.dart';
 import 'package:look_prior/common/widgets/custom_route.dart';
-import 'package:look_prior/screens/post_ad_screen/full_screen_view_image.dart';
 import 'package:look_prior/screens/post_ad_screen/play_video_screen.dart';
 import 'package:look_prior/screens/post_ad_screen/post_ad_details_screen/post_ad_details_screen.dart';
 import 'package:look_prior/screens/post_ad_screen/post_ad_screen_view_model.dart';
@@ -100,14 +100,28 @@ class PostAdScreenState extends State<PostAdScreen> {
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: AppButton(
             onTap: () {
-              if (postAdScreenViewModel!.imagePath.isNotEmpty ||
-                  postAdScreenViewModel!.videoPath.isNotEmpty) {
-                Navigator.push(
-                    context,
-                    CustomRoutes(
-                        child: AdDetailScreen(postAdScreenViewModel!.imagePath,
-                            postAdScreenViewModel!.videoPath)));
-              } else {
+              // if (postAdScreenViewModel!.imagePath.isNotEmpty ||
+              //     postAdScreenViewModel!.videoPath.isNotEmpty) {
+              //Navigator.push(
+              //                     context,
+              //                     CustomRoutes(
+              //                         child: AdDetailScreen(postAdScreenViewModel!.imagePath,
+              //                             postAdScreenViewModel!.videoPath)));
+              // }
+              // else if (postAdScreenViewModel!.videoPath.isEmpty) {
+              //   videAlertDialog();
+              // }
+              // else {
+              //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              //     behavior: SnackBarBehavior.floating,
+              //     duration: const Duration(seconds: 1),
+              //     content: AppText(
+              //         text: "Please add at least one media file", fontSize: 17),
+              //     backgroundColor: ColorConstants.appColor,
+              //   ));
+              // }
+              if (postAdScreenViewModel!.imagePath.isEmpty &&
+                  postAdScreenViewModel!.videoPath.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   behavior: SnackBarBehavior.floating,
                   duration: const Duration(seconds: 1),
@@ -115,6 +129,14 @@ class PostAdScreenState extends State<PostAdScreen> {
                       text: "Please add at least one media file", fontSize: 17),
                   backgroundColor: ColorConstants.appColor,
                 ));
+              } else if (postAdScreenViewModel!.videoPath.isEmpty) {
+                videoAlertDialog();
+              } else {
+                Navigator.push(
+                    context,
+                    CustomRoutes(
+                        child: AdDetailScreen(postAdScreenViewModel!.imagePath,
+                            postAdScreenViewModel!.videoPath)));
               }
             },
             buttonColor: ColorConstants.appColor,
@@ -534,39 +556,53 @@ class PostAdScreenState extends State<PostAdScreen> {
   void refresh() {
     setState(() {});
   }
-}
 
-// Stack(
-// children: [
-// Padding(
-// padding: const EdgeInsets.symmetric(horizontal: 5),
-// child: SizedBox(
-// height: 109,
-// width: 113,
-// child: VideoPlayer(playerController!),
-// ),
-// ),
-// Positioned(
-// top: 30,
-// bottom: 30,
-// left: 30,
-// right: 30,
-// child: FloatingActionButton(
-// backgroundColor: Colors.transparent,
-// child: (playerController!.value.isPlaying)
-// ? const Icon(Icons.pause)
-// : const Icon(Icons.play_arrow),
-// onPressed: () async {
-// if (playerController != null) {
-// if (playerController!.value.isPlaying) {
-// await playerController!.pause();
-// } else {
-// await playerController!.play();
-// }
-// setState(() {});
-// }
-// },
-// ),
-// ),
-// ],
-// ),
+  Future<dynamic> videoAlertDialog() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: Image.asset(ImageConstants.noSimilarAd),
+          content: AppText(
+            textAlign: TextAlign.center,
+            text:
+                "Are you sure you don't want to add a video to attract more viewers?",
+            color: ColorConstants.fontColor,
+            fontWeight: FontWeight.w900,
+          ),
+          actions: [
+            Row(
+              children: [
+                Expanded(
+                  child: AppButton(
+                    text: "Add Videos",
+                    onTap: () => Navigator.pop(context),
+                    buttonColor: ColorConstants.appColor,
+                  ),
+                ),
+                Expanded(
+                    child: AppButton(
+                        onTap: () async {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              CustomRoutes(
+                                  child: AdDetailScreen(
+                                      postAdScreenViewModel!.imagePath,
+                                      postAdScreenViewModel!.videoPath)));
+                          //}
+                        },
+                        text: "Continue",
+                        textColor: ColorConstants.appColor,
+                        borderColor: ColorConstants.appColor,
+                        buttonColor: ColorConstants.containerBackgroundColor)),
+              ],
+            )
+          ],
+        );
+      },
+    );
+  }
+}
