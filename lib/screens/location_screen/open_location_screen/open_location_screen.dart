@@ -31,7 +31,6 @@ class _OpenLocationScreenState extends State<OpenLocationScreen> {
     return GoogleMap(
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
-          print("controller---->$_controller");
         },
         markers: Set<Marker>.of(marker),
         initialCameraPosition: _kGooglePlex);

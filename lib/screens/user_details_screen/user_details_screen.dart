@@ -333,11 +333,9 @@ class UserDetailScreenState extends State<UserDetailScreen> {
                                         ),
                                       )
                                     else
-                                      Container(
-                                        child: const Center(
-                                          child: CircularProgressIndicator(
-                                            color: ColorConstants.appColor,
-                                          ),
+                                      const Center(
+                                        child: CircularProgressIndicator(
+                                          color: ColorConstants.appColor,
                                         ),
                                       ),
                                   ])),

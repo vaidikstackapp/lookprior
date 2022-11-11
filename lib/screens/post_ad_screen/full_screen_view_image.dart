@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:look_prior/common/widgets/app_bar.dart';
 import 'package:zoom_widget/zoom_widget.dart';
@@ -12,7 +14,7 @@ class ViewImageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("imagepath---->$image");
+    log("imagepath---->$image");
     return Scaffold(
       body: SizedBox(
         height: double.infinity,

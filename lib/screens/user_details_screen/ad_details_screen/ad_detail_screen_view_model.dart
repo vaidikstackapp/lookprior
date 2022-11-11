@@ -27,7 +27,7 @@ class FullAdDetailViewModel {
   int cnt = 0;
   Future<void> getBrodCastDetailData() async {
     String? token = Singleton.accessToken;
-    print("brodcasrt id--->${detailScreenState.widget.broadCastId}");
+    log("brodcasrt id--->${detailScreenState.widget.broadCastId}");
     try {
       isLoading = true;
       detailScreenState.refresh();
@@ -54,7 +54,7 @@ class FullAdDetailViewModel {
               "video":
                   "${detailScreenState.broadcastDetailModel!.adVideo![i].videoThumb}"
             });
-            print("allVideoAndImage(video)--->$allVideoAndImage");
+            log("allVideoAndImage(video)--->$allVideoAndImage");
           }
           for (int i = 0;
               i < detailScreenState.broadcastDetailModel!.adImage!.length;
@@ -63,7 +63,7 @@ class FullAdDetailViewModel {
               'image':
                   '${detailScreenState.broadcastDetailModel!.adImage![i].adImageThumb}'
             });
-            print("allVideoAndImage(Image)--->$allVideoAndImage");
+            log("allVideoAndImage(Image)--->$allVideoAndImage");
           }
         } else {
           isLoading = false;

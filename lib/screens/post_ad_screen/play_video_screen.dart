@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:video_player/video_player.dart';
@@ -30,7 +32,7 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
   @override
   void initState() {
     super.initState();
-    print("videopath--->${widget.videoPath}");
+    log("video path--->${widget.videoPath}");
     playerController = VideoPlayerController.network(widget.videoPath)
       ..initialize().then((_) => setState(() {}));
     playerController!.setVolume(1.0);

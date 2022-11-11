@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:look_prior/common/contants/color_contants.dart';
@@ -82,8 +84,7 @@ class FullAdDetailScreenState extends State<FullAdDetailScreen> {
                             onTap: () {
                               if (detailViewModel!.allVideoAndImage[index]
                                   .containsKey('video')) {
-                                print(
-                                    "videopath12--->${broadcastDetailModel!.adVideo![index].video}");
+                                log("videopath12--->${broadcastDetailModel!.adVideo![index].video}");
 
                                 Navigator.push(
                                     context,
