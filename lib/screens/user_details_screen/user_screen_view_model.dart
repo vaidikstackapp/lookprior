@@ -87,6 +87,9 @@ class UserScreenViewModel {
             removePrefValue(isLogin);
             removePrefValue(accessToken);
             removePrefValue(userId);
+            removePrefValue(latitude);
+            removePrefValue(longitude);
+            removePrefValue(address);
             AuthService().signOutWithGoogle();
             status = false;
             userDetailScreenState.refresh();

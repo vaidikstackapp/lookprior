@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:geolocator/geolocator.dart';
 import 'package:look_prior/common/widgets/app_toast.dart';
 import 'package:look_prior/model/get_filtered_ads.dart';
 import 'package:look_prior/service/rest_service.dart';
+import 'package:look_prior/utils/handel_permission/location_permission.dart';
 import 'package:look_prior/utils/single_tone.dart';
 
 import 'home_screen.dart';
@@ -14,6 +16,8 @@ class HomeScreenViewModel {
 
   HomeScreenViewModel(this.homeScreenState) {
     getAdsFromApi();
+    // handleLocationPermission();
+    PermissionHandler.handleLocationPermission();
   }
 
   int bottomBarActiveIndex = 0;
@@ -80,4 +84,35 @@ class HomeScreenViewModel {
       homeScreenState.homeScreenViewModel!.getAdsFromApi();
     }
   }
+
+  // Future<bool> handleLocationPermission() async {
+  //   bool serviceEnable;
+  //   LocationPermission permission;
+  //   serviceEnable = await Geolocator.isLocationServiceEnabled();
+  //   if (!serviceEnable) {
+  //     appToast("Location services are disabled. Please enable the services");
+  //     return false;
+  //   }
+  //   permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //
+  //     if (permission == LocationPermission.denied) {
+  //       while (true) {
+  //         permission = await Geolocator.requestPermission();
+  //         if (permission != LocationPermission.denied) {
+  //           break;
+  //         }
+  //       }
+  //     }
+  //   }
+  //
+  //   if (permission == LocationPermission.deniedForever) {
+  //     appToast(
+  //         'Location permissions are permanently denied, we cannot request permissions.');
+  //     return false;
+  //   }
+  //
+  //   return true;
+  // }
 }

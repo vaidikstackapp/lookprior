@@ -3,6 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 const String isLogin = 'isLogin';
 const String accessToken = 'accessToken';
 const String userId = 'userId';
+const String latitude = 'latitude';
+const String longitude = 'longitude';
+const String address = 'address';
 checkPrefKey(String key) async {
   final prefs = await SharedPreferences.getInstance();
   return prefs.containsKey(key);
@@ -36,6 +39,16 @@ getPrefIntValue(String key) async {
 setPrefIntValue(String key, value) async {
   final prefs = await SharedPreferences.getInstance();
   prefs.setInt(key, value);
+}
+
+getPrefDoubleValue(String key) async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getDouble(key);
+}
+
+setPrefDoubleValue(String key, value) async {
+  final prefs = await SharedPreferences.getInstance();
+  prefs.setDouble(key, value);
 }
 
 removePrefValue(String key) async {

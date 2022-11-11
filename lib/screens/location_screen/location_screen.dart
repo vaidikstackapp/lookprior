@@ -1,5 +1,6 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:look_prior/common/contants/icon_constants.dart';
 import 'package:look_prior/common/widgets/app_bar.dart';
@@ -8,43 +9,50 @@ import 'package:look_prior/common/widgets/app_screen_backgroud.dart';
 import 'package:look_prior/common/widgets/app_text.dart';
 import 'package:look_prior/common/widgets/app_textfield.dart';
 import 'package:look_prior/common/widgets/custom_route.dart';
+import 'package:look_prior/screens/location_screen/location_screen_view_model.dart';
 import 'package:look_prior/screens/location_screen/open_location_screen/open_location_screen.dart';
+
 import 'package:look_prior/utils/scroll_behavior.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import '../../common/contants/color_contants.dart';
 
+// ignore: must_be_immutable
 class LocationScreen extends StatefulWidget {
-  const LocationScreen({Key? key}) : super(key: key);
-
   @override
-  State<LocationScreen> createState() => _LocationScreenState();
+  State<LocationScreen> createState() => LocationScreenState();
+
+  const LocationScreen({super.key});
 }
 
-class _LocationScreenState extends State<LocationScreen> {
-  final Completer<GoogleMapController> _controller = Completer();
-
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(21.1702, 72.8311),
-    zoom: 14.4746,
-  );
-  List<Marker> marker = [];
-  List<Marker> list = [
-    const Marker(markerId: MarkerId('1'), position: LatLng(21.1702, 72.8311))
-  ];
-
+class LocationScreenState extends State<LocationScreen> {
   @override
   void initState() {
     super.initState();
-    marker.addAll(list);
   }
 
   double changedValue = 50;
+  LocationScreenViewModel? locationScreenViewModel;
 
   @override
   Widget build(BuildContext context) {
+    locationScreenViewModel ??
+        (locationScreenViewModel = LocationScreenViewModel(this));
     return Scaffold(
       body: AppScreenBackGround(
-          appbarWidget: CommonAppBar(title: "Select Category"),
+          appbarWidget: CommonAppBar(
+              title: "Select Category",
+              leadingWidget: GestureDetector(
+                  onTap: () {
+                    // Navigator.pushAndRemoveUntil(
+                    //     context,
+                    //     CustomRoutes(
+                    //         child: Screens(
+                    //       index: 0,
+                    //     )),
+                    //     (route) => false);
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(Icons.arrow_back))),
           bodyWidget: locationScreenContent()),
     );
   }
@@ -82,8 +90,10 @@ class _LocationScreenState extends State<LocationScreen> {
             ),
           ),
           AppTextField(
-            onTap: () => Navigator.push(
-                context, CustomRoutes(child: const OpenLocationScreen())),
+            onTap: () => Navigator.pushReplacement(
+              context,
+              CustomRoutes(child: const OpenLocationScreen()),
+            ),
             topMargin: 10,
             contentPadding: const EdgeInsets.only(top: 10),
             leftMargin: 0,
@@ -91,7 +101,7 @@ class _LocationScreenState extends State<LocationScreen> {
             prefixIcon: IconConstants.locationIcon,
             readOnly: true,
             suffixIcon: LocationIconConstants.editIcon,
-            hintText: "California, USA",
+            hintText: "${locationScreenViewModel!.getAddress}",
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10),
@@ -120,16 +130,23 @@ class _LocationScreenState extends State<LocationScreen> {
           Container(
             height: 190,
             margin: const EdgeInsets.only(top: 15),
-            child: GoogleMap(
-              myLocationEnabled: true,
-              mapType: MapType.normal,
-              zoomControlsEnabled: false,
-              markers: Set<Marker>.of(marker),
-              initialCameraPosition: _kGooglePlex,
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
-            ),
+            child: (locationScreenViewModel!.isLoading)
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      color: ColorConstants.appColor,
+                    ),
+                  )
+                : GoogleMap(
+                    myLocationEnabled: true,
+                    mapType: MapType.normal,
+                    zoomControlsEnabled: false,
+                    markers: Set<Marker>.of(locationScreenViewModel!.marker),
+                    initialCameraPosition:
+                        locationScreenViewModel!.kGooglePlex!,
+                    onMapCreated: (GoogleMapController controller) {
+                      locationScreenViewModel!.controller.complete(controller);
+                    },
+                  ),
           ),
           AppButton(
             topPadding: 5,
@@ -139,15 +156,9 @@ class _LocationScreenState extends State<LocationScreen> {
         ],
       ),
     );
-    // return GoogleMap(
-    //   myLocationEnabled: true,
-    //   mapType: MapType.normal,
-    //   zoomControlsEnabled: false,
-    //   markers: Set<Marker>.of(marker),
-    //   initialCameraPosition: _kGooglePlex,
-    //   onMapCreated: (GoogleMapController controller) {
-    //     _controller.complete(controller);
-    //    },
-    // );
+  }
+
+  void refresh() {
+    setState(() {});
   }
 }

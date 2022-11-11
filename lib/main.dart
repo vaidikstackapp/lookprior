@@ -2,6 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:look_prior/common/contants/color_contants.dart';
+import 'package:look_prior/get_current_location.dart';
+import 'package:look_prior/screens/location_screen/location_screen.dart';
+import 'package:look_prior/screens/location_screen/open_location_screen/open_location_screen.dart';
 import 'package:look_prior/screens/splesh_screen/splesh_screen.dart';
 
 Future<void> main() async {
